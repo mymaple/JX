@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgUserMapper">
+	<sql id="userColumns">userId,userName,password,name,rights,status,roleId,lastLogin,loginIp,skin</sql>
+
+	<resultMap type="BgUser" id="userAndRoleResultMap">
+		<id column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="userRights" property="rights"/>
+		<result column="lastLogin" property="lastLogin"/>
+		<result column="loginIp" property="loginIp"/>
+		<result column="status" property="status"/>
+		<result column="skin" property="skin"/>
+		<association property="role" column="roleId" javaType="Role">
+			<id column="roleId" property="roleId"/>
+			<result column="roleName" property="roleName"/>
+			<result column="roleRights" property="rights"/>
+		</association>
+	</resultMap>
+	<resultMap type="BgUser" id="userResultMap">
+		<id column="userId" property="userId"/>
+		<result column="userName" property="userName"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="rights" property="rights"/>
+		<result column="lastLogin" property="lastLogin"/>
+		<result column="loginIp" property="loginIp"/>
+		<result column="status" property="status"/>
+		<result column="roleId" property="roleId"/>
+		<result column="skin" property="skin"/>
+	</resultMap>
+	
+	<!-- 判断用户名和密码 -->
+	<select id="checkUserByNameAndPwd" parameterType="User" resultMap="userResultMap">
+		select <include refid="userColumns"/> from bgUser 
+		where 1=1
+		<if test="userName!=null and password!=null">
+		and userName = #{userName} and password=#{password}
+		</if>
+		<if test="userId!=null and userId>0">
+		and userId = #{userId}
+		</if>
+	</select>
+	
+	<!-- 通过userId获取数据 -->
+	<select id="getUserAndRoleById" parameterType="String" resultMap="userAndRoleResultMap">
+		select  u.userId,
+				u.userName,
+				u.name,
+				u.rights as userRights,
+				u.password,
+				u.skin,
+				r.roleId,
+				r.roleName,
+				r.rights as roleRights 
+		from bgUser u 
+		left join bgRole r 
+		on u.roleId=r.roleId 
+		where u.status=0 
+		and u.userId=#{userId}
+	</select>
+
+</mapper>

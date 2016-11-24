@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgMenuMapper">
+
+	<resultMap type="BgMenu" id="menuResultMap">
+		<id column="menuId" property="menuId"/>
+		<result column="menuName" property="menuName"/>
+		<result column="menuUrl" property="menuUrl"/>
+		<result column="parentId" property="parentId"/>
+		<result column="menuOrder" property="menuOrder"/>
+		<result column="menuIcon" property="menuIcon"/>
+		<result column="menuType" property="menuType"/>
+	</resultMap>
+	
+	<!-- ztree -->
+	<resultMap type="BgMenu" id="menuZtreeResultMap">
+	<id column="menuId" property="menuId"/>
+	<result column="menuName" property="menuName"/>
+	<result column="menuUrl" property="menuUrl"/>
+	<result column="parentId" property="parentId"/>
+	<result column="menuOrder" property="menuOrder"/>
+	<result column="menuIcon" property="menuIcon"/>
+	<result column="menuType" property="menuType"/>
+	<result column="target" property="target"></result>
+</resultMap>
+
+	<!-- 根据menuId删除菜单 -->
+	<delete id="deleteMenuById" parameterType="String">
+		delete from bgMenu 
+		where menuId=#{menuId} 
+		or parentId=#{menuId}
+	</delete>
+	
+	<!-- 根据menuId获取菜单 -->
+	<select id="getMenuById" parameterType="pd" resultType="pd">
+		select  menuId,
+		 		menuName,
+		 		menuUrl,
+		 		parentId,
+		 		menuOrder,
+		 		menuType
+		 from bgMenu 
+		 where menuId=#{menuId}
+	</select>	
+	
+	<!-- 获取maxMenuId -->
+	<select id="getMaxMenuId" parameterType="pd" resultType="pd">
+		select MAX(menuId) maxMenuId FROM bgMenu
+	</select>
+	
+	<!-- 获取所有顶级菜单 -->
+	<select id="listAllParentMenu" resultMap="menuResultMap">
+		select * from bgMenu 
+		where parentId = '0' order by menuOrder 
+	</select>
+
+	<!-- 根据parentId 获取所有子菜单 -->
+	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
+		select  * from bgMenu
+		where parentId = #{parentId} order by menuOrder 
+	</select>
+	
+	<!-- 新增菜单 -->
+	<insert id="addMenu" parameterType="BgMenu">
+		insert into bgMenu (
+			menuId,
+			menuName,
+			menuUrl,
+			parentId,
+			menuOrder,
+			menuType
+		) values (
+			#{menuId},
+			#{menuName},
+			#{menuUrl},
+			#{parentId},
+			#{menuOrder},
+			#{menuType}
+		)
+	</insert>
+
+	<!-- 编辑菜单 -->
+	<update id="editMenu" parameterType="BgMenu">
+		update bgMenu set 
+			menuName =#{menuName},
+			menuUrl  =#{menuUrl} ,
+			parentId =#{parentId},
+			menuOrder=#{menuOrder},
+			menuType =#{menuType}
+		where 
+			menuId=#{menuId}
+	</update>
+	
+	<!-- 修改菜单图标menuIcon (顶部菜单) -->
+	<update id="changeMenuIcon" parameterType="BgMenu">
+		update bgMenu set 
+			menuIcon=#{menuIcon}
+		where menuId=#{menuId}
+	</update>
+	
+	<!-- 更新子菜单类型菜单 menuType -->
+	<update id="changeMenuType" parameterType="BgMenu">
+		update bgMenu set 
+			menuType=#{menuType}
+		where parentId=#{menuId}
+	</update>
+	
+</mapper>

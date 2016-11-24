@@ -1,4 +1,4 @@
-package com.jx.system.config;
+package com.jx.background.config.chat;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -16,17 +16,15 @@ import javax.servlet.ServletResponse;
 
 import org.java_websocket.WebSocketImpl;
 
-import com.fh.plugin.websocketInstantMsg.ChatServer;
-import com.fh.plugin.websocketOnline.OnlineChatServer;
-import com.fh.util.Const;
-import com.fh.util.Tools;
-import com.fh.controller.base.BaseController;
+import com.jx.background.config.BgBaseController;
+import com.jx.system.config.Const;
+import com.jx.system.util.Tools;
 
 /**
  * 创建人：FH 创建时间：2014年2月17日
  * @version
  */
-public class StartFilter extends BaseController implements Filter {
+public class BgWebsocketFilter extends BgBaseController implements Filter {
 
 	/**
 	 * 初始化
@@ -41,13 +39,13 @@ public class StartFilter extends BaseController implements Filter {
 	 */
 	public void startWebsocketInstantMsg() {
 		WebSocketImpl.DEBUG = false;
-		ChatServer s;
+		BgChatServer s;
 		try {
 			String strWEBSOCKET = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
 			if (null != strWEBSOCKET && !"".equals(strWEBSOCKET)) {
 				String strIW[] = strWEBSOCKET.split(",fh,");
 				if (strIW.length == 4) {
-					s = new ChatServer(Integer.parseInt(strIW[1]));
+					s = new BgChatServer(Integer.parseInt(strIW[1]));
 					s.start();
 				}
 			}
@@ -62,13 +60,13 @@ public class StartFilter extends BaseController implements Filter {
 	 */
 	public void startWebsocketOnline() {
 		WebSocketImpl.DEBUG = false;
-		OnlineChatServer s;
+		BgOnlineChatServer s;
 		try {
 			String strWEBSOCKET = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
 			if (null != strWEBSOCKET && !"".equals(strWEBSOCKET)) {
 				String strIW[] = strWEBSOCKET.split(",fh,");
 				if (strIW.length == 4) {
-					s = new OnlineChatServer(Integer.parseInt(strIW[3]));
+					s = new BgOnlineChatServer(Integer.parseInt(strIW[3]));
 					s.start();
 				}
 			}

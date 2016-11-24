@@ -1,4 +1,4 @@
-package com.jx.system.config;
+package com.jx.background.config;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -6,10 +6,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.Page;
+import com.jx.system.config.Logger;
+import com.jx.system.config.PageData;
 import com.jx.system.util.UuidUtil;
 
-public class BaseController {
+public class BgBaseController {
 
 	protected Logger logger = Logger.getLogger(this.getClass());
 
@@ -50,9 +51,9 @@ public class BaseController {
 	/**
 	 * 得到分页列表的信息
 	 */
-	public Page getPage() {
+	public BgPage getPage() {
 
-		return new Page();
+		return new BgPage();
 	}
 
 	public static void logBefore(Logger logger, String interfaceName) {

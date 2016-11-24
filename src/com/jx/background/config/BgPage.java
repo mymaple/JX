@@ -1,10 +1,10 @@
 package com.jx.background.config;
 
-import com.fh.util.Const;
-import com.fh.util.PageData;
-import com.fh.util.Tools;
+import com.jx.system.config.Const;
+import com.jx.system.config.PageData;
+import com.jx.system.util.Tools;
 
-public class Page {
+public class BgPage {
 
 	private int showCount; // 每页显示记录数
 	private int totalPage; // 总页数
@@ -15,7 +15,7 @@ public class Page {
 	private String pageStr; // 最终页面显示的底部翻页导航，详细见：getPageStr();
 	private PageData pd = new PageData();
 
-	public Page() {
+	public BgPage() {
 		try {
 			this.showCount = Integer.parseInt(Tools.readTxtFile(Const.PAGE));
 		} catch (Exception e) {
