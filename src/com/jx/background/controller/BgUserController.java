@@ -193,7 +193,7 @@ public class BgUserController extends BgBaseController {
 			mv.addObject("fx", "user");
 		}
 
-		List<BgRole> roleList = bgRoleService.listAllERRoles(); // 列出所有二级角色
+		List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 		pd = bgUserService.findByUserId(pd); // 根据ID读取
 		mv.setViewName("system/user/user_edit");
 		mv.addObject("msg", "editU");
@@ -213,7 +213,7 @@ public class BgUserController extends BgBaseController {
 		pd = this.getPageData();
 		List<BgRole> roleList;
 
-		roleList = bgRoleService.listAllERRoles(); // 列出所有二级角色
+		roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 
 		mv.setViewName("system/user/user_edit");
 		mv.addObject("msg", "saveU");
@@ -252,8 +252,8 @@ public class BgUserController extends BgBaseController {
 		}
 
 		bgPage.setPd(pd);
-		List<PageData> userList = bgUserService.listPdPageUser(bgPage); // 列出用户列表
-		List<BgRole> roleList = bgRoleService.listAllERRoles(); // 列出所有二级角色
+		List<PageData> userList = bgUserService.listUser(bgPage); // 列出用户列表
+		List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 
 		mv.setViewName("system/user/user_list");
 		mv.addObject("userList", userList);
@@ -443,7 +443,7 @@ public class BgUserController extends BgBaseController {
 			pd.put("status", "0"); // 状态
 			pd.put("skin", "default"); // 默认皮肤
 
-			List<BgRole> roleList = bgRoleService.listAllERRoles(); // 列出所有二级角色
+			List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 
 			pd.put("roleId", roleList.get(0).getRoleId()); // 设置角色ID为随便第一个
 			/**

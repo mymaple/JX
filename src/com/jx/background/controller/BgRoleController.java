@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import net.sf.json.JSONArray;
-
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
@@ -21,32 +19,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fh.controller.base.BaseController;
-import com.fh.entity.Page;
-import com.fh.entity.system.Menu;
-import com.fh.entity.system.Role;
-import com.fh.service.system.menu.MenuService;
-import com.fh.service.system.role.RoleService;
-import com.fh.util.AppUtil;
-import com.fh.util.Const;
-import com.fh.util.Jurisdiction;
-import com.fh.util.PageData;
-import com.fh.util.RightsHelper;
-import com.fh.util.Tools;
+import com.jx.background.config.BgBaseController;
+import com.jx.background.config.BgPage;
+import com.jx.background.entity.BgMenu;
+import com.jx.background.entity.BgRole;
+import com.jx.background.service.BgMenuService;
+import com.jx.background.service.BgRoleService;
+import com.jx.system.config.Const;
+import com.jx.system.config.PageData;
+import com.jx.system.util.AppUtil;
+import com.jx.system.util.Jurisdiction;
+import com.jx.system.util.RightsHelper;
+import com.jx.system.util.Tools;
+
+import net.sf.json.JSONArray;
 
 /**
  * 类名称：RoleController 创建人：FH 创建时间：2014年6月30日
  * @version
  */
 @Controller
-@RequestMapping(value = "/role")
-public class BgRoleController extends BaseController {
+@RequestMapping(value = "/bgRole")
+public class BgRoleController extends BgBaseController {
 
-	String menuUrl = "role.do"; // 菜单地址(权限用)
-	@Resource(name = "menuService")
-	private BgMenuService menuService;
-	@Resource(name = "roleService")
-	private BgRoleService roleService;
+	String menuUrl = "bgRole.do"; // 菜单地址(权限用)
+	@Resource(name = "bgMenuService")
+	private BgMenuService bgMenuService;
+	@Resource(name = "bgRoleService")
+	private BgRoleService bgRoleService;
 
 	/**
 	 * 权限(增删改查)
@@ -59,7 +59,7 @@ public class BgRoleController extends BaseController {
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-				roleService.updateQx(msg, pd);
+				bgRoleService.updateQx(msg, pd);
 			}
 			mv.setViewName("save_result");
 			mv.addObject("msg", "success");
@@ -80,7 +80,7 @@ public class BgRoleController extends BaseController {
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-				roleService.updateKFQx(msg, pd);
+				bgRoleService.updateKFQx(msg, pd);
 			}
 			mv.setViewName("save_result");
 			mv.addObject("msg", "success");
@@ -101,7 +101,7 @@ public class BgRoleController extends BaseController {
 			pd = this.getPageData();
 			String msg = pd.getString("msg");
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-				roleService.gysqxc(msg, pd);
+				bgRoleService.gysqxc(msg, pd);
 			}
 			mv.setViewName("save_result");
 			mv.addObject("msg", "success");
@@ -115,27 +115,27 @@ public class BgRoleController extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping
-	public ModelAndView list(Page page) throws Exception {
+	public ModelAndView list(BgPage bgPage) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 
-		String roleId = pd.getString("ROLE_ID");
+		String roleId = pd.getString("roleId");
 		if (roleId == null || "".equals(roleId)) {
-			pd.put("ROLE_ID", "1");
+			pd.put("roleId", "1");
 		}
-		List<Role> roleList = roleService.listAllRoles(); // 列出所有部门
-		List<Role> roleList_z = roleService.listAllRolesByPId(pd); // 列出此部门的所有下级
+		List<BgRole> roleList = bgRoleService.listAllTopRoles(); // 列出所有部门
+		List<BgRole> roleList_z = bgRoleService.listAllRolesByPId(pd); // 列出此部门的所有下级
 
-		List<PageData> kefuqxlist = roleService.listAllkefu(pd); // 管理权限列表
-		List<PageData> gysqxlist = roleService.listAllGysQX(pd); // 用户权限列表
-		pd = roleService.findObjectById(pd); // 取得点击部门
+		List<PageData> kefuqxlist = bgRoleService.listAllkefu(pd); // 管理权限列表
+		List<PageData> gysqxlist = bgRoleService.listAllGysQX(pd); // 用户权限列表
+		pd = bgRoleService.findObjectById(pd); // 取得点击部门
 		mv.addObject("pd", pd);
 		mv.addObject("kefuqxlist", kefuqxlist);
 		mv.addObject("gysqxlist", gysqxlist);
 		mv.addObject("roleList", roleList);
 		mv.addObject("roleList_z", roleList_z);
-		mv.setViewName("system/role/role_list");
+		mv.setViewName("system/bgRole/role_list");
 		mv.addObject(Const.SESSION_QX, this.getHC()); // 按钮权限
 
 		return mv;
@@ -145,12 +145,12 @@ public class BgRoleController extends BaseController {
 	 * 新增页面
 	 */
 	@RequestMapping(value = "/toAdd")
-	public ModelAndView toAdd(Page page) {
+	public ModelAndView toAdd(BgPage bgPage) {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			mv.setViewName("system/role/role_add");
+			mv.setViewName("system/bgRole/role_add");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -169,11 +169,11 @@ public class BgRoleController extends BaseController {
 			pd = this.getPageData();
 
 			String parent_id = pd.getString("PARENT_ID"); // 父类角色id
-			pd.put("ROLE_ID", parent_id);
+			pd.put("roleId", parent_id);
 			if ("0".equals(parent_id)) {
 				pd.put("RIGHTS", "");
 			} else {
-				String rights = roleService.findObjectById(pd).getString("RIGHTS");
+				String rights = bgRoleService.findObjectById(pd).getString("RIGHTS");
 				pd.put("RIGHTS", (null == rights) ? "" : rights);
 			}
 
@@ -189,7 +189,7 @@ public class BgRoleController extends BaseController {
 			pd.put("QX3", 0); // 预留权限
 			pd.put("QX4", 0); // 预留权限
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-				roleService.saveKeFu(pd);
+				bgRoleService.saveKeFu(pd);
 			}// 保存到K权限表
 
 			pd.put("U_ID", UUID);
@@ -202,17 +202,17 @@ public class BgRoleController extends BaseController {
 			pd.put("Q3", 0);
 			pd.put("Q4", 0);
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-				roleService.saveGYSQX(pd);
+				bgRoleService.saveGYSQX(pd);
 			}// 保存到G权限表
 			pd.put("QX_ID", UUID);
 
-			pd.put("ROLE_ID", UUID);
+			pd.put("roleId", UUID);
 			pd.put("ADD_QX", "0");
 			pd.put("DEL_QX", "0");
 			pd.put("EDIT_QX", "0");
 			pd.put("CHA_QX", "0");
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-				roleService.add(pd);
+				bgRoleService.add(pd);
 			}
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
@@ -227,14 +227,14 @@ public class BgRoleController extends BaseController {
 	 * 请求编辑
 	 */
 	@RequestMapping(value = "/toEdit")
-	public ModelAndView toEdit(String ROLE_ID) throws Exception {
+	public ModelAndView toEdit(String roleId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			pd.put("ROLE_ID", ROLE_ID);
-			pd = roleService.findObjectById(pd);
-			mv.setViewName("system/role/role_edit");
+			pd.put("roleId", roleId);
+			pd = bgRoleService.findObjectById(pd);
+			mv.setViewName("system/bgRole/role_edit");
 			mv.addObject("pd", pd);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -252,7 +252,7 @@ public class BgRoleController extends BaseController {
 		try {
 			pd = this.getPageData();
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-				pd = roleService.edit(pd);
+				pd = bgRoleService.edit(pd);
 			}
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
@@ -267,28 +267,28 @@ public class BgRoleController extends BaseController {
 	 * 请求角色菜单授权页面
 	 */
 	@RequestMapping(value = "/auth")
-	public String auth(@RequestParam String ROLE_ID, Model model) throws Exception {
+	public String auth(@RequestParam String roleId, Model model) throws Exception {
 
 		try {
-			List<Menu> menuList = menuService.listAllMenu();
-			Role role = roleService.getRoleById(ROLE_ID);
-			String roleRights = role.getRIGHTS();
+			List<BgMenu> menuList = bgMenuService.listAllMenu();
+			BgRole bgRole = bgRoleService.getRoleById(roleId);
+			String roleRights = bgRole.getRights();
 			if (Tools.notEmpty(roleRights)) {
-				for (Menu menu : menuList) {
-					menu.setHasMenu(RightsHelper.testRights(roleRights, menu.getMENU_ID()));
-					if (menu.isHasMenu()) {
-						List<Menu> subMenuList = menu.getSubMenu();
-						for (Menu sub : subMenuList) {
-							sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMENU_ID()));
+				for (BgMenu bgMenu : menuList) {
+					bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
+					if (bgMenu.isHasMenu()) {
+						List<BgMenu> subMenuList = bgMenu.getSubMenu();
+						for (BgMenu sub : subMenuList) {
+							sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMenuId()));
 						}
 					}
 				}
 			}
 			JSONArray arr = JSONArray.fromObject(menuList);
 			String json = arr.toString();
-			json = json.replaceAll("MENU_ID", "id").replaceAll("MENU_NAME", "name").replaceAll("subMenu", "nodes").replaceAll("hasMenu", "checked");
+			json = json.replaceAll("menuId", "id").replaceAll("menuName", "name").replaceAll("subMenu", "nodes").replaceAll("hasMenu", "checked");
 			model.addAttribute("zTreeNodes", json);
-			model.addAttribute("roleId", ROLE_ID);
+			model.addAttribute("roleId", roleId);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -300,30 +300,30 @@ public class BgRoleController extends BaseController {
 	 * 请求角色按钮授权页面
 	 */
 	@RequestMapping(value = "/button")
-	public ModelAndView button(@RequestParam String ROLE_ID, @RequestParam String msg, Model model) throws Exception {
+	public ModelAndView button(@RequestParam String roleId, @RequestParam String msg, Model model) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
-			List<Menu> menuList = menuService.listAllMenu();
-			Role role = roleService.getRoleById(ROLE_ID);
+			List<BgMenu> menuList = bgMenuService.listAllMenu();
+			BgRole bgRole = bgRoleService.getRoleById(roleId);
 
 			String roleRights = "";
 			if ("add_qx".equals(msg)) {
-				roleRights = role.getADD_QX();
+				roleRights = bgRole.getAddQx();
 			} else if ("del_qx".equals(msg)) {
-				roleRights = role.getDEL_QX();
+				roleRights = bgRole.getDelQx();
 			} else if ("edit_qx".equals(msg)) {
-				roleRights = role.getEDIT_QX();
+				roleRights = bgRole.getEditQx();
 			} else if ("cha_qx".equals(msg)) {
-				roleRights = role.getCHA_QX();
+				roleRights = bgRole.getSelectQx();
 			}
 
 			if (Tools.notEmpty(roleRights)) {
-				for (Menu menu : menuList) {
-					menu.setHasMenu(RightsHelper.testRights(roleRights, menu.getMENU_ID()));
-					if (menu.isHasMenu()) {
-						List<Menu> subMenuList = menu.getSubMenu();
-						for (Menu sub : subMenuList) {
-							sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMENU_ID()));
+				for (BgMenu bgMenu : menuList) {
+					bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
+					if (bgMenu.isHasMenu()) {
+						List<BgMenu> subMenuList = bgMenu.getSubMenu();
+						for (BgMenu sub : subMenuList) {
+							sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMenuId()));
 						}
 					}
 				}
@@ -331,14 +331,14 @@ public class BgRoleController extends BaseController {
 			JSONArray arr = JSONArray.fromObject(menuList);
 			String json = arr.toString();
 			// System.out.println(json);
-			json = json.replaceAll("MENU_ID", "id").replaceAll("MENU_NAME", "name").replaceAll("subMenu", "nodes").replaceAll("hasMenu", "checked");
+			json = json.replaceAll("menuId", "id").replaceAll("menuName", "name").replaceAll("subMenu", "nodes").replaceAll("hasMenu", "checked");
 			mv.addObject("zTreeNodes", json);
-			mv.addObject("roleId", ROLE_ID);
+			mv.addObject("roleId", roleId);
 			mv.addObject("msg", msg);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
-		mv.setViewName("system/role/role_button");
+		mv.setViewName("system/bgRole/role_button");
 		return mv;
 	}
 
@@ -346,26 +346,26 @@ public class BgRoleController extends BaseController {
 	 * 保存角色菜单权限
 	 */
 	@RequestMapping(value = "/auth/save")
-	public void saveAuth(@RequestParam String ROLE_ID, @RequestParam String menuIds, PrintWriter out) throws Exception {
+	public void saveAuth(@RequestParam String roleId, @RequestParam String menuIds, PrintWriter out) throws Exception {
 		PageData pd = new PageData();
 		try {
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
 				if (null != menuIds && !"".equals(menuIds.trim())) {
 					BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
-					Role role = roleService.getRoleById(ROLE_ID);
-					role.setRIGHTS(rights.toString());
-					roleService.updateRoleRights(role);
+					BgRole bgRole = bgRoleService.getRoleById(roleId);
+					bgRole.setRights(rights.toString());
+					bgRoleService.updateRoleRights(bgRole);
 					pd.put("rights", rights.toString());
 				} else {
-					Role role = new Role();
-					role.setRIGHTS("");
-					role.setROLE_ID(ROLE_ID);
-					roleService.updateRoleRights(role);
+					BgRole bgRole = new BgRole();
+					bgRole.setRights("");
+					bgRole.setRoleId(roleId);
+					bgRoleService.updateRoleRights(bgRole);
 					pd.put("rights", "");
 				}
 
-				pd.put("roleId", ROLE_ID);
-				roleService.setAllRights(pd);
+				pd.put("roleId", roleId);
+				bgRoleService.setAllRights(pd);
 			}
 			out.write("success");
 			out.close();
@@ -378,7 +378,7 @@ public class BgRoleController extends BaseController {
 	 * 保存角色按钮权限
 	 */
 	@RequestMapping(value = "/roleButton/save")
-	public void orleButton(@RequestParam String ROLE_ID, @RequestParam String menuIds, @RequestParam String msg, PrintWriter out) throws Exception {
+	public void orleButton(@RequestParam String roleId, @RequestParam String menuIds, @RequestParam String msg, PrintWriter out) throws Exception {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
@@ -389,8 +389,8 @@ public class BgRoleController extends BaseController {
 				} else {
 					pd.put("value", "");
 				}
-				pd.put("ROLE_ID", ROLE_ID);
-				roleService.updateQx(msg, pd);
+				pd.put("roleId", roleId);
+				bgRoleService.updateQx(msg, pd);
 			}
 			out.write("success");
 			out.close();
@@ -404,26 +404,26 @@ public class BgRoleController extends BaseController {
 	 */
 	@RequestMapping(value = "/delete")
 	@ResponseBody
-	public Object deleteRole(@RequestParam String ROLE_ID) throws Exception {
+	public Object deleteRole(@RequestParam String roleId) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
 		PageData pd = new PageData();
 		String errInfo = "";
 		try {
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "del")) {
-				pd.put("ROLE_ID", ROLE_ID);
-				List<Role> roleList_z = roleService.listAllRolesByPId(pd); // 列出此部门的所有下级
+				pd.put("roleId", roleId);
+				List<BgRole> roleList_z = bgRoleService.listAllRolesByPId(pd); // 列出此部门的所有下级
 				if (roleList_z.size() > 0) {
 					errInfo = "false";
 				} else {
 
-					List<PageData> userlist = roleService.listAllUByRid(pd);
-					List<PageData> appuserlist = roleService.listAllAppUByRid(pd);
+					List<PageData> userlist = bgRoleService.listAllUByRid(pd);
+					List<PageData> appuserlist = bgRoleService.listAllAppUByRid(pd);
 					if (userlist.size() > 0 || appuserlist.size() > 0) {
 						errInfo = "false2";
 					} else {
-						roleService.deleteRoleById(ROLE_ID);
-						roleService.deleteKeFuById(ROLE_ID);
-						roleService.deleteGById(ROLE_ID);
+						bgRoleService.deleteRoleById(roleId);
+						bgRoleService.deleteKeFuById(roleId);
+						bgRoleService.deleteGById(roleId);
 						errInfo = "success";
 					}
 				}

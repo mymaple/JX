@@ -6,28 +6,28 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
-import net.sf.json.JSONArray;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fh.controller.base.BaseController;
-import com.fh.entity.system.Menu;
-import com.fh.service.system.menu.MenuService;
-import com.fh.util.PageData;
+import com.jx.background.config.BgBaseController;
+import com.jx.background.entity.BgMenu;
+import com.jx.background.service.BgMenuService;
+import com.jx.system.config.PageData;
+
+import net.sf.json.JSONArray;
 
 /**
  * 类名称：MenuController 创建人：FH 创建时间：2014年7月1日
  * @version
  */
 @Controller
-@RequestMapping(value = "/menu")
-public class BgMenuController extends BaseController {
+@RequestMapping(value = "/background/menu")
+public class BgMenuController extends BgBaseController {
 
-	@Resource(name = "menuService")
-	private BgMenuService menuService;
+	@Resource(name = "bgMenuService")
+	private BgMenuService bgMenuService;
 
 	/**
 	 * 显示菜单列表
@@ -38,13 +38,12 @@ public class BgMenuController extends BaseController {
 	public ModelAndView list() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
-			List<Menu> menuList = menuService.listAllParentMenu();
+			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
 			mv.setViewName("system/menu/menu_list");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
-
 		return mv;
 	}
 
@@ -57,7 +56,7 @@ public class BgMenuController extends BaseController {
 	public ModelAndView toAdd() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
-			List<Menu> menuList = menuService.listAllParentMenu();
+			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
 			mv.setViewName("system/menu/menu_add");
 		} catch (Exception e) {
@@ -73,22 +72,22 @@ public class BgMenuController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/add")
-	public ModelAndView add(Menu menu) throws Exception {
+	public ModelAndView add(BgMenu menu) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			menu.setMENU_ID(String.valueOf(Integer.parseInt(menuService.findMaxId(pd).get("MID").toString()) + 1));
+			menu.setMenuId(String.valueOf(Integer.parseInt(bgMenuService.getMaxMenuId(pd).get("MID").toString()) + 1));
 
-			String PARENT_ID = menu.getPARENT_ID();
-			if (!"0".equals(PARENT_ID)) {
+			String parentId = menu.getParentId();
+			if (!"0".equals(parentId)) {
 				// 处理菜单类型====
-				pd.put("MENU_ID", PARENT_ID);
-				pd = menuService.getMenuById(pd);
-				menu.setMENU_TYPE(pd.getString("MENU_TYPE"));
+				pd.put("menuId", parentId);
+				pd = bgMenuService.getMenuById(pd);
+				menu.setMenuType(pd.getString("menuType"));
 				// 处理菜单类型====
 			}
-			menuService.saveMenu(menu);
+			bgMenuService.addMenu(menu);
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -106,14 +105,14 @@ public class BgMenuController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/toEdit")
-	public ModelAndView toEdit(String MENU_ID) throws Exception {
+	public ModelAndView toEdit(String menuId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			pd.put("MENU_ID", MENU_ID);
-			pd = menuService.getMenuById(pd);
-			List<Menu> menuList = menuService.listAllParentMenu();
+			pd.put("menuId", menuId);
+			pd = bgMenuService.getMenuById(pd);
+			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
 			mv.addObject("pd", pd);
 			mv.setViewName("system/menu/menu_edit");
@@ -129,12 +128,12 @@ public class BgMenuController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "/toEditicon")
-	public ModelAndView toEditicon(String MENU_ID) throws Exception {
+	public ModelAndView toEditicon(String menuId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			pd.put("MENU_ID", MENU_ID);
+			pd.put("menuId", menuId);
 			mv.addObject("pd", pd);
 			mv.setViewName("system/menu/menu_icon");
 		} catch (Exception e) {
@@ -154,7 +153,7 @@ public class BgMenuController extends BaseController {
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			pd = menuService.editicon(pd);
+			pd = bgMenuService.changeMenuIcon(pd);
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -176,19 +175,19 @@ public class BgMenuController extends BaseController {
 		try {
 			pd = this.getPageData();
 
-			String PARENT_ID = pd.getString("PARENT_ID");
-			if (null == PARENT_ID || "".equals(PARENT_ID)) {
-				PARENT_ID = "0";
-				pd.put("PARENT_ID", PARENT_ID);
+			String parentId = pd.getString("parentId");
+			if (null == parentId || "".equals(parentId)) {
+				parentId = "0";
+				pd.put("parentId", parentId);
 			}
 
-			if ("0".equals(PARENT_ID)) {
+			if ("0".equals(parentId)) {
 				// 处理菜单类型====
-				menuService.editType(pd);
+				bgMenuService.changeMenuType(pd);
 				// 处理菜单类型====
 			}
 
-			pd = menuService.edit(pd);
+			pd = bgMenuService.editMenu(pd);
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -204,9 +203,9 @@ public class BgMenuController extends BaseController {
 	 * @param response
 	 */
 	@RequestMapping(value = "/sub")
-	public void getSub(@RequestParam String MENU_ID, HttpServletResponse response) throws Exception {
+	public void getSub(@RequestParam String menuId, HttpServletResponse response) throws Exception {
 		try {
-			List<Menu> subMenu = menuService.listSubMenuByParentId(MENU_ID);
+			List<BgMenu> subMenu = bgMenuService.listSubMenuByParentId(menuId);
 			JSONArray arr = JSONArray.fromObject(subMenu);
 			PrintWriter out;
 
@@ -227,10 +226,10 @@ public class BgMenuController extends BaseController {
 	 * @param out
 	 */
 	@RequestMapping(value = "/del")
-	public void delete(@RequestParam String MENU_ID, PrintWriter out) throws Exception {
+	public void delete(@RequestParam String menuId, PrintWriter out) throws Exception {
 
 		try {
-			menuService.deleteMenuById(MENU_ID);
+			bgMenuService.deleteMenuById(menuId);
 			out.write("success");
 			out.flush();
 			out.close();

@@ -29,7 +29,9 @@ import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
 import com.jx.system.config.Const;
 import com.jx.system.config.PageData;
+import com.jx.system.util.AppUtil;
 import com.jx.system.util.DateUtil;
+import com.jx.system.util.RightsHelper;
 import com.jx.system.util.Tools;
 
 /*
@@ -179,7 +181,7 @@ public class BgLoginController extends BgBaseController {
 				String roleRights = bgRole != null ? bgRole.getRights() : "";
 				// 避免每次拦截用户操作时查询数据库，以下将用户所属角色权限、用户权限限都存入session
 				session.setAttribute(Const.SESSION_ROLE_RIGHTS, roleRights); // 将角色权限存入session
-				session.setAttribute(Const.SESSION_USERNAME, bgUser.getUserName()()); // 放入用户名
+				session.setAttribute(Const.SESSION_USERNAME, bgUser.getUserName()); // 放入用户名
 
 				List<BgMenu> allmenuList = new ArrayList<BgMenu>();
 
@@ -187,11 +189,11 @@ public class BgLoginController extends BgBaseController {
 					allmenuList = bgMenuService.listAllMenu();
 					if (Tools.notEmpty(roleRights)) {
 						for (BgMenu bgMenu : allmenuList) {
-							bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMENU_ID()));
+							bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
 							if (bgMenu.isHasMenu()) {
 								List<BgMenu> subMenuList = bgMenu.getSubMenu();
 								for (BgMenu sub : subMenuList) {
-									sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMENU_ID()));
+									sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMenuId()));
 								}
 							}
 						}
@@ -211,7 +213,7 @@ public class BgLoginController extends BgBaseController {
 					// 拆分菜单
 					for (int i = 0; i < allmenuList.size(); i++) {
 						BgMenu bgMenu = allmenuList.get(i);
-						if ("1".equals(bgMenu.getMENU_TYPE())) {
+						if ("1".equals(bgMenu.getMenuType())) {
 							menuList1.add(bgMenu);
 						} else {
 							menuList2.add(bgMenu);
@@ -348,7 +350,7 @@ public class BgLoginController extends BgBaseController {
 
 			pd = bgRoleService.findObjectById(pd);
 
-			pd2 = bgRoleService.findGLbyrid(pd2);
+			pd2 = bgRoleService.findGlByRoleId(pd2);
 			if (null != pd2) {
 				map.put("FX_QX", pd2.get("FX_QX").toString());
 				map.put("FW_QX", pd2.get("FW_QX").toString());
