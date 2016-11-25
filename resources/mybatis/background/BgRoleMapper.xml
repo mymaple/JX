@@ -3,7 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgRoleMapper">
 	
-	<resultMap type="Role" id="roleResultMap">
+	<resultMap type="BgRole" id="roleResultMap">
 		<id column="roleId" property="roleId"/>
 		<result column="roleName" property="roleName"/>
 		<result column="rights" property="rights"/>
@@ -268,7 +268,7 @@
 	</select>
 	
 	
-	<update id="updateRoleRights" parameterType="Role">
+	<update id="updateRoleRights" parameterType="BgRole">
 		update bgRole 
 		set rights=#{rights} 
 		where roleId=#{roleId}

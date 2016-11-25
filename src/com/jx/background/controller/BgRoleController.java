@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgBaseController;
-import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
+import com.jx.system.config.BaseController;
+import com.jx.system.config.BgPage;
 import com.jx.system.config.Const;
 import com.jx.system.config.PageData;
 import com.jx.system.util.AppUtil;
@@ -40,7 +40,7 @@ import net.sf.json.JSONArray;
  */
 @Controller
 @RequestMapping(value = "/bgRole")
-public class BgRoleController extends BgBaseController {
+public class BgRoleController extends BaseController {
 
 	String menuUrl = "bgRole.do"; // 菜单地址(权限用)
 	@Resource(name = "bgMenuService")

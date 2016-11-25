@@ -1,6 +1,6 @@
 package com.jx.background.entity;
 
-import com.jx.background.config.BgPage;
+import com.jx.system.config.BgPage;
 
 /**
  * 类名称：User.java 类描述：

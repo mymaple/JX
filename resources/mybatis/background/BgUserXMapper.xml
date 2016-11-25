@@ -180,7 +180,7 @@
 	</delete>
 	
 	<!-- 用户列表(用户组) -->
-	<select id="listUser" parameterType="page" resultType="pd" useCache="false">
+	<select id="listUser" parameterType="bgPage" resultType="pd" useCache="false">
 		select  u.userId,
 				u.userName,
 				u.password,

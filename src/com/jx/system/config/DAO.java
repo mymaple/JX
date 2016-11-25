@@ -1,25 +1,27 @@
 package com.jx.system.config;
 
+import java.util.List;
+
 public interface DAO {
 
 	/**
-	 * 保存对象
+	 * 新增对象
 	 * @param str
 	 * @param obj
 	 * @return
 	 * @throws Exception
 	 */
-	public Object save(String str, Object obj) throws Exception;
-
+	public Object add(String str, Object obj) throws Exception ;
+	
 	/**
-	 * 修改对象
+	 * 批量新增
 	 * @param str
 	 * @param obj
 	 * @return
 	 * @throws Exception
 	 */
-	public Object update(String str, Object obj) throws Exception;
-
+	public Object batchAdd(String str, List objs) throws Exception ;
+	
 	/**
 	 * 删除对象
 	 * @param str
@@ -27,7 +29,35 @@ public interface DAO {
 	 * @return
 	 * @throws Exception
 	 */
-	public Object delete(String str, Object obj) throws Exception;
+	public Object delete(String str, Object obj) throws Exception ;
+	
+	/**
+	 * 批量删除对象
+	 * @param str
+	 * @param obj
+	 * @return
+	 * @throws Exception
+	 */
+	public Object batchDelete(String str, List objs) throws Exception ;
+	
+	/**
+	 * 修改对象
+	 * @param str
+	 * @param obj
+	 * @return
+	 * @throws Exception
+	 */
+	public Object edit(String str, Object obj) throws Exception ;
+	
+	/**
+	 * 批量修改
+	 * @param str
+	 * @param obj
+	 * @return
+	 * @throws Exception
+	 */
+	public void batchEdit(String str, List objs) throws Exception ;
+
 
 	/**
 	 * 查找对象
@@ -39,7 +69,7 @@ public interface DAO {
 	public Object findForObject(String str, Object obj) throws Exception;
 
 	/**
-	 * 查找对象
+	 * 查找对象封装成List
 	 * @param str
 	 * @param obj
 	 * @return

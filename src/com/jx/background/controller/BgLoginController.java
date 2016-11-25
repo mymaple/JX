@@ -20,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgBaseController;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
+import com.jx.system.config.BaseController;
 import com.jx.system.config.Const;
 import com.jx.system.config.PageData;
 import com.jx.system.util.AppUtil;
@@ -39,7 +39,7 @@ import com.jx.system.util.Tools;
  */
 @Controller
 @RequestMapping(value = "/background/login")
-public class BgLoginController extends BgBaseController {
+public class BgLoginController extends BaseController {
 
 	@Resource(name = "bgUserService")
 	private BgUserService bgUserService;
@@ -124,7 +124,7 @@ public class BgLoginController extends BgBaseController {
 						bgUser.setLastLogin(pd.getString("lastLogin"));
 						bgUser.setLoginIp(pd.getString("loginIp"));
 						bgUser.setStatus(pd.getString("status"));
-						session.setAttribute(Const.SESSION_USER, bgUser);
+						session.setAttribute(Const.SESSION_BGUSER, bgUser);
 						session.removeAttribute(Const.SESSION_SECURITY_CODE);
 
 						// shiro加入身份验证
@@ -167,7 +167,7 @@ public class BgLoginController extends BgBaseController {
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
 
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_USER);
+			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BGUSER);
 			if (bgUser != null) {
 
 				BgUser userr = (BgUser) session.getAttribute(Const.SESSION_USERROL);
@@ -307,7 +307,7 @@ public class BgLoginController extends BgBaseController {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 
-		session.removeAttribute(Const.SESSION_USER);
+		session.removeAttribute(Const.SESSION_BGUSER);
 		session.removeAttribute(Const.SESSION_ROLE_RIGHTS);
 		session.removeAttribute(Const.SESSION_allmenuList);
 		session.removeAttribute(Const.SESSION_menuList);

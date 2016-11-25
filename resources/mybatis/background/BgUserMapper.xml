@@ -14,7 +14,7 @@
 		<result column="loginIp" property="loginIp"/>
 		<result column="status" property="status"/>
 		<result column="skin" property="skin"/>
-		<association property="role" column="roleId" javaType="Role">
+		<association property="role" column="roleId" javaType="BgRole">
 			<id column="roleId" property="roleId"/>
 			<result column="roleName" property="roleName"/>
 			<result column="roleRights" property="rights"/>
@@ -34,7 +34,7 @@
 	</resultMap>
 	
 	<!-- 判断用户名和密码 -->
-	<select id="checkUserByNameAndPwd" parameterType="User" resultMap="userResultMap">
+	<select id="checkUserByNameAndPwd" parameterType="BgUser" resultMap="userResultMap">
 		select <include refid="userColumns"/> from bgUser 
 		where 1=1
 		<if test="userName!=null and password!=null">

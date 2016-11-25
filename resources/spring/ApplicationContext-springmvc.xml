@@ -10,11 +10,9 @@
 	<mvc:annotation-driven/>	
 	<mvc:default-servlet-handler/>
 	
-	<context:component-scan base-package="com.fh.controller" />
-	<context:component-scan base-package="com.json" />
+	<context:component-scan base-package="com.jx.*.controller" />
 
 	<!-- 对静态资源文件的访问  restful-->     
-	<mvc:resources mapping="/admin/**" location="/,/admin/" />
 	<mvc:resources mapping="/static/**" location="/,/static/" />
 	<mvc:resources mapping="/plugins/**" location="/,/plugins/" />
 	<mvc:resources mapping="/uploadFiles/**" location="/,/uploadFiles/" /> 
@@ -23,7 +21,7 @@
   	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**/**"/>
-			<bean class="com.fh.interceptor.LoginHandlerInterceptor"/>
+			<bean class="com.jx.background.config.BgLoginHandlerInterceptor"/>
 		</mvc:interceptor>
 	</mvc:interceptors>
 	 
@@ -33,7 +31,7 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 	
-	<bean id="exceptionResolver" class="com.fh.resolver.MyExceptionResolver"></bean>
+	<!-- <bean id="exceptionResolver" class="com.fh.resolver.MyExceptionResolver"></bean> -->
 	<!-- 上传拦截，如最大上传值及最小上传值 -->
 	  <bean id="multipartResolver"   class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >   
 		  <property name="maxUploadSize">    

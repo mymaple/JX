@@ -22,7 +22,7 @@ public class BgMenuService {
 	 * @throws Exception
 	 */
 	public void deleteMenuById(String menuId) throws Exception {
-		dao.save("BgMenuMapper.deleteMenuById", menuId);
+		dao.add("BgMenuMapper.deleteMenuById", menuId);
 
 	}
 
@@ -74,7 +74,7 @@ public class BgMenuService {
 	 * @throws Exception
 	 */
 	public void addMenu(BgMenu bgMenu) throws Exception {
-		dao.save("BgMenuMapper.addMenu", bgMenu);
+		dao.add("BgMenuMapper.addMenu", bgMenu);
 	}
 	
 	/**

@@ -139,35 +139,35 @@ public class BgRoleService {
 	}
 
 	public void updateRoleRights(BgRole role) throws Exception {
-		dao.update("BgRoleMapper.updateRoleRights", role);
+		dao.edit("BgRoleMapper.updateRoleRights", role);
 	}
 
 	/**
 	 * 权限(增删改查)
 	 */
 	public void updateQx(String msg, PageData pd) throws Exception {
-		dao.update("BgRoleMapper." + msg, pd);
+		dao.edit("BgRoleMapper." + msg, pd);
 	}
 
 	/**
 	 * 客服权限
 	 */
 	public void updateKFQx(String msg, PageData pd) throws Exception {
-		dao.update("BgRoleMapper." + msg, pd);
+		dao.edit("BgRoleMapper." + msg, pd);
 	}
 
 	/**
 	 * Gc权限
 	 */
 	public void gysqxc(String msg, PageData pd) throws Exception {
-		dao.update("BgRoleMapper." + msg, pd);
+		dao.edit("BgRoleMapper." + msg, pd);
 	}
 
 	/**
 	 * 给全部子职位加菜单权限
 	 */
 	public void setAllRights(PageData pd) throws Exception {
-		dao.update("BgRoleMapper.setAllRights", pd);
+		dao.edit("BgRoleMapper.setAllRights", pd);
 
 	}
 

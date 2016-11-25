@@ -6,8 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgUser;
+import com.jx.system.config.BgPage;
 import com.jx.system.config.DaoSupport;
 import com.jx.system.config.PageData;
 
@@ -51,21 +51,21 @@ public class BgUserService {
 	 * 保存用户
 	 */
 	public void saveUser(PageData pd) throws Exception {
-		dao.save("BgUserXMapper.saveUser", pd);
+		dao.add("BgUserXMapper.saveUser", pd);
 	}
 
 	/**
 	 * 修改用户
 	 */
 	public void editUser(PageData pd) throws Exception {
-		dao.update("BgUserXMapper.editUser", pd);
+		dao.edit("BgUserXMapper.editUser", pd);
 	}
 
 	/**
 	 * 换皮肤
 	 */
 	public void changeSkin(PageData pd) throws Exception {
-		dao.update("BgUserXMapper.changeSkin", pd);
+		dao.edit("BgUserXMapper.changeSkin", pd);
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class BgUserService {
 	 * 保存用户IP
 	 */
 	public void saveLoginIp(PageData pd) throws Exception {
-		dao.update("BgUserXMapper.saveLoginIp", pd);
+		dao.edit("BgUserXMapper.saveLoginIp", pd);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class BgUserService {
 	 * 更新登录时间
 	 */
 	public void updateLastLogin(PageData pd) throws Exception {
-		dao.update("BgUserXMapper.updateLastLogin", pd);
+		dao.edit("BgUserXMapper.updateLastLogin", pd);
 	}
 
 	/**

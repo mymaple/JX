@@ -26,12 +26,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgBaseController;
-import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgRole;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
+import com.jx.system.config.BaseController;
+import com.jx.system.config.BgPage;
 import com.jx.system.config.Const;
 import com.jx.system.config.PageData;
 import com.jx.system.util.AppUtil;
@@ -50,7 +50,7 @@ import com.jx.system.util.Tools;
  */
 @Controller
 @RequestMapping(value = "/user")
-public class BgUserController extends BgBaseController {
+public class BgUserController extends BaseController {
 
 	String menuUrl = "user/listUsers.do"; // 菜单地址(权限用)
 	@Resource(name = "bgUserService")

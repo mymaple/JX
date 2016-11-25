@@ -15,14 +15,14 @@
 		<typeAlias type="com.jx.background.entity.BgMenu" alias="BgMenu"/>
 		<typeAlias type="com.jx.system.config.PageData" alias="pd"/>
 		<!-- 分页 -->
-		<typeAlias type="com.jx.background.config.BgPage" alias="BgPage"/>
+		<typeAlias type="com.jx.system.config.BgPage" alias="BgPage"/>
 	</typeAliases>
-	
+<!-- 	
 	<plugins>
 		<plugin interceptor="com.fh.plugin.PagePlugin">
 			<property name="dialect" value="mysql"/>
 			<property name="pageSqlId" value=".*listPage.*"/>
 		</plugin>
 	</plugins>
-	
+	 -->
 </configuration>

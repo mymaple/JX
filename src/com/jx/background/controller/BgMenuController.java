@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.config.BgBaseController;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.service.BgMenuService;
+import com.jx.system.config.BaseController;
 import com.jx.system.config.PageData;
 
 import net.sf.json.JSONArray;
@@ -24,7 +24,7 @@ import net.sf.json.JSONArray;
  */
 @Controller
 @RequestMapping(value = "/background/menu")
-public class BgMenuController extends BgBaseController {
+public class BgMenuController extends BaseController {
 
 	@Resource(name = "bgMenuService")
 	private BgMenuService bgMenuService;
