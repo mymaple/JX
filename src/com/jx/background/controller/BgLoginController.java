@@ -76,7 +76,8 @@ public class BgLoginController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
+//		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
+		pd.put("SYSNAME", Const.SYSNAME); // 读取系统名称
 		mv.setViewName("background/bgLogin");
 		mv.addObject("pd", pd);
 		return mv;
@@ -92,22 +93,22 @@ public class BgLoginController extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		String errInfo = "";
-		String keyData[] = pd.getString("keyData").replaceAll("qq123456789fh", "").replaceAll("QQ987654321fh", "").split(",fh,");
+		String keyData[] = pd.getString("keyData").replaceAll("ndknsdkfjksdfj", "").replaceAll("kgnlkfsl", "").split(",jx,");
 
 		if (null != keyData && keyData.length == 3) {
 			// shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
-			String sessionCode = (String) session.getAttribute(Const.SESSION_SECURITY_CODE); // 获取session中的验证码
+			String sessionBgVerificationCode = (String) session.getAttribute(Const.SESSION_BG_VERIFICATIONCODE); // 获取session中的验证码
 
-			String code = keyData[2];
-			if (null == code || "".equals(code)) {
+			String bgVerificationCode = keyData[2];
+			if (null == bgVerificationCode || "".equals(bgVerificationCode)) {
 				errInfo = "nullcode"; // 验证码为空
 			} else {
 				String userName = keyData[0];
 				String password = keyData[1];
 				pd.put("userName", userName);
-				if (Tools.notEmpty(sessionCode) && sessionCode.equalsIgnoreCase(code)) {
+				if (Tools.notEmpty(sessionBgVerificationCode) && sessionBgVerificationCode.equalsIgnoreCase(bgVerificationCode)) {
 					String passwd = new SimpleHash("SHA-1", userName, password).toString(); // 密码加密
 					pd.put("password", passwd);
 					pd = bgUserService.checkUserByNameAndPwd(pd);
@@ -124,8 +125,8 @@ public class BgLoginController extends BaseController {
 						bgUser.setLastLogin(pd.getString("lastLogin"));
 						bgUser.setLoginIp(pd.getString("loginIp"));
 						bgUser.setStatus(pd.getString("status"));
-						session.setAttribute(Const.SESSION_BGUSER, bgUser);
-						session.removeAttribute(Const.SESSION_SECURITY_CODE);
+						session.setAttribute(Const.SESSION_BG_USER, bgUser);
+						session.removeAttribute(Const.SESSION_BG_VERIFICATIONCODE);
 
 						// shiro加入身份验证
 						Subject subject = SecurityUtils.getSubject();
@@ -135,7 +136,6 @@ public class BgLoginController extends BaseController {
 						} catch (AuthenticationException e) {
 							errInfo = "身份验证失败！";
 						}
-
 					} else {
 						errInfo = "usererror"; // 用户名或密码有误
 					}
@@ -157,62 +157,60 @@ public class BgLoginController extends BaseController {
 	 * 访问系统首页
 	 */
 	@RequestMapping(value = "/main/{changeMenu}")
-	public ModelAndView login_index(@PathVariable("changeMenu") String changeMenu) {
+	public ModelAndView loginIndex(@PathVariable("changeMenu") String changeMenu) {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-
 			// shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
 
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BGUSER);
+			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER);
 			if (bgUser != null) {
-
-				BgUser userr = (BgUser) session.getAttribute(Const.SESSION_USERROL);
-				if (null == userr) {
+				BgUser bgUserRole = (BgUser) session.getAttribute(Const.SESSION_BG_USER_ROLE);
+				if (null == bgUserRole) {
 					bgUser = bgUserService.getUserAndRoleById(bgUser.getUserId());
-					session.setAttribute(Const.SESSION_USERROL, bgUser);
+					session.setAttribute(Const.SESSION_BG_USER_ROLE, bgUser);
 				} else {
-					bgUser = userr;
+					bgUser = bgUserRole;
 				}
-				BgRole bgRole = bgUser.getRole();
+				BgRole bgRole = bgUserRole.getRole();
 				String roleRights = bgRole != null ? bgRole.getRights() : "";
 				// 避免每次拦截用户操作时查询数据库，以下将用户所属角色权限、用户权限限都存入session
-				session.setAttribute(Const.SESSION_ROLE_RIGHTS, roleRights); // 将角色权限存入session
-				session.setAttribute(Const.SESSION_USERNAME, bgUser.getUserName()); // 放入用户名
+				session.setAttribute(Const.SESSION_BG_ROLERIGHTS, roleRights); // 将角色权限存入session
+				session.setAttribute(Const.SESSION_BG_USERNAME, bgUser.getUserName()); // 放入用户名
 
-				List<BgMenu> allmenuList = new ArrayList<BgMenu>();
+				List<BgMenu> bgAllMenuList = new ArrayList<BgMenu>();
 
-				if (null == session.getAttribute(Const.SESSION_allmenuList)) {
-					allmenuList = bgMenuService.listAllMenu();
+				if (null == session.getAttribute(Const.SESSION_BG_ALLMENULIST)) {
+					bgAllMenuList = bgMenuService.listAllMenu();
 					if (Tools.notEmpty(roleRights)) {
-						for (BgMenu bgMenu : allmenuList) {
+						for (BgMenu bgMenu : bgAllMenuList) {
 							bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
 							if (bgMenu.isHasMenu()) {
-								List<BgMenu> subMenuList = bgMenu.getSubMenu();
-								for (BgMenu sub : subMenuList) {
-									sub.setHasMenu(RightsHelper.testRights(roleRights, sub.getMenuId()));
+								List<BgMenu> bgSubMenuList = bgMenu.getSubMenu();
+								for (BgMenu bgSubMenu : bgSubMenuList) {
+									bgSubMenu.setHasMenu(RightsHelper.testRights(roleRights, bgSubMenu.getMenuId()));
 								}
 							}
 						}
 					}
-					session.setAttribute(Const.SESSION_allmenuList, allmenuList); // 菜单权限放入session中
+					session.setAttribute(Const.SESSION_BG_ALLMENULIST, bgAllMenuList); // 菜单权限放入session中
 				} else {
-					allmenuList = (List<BgMenu>) session.getAttribute(Const.SESSION_allmenuList);
+					bgAllMenuList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_ALLMENULIST);
 				}
 
 				// 切换菜单=====
-				List<BgMenu> menuList = new ArrayList<BgMenu>();
+				List<BgMenu> bgMenuList = new ArrayList<BgMenu>();
 				// if(null == session.getAttribute(Const.SESSION_menuList) || ("yes".equals(pd.getString("changeMenu")))){
 				if (null == session.getAttribute(Const.SESSION_menuList) || ("yes".equals(changeMenu))) {
 					List<BgMenu> menuList1 = new ArrayList<BgMenu>();
 					List<BgMenu> menuList2 = new ArrayList<BgMenu>();
 
 					// 拆分菜单
-					for (int i = 0; i < allmenuList.size(); i++) {
-						BgMenu bgMenu = allmenuList.get(i);
+					for (int i = 0; i < bgAllMenuList.size(); i++) {
+						BgMenu bgMenu = bgAllMenuList.get(i);
 						if ("1".equals(bgMenu.getMenuType())) {
 							menuList1.add(bgMenu);
 						} else {
@@ -225,15 +223,15 @@ public class BgLoginController extends BaseController {
 						session.setAttribute(Const.SESSION_menuList, menuList1);
 						session.removeAttribute("changeMenu");
 						session.setAttribute("changeMenu", "1");
-						menuList = menuList1;
+						bgMenuList = menuList1;
 					} else {
 						session.setAttribute(Const.SESSION_menuList, menuList2);
 						session.removeAttribute("changeMenu");
 						session.setAttribute("changeMenu", "2");
-						menuList = menuList2;
+						bgMenuList = menuList2;
 					}
 				} else {
-					menuList = (List<BgMenu>) session.getAttribute(Const.SESSION_menuList);
+					bgMenuList = (List<BgMenu>) session.getAttribute(Const.SESSION_menuList);
 				}
 				// 切换菜单=====
 
@@ -261,7 +259,7 @@ public class BgLoginController extends BaseController {
 
 				mv.setViewName("system/admin/index");
 				mv.addObject("bgUser", bgUser);
-				mv.addObject("menuList", menuList);
+				mv.addObject("bgMenuList", bgMenuList);
 			} else {
 				mv.setViewName("system/admin/login");// session失效后跳转登录页面
 			}
@@ -307,14 +305,14 @@ public class BgLoginController extends BaseController {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 
-		session.removeAttribute(Const.SESSION_BGUSER);
-		session.removeAttribute(Const.SESSION_ROLE_RIGHTS);
-		session.removeAttribute(Const.SESSION_allmenuList);
+		session.removeAttribute(Const.SESSION_BG_USER);
+		session.removeAttribute(Const.SESSION_BG_ROLERIGHTS);
+		session.removeAttribute(Const.SESSION_BG_ALLMENULIST);
 		session.removeAttribute(Const.SESSION_menuList);
 		session.removeAttribute(Const.SESSION_QX);
 		session.removeAttribute(Const.SESSION_userpds);
-		session.removeAttribute(Const.SESSION_USERNAME);
-		session.removeAttribute(Const.SESSION_USERROL);
+		session.removeAttribute(Const.SESSION_BG_USERNAME);
+		session.removeAttribute(Const.SESSION_BG_USER_ROLE);
 		session.removeAttribute("changeMenu");
 
 		// shiro销毁登录
@@ -338,14 +336,14 @@ public class BgLoginController extends BaseController {
 		PageData pd = new PageData();
 		Map<String, String> map = new HashMap<String, String>();
 		try {
-			String userName = session.getAttribute(Const.SESSION_USERNAME).toString();
-			pd.put(Const.SESSION_USERNAME, userName);
+			String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString();
+			pd.put(Const.SESSION_BG_USERNAME, userName);
 			String roleId = bgUserService.findByUserName(pd).get("roleId").toString();
 
 			pd.put("roleId", roleId);
 
 			PageData pd2 = new PageData();
-			pd2.put(Const.SESSION_USERNAME, userName);
+			pd2.put(Const.SESSION_BG_USERNAME, userName);
 			pd2.put("roleId", roleId);
 
 			pd = bgRoleService.findObjectById(pd);

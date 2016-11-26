@@ -43,7 +43,8 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		WebSocketImpl.DEBUG = false;
 		BgChatServer s;
 		try {
-			String strWebscoket = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
+//			String strWebscoket = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
+			String strWebscoket = Const.WEBSOCKET;
 			if (null != strWebscoket && !"".equals(strWebscoket)) {
 				String strIW[] = strWebscoket.split(",fh,");
 				if (strIW.length == 4) {

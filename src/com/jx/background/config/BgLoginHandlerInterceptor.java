@@ -27,7 +27,7 @@ public class BgLoginHandlerInterceptor extends HandlerInterceptorAdapter {
 			// shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BGUSER);
+			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER);
 			if (bgUser != null) {
 				path = path.substring(1, path.length());
 				boolean b = Jurisdiction.hasJurisdiction(path);

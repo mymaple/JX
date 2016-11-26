@@ -102,14 +102,14 @@
 	</bean>
 	
 	<!-- ================ Shiro start ================ -->
-<!-- 		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 			<property name="realm" ref="ShiroRealm" />
 		</bean>
 		
-		項目自定义的Realm
-	    <bean id="ShiroRealm" class="com.fh.interceptor.shiro.ShiroRealm" ></bean>
+		<!-- 項目自定义的Realm -->
+	    <bean id="ShiroRealm" class="com.jx.system.config.ShiroRealm" ></bean>
 		
-		Shiro Filter
+		<!-- Shiro Filter -->
 		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 			<property name="securityManager" ref="securityManager" />
 			
@@ -117,7 +117,7 @@
 			
 			<property name="successUrl" value="/main/index" />
 			
-			<property name="unauthorizedUrl" value="/login_toLogin" />
+			<property name="unauthorizedUrl" value="/background/login/toLogin" />
 			
 			<property name="filterChainDefinitions">
 				<value>
@@ -125,14 +125,14 @@
 				/static/js/myjs/** 			= authc
 				/static/js/** 				= anon
 				/uploadFiles/uploadImgs/** 	= anon
-	           	/code.do 					= anon
-	           	/login_login	 			= anon
+	           	/background/verificationCode.do 					= anon
+	           	/background/login/login	 			= anon
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon
 	           	/**							= authc
 				</value>
 			</property>
-		</bean> -->
+		</bean>
 	<!-- ================ Shiro end ================ -->
 	
    

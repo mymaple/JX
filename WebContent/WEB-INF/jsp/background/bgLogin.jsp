@@ -23,10 +23,9 @@
 <body>
 
 	<div
-		style="width:100%;text-align: center;margin: 0 auto;position: absolute;">
+		style="width: 100%; text-align: center; margin: 0 auto; position: absolute;">
 		<div id="loginbox">
-			<form action="" method="post" name="loginForm"
-				id="loginForm">
+			<form action="" method="post" name="loginForm" id="loginForm">
 				<div class="control-group normal_text">
 					<h3>
 						<img src="static/login/logo.png" alt="Logo" />
@@ -35,46 +34,48 @@
 				<div class="control-group">
 					<div class="controls">
 						<div class="main_input_box">
-							<span class="add-on bg_lg">
-							<i><img height="37" src="static/login/user.png" /></i>
-							</span><input type="text" name="loginname" id="loginname" value="" placeholder="请输入用户名" />
+							<span class="add-on bg_lg"> <i><img height="37"
+									src="static/login/user.png" /></i>
+							</span><input type="text" name="loginName" id="loginName" value=""
+								placeholder="请输入用户名" />
 						</div>
 					</div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
 						<div class="main_input_box">
-							<span class="add-on bg_ly">
-							<i><img height="37" src="static/login/suo.png" /></i>
-							</span><input type="password" name="password" id="password" placeholder="请输入密码" value="" />
+							<span class="add-on bg_ly"> <i><img height="37"
+									src="static/login/suo.png" /></i>
+							</span><input type="password" name="password" id="password"
+								placeholder="请输入密码" value="" />
 						</div>
 					</div>
 				</div>
-				<div style="float:right;padding-right:10%;">
-					<div style="float: left;margin-top:3px;margin-right:2px;">
+				<div style="float: right; padding-right: 10%;">
+					<div style="float: left; margin-top: 3px; margin-right: 2px;">
 						<font color="white">记住密码</font>
 					</div>
 					<div style="float: left;">
-						<input name="form-field-checkbox" id="saveid" type="checkbox"
-							onclick="savePaw();" style="padding-top:0px;" />
+						<input name="form-field-checkbox" id="saveId" type="checkbox"
+							onclick="savePaw();" style="padding-top: 0px;" />
 					</div>
 				</div>
 				<div class="form-actions">
-					<div style="width:86%;padding-left:8%;">
+					<div style="width: 86%; padding-left: 8%;">
 
 						<div style="float: left;">
 							<i><img src="static/login/yan.png" /></i>
 						</div>
 						<div style="float: left;" class="codediv">
 							<input type="text" name="code" id="code" class="login_code"
-								style="height:16px; padding-top:0px;" />
+								style="height: 16px; padding-top: 0px;" />
 						</div>
 						<div style="float: left;">
-							<i><img style="height:22px;" id="codeImg" alt="点击更换"
+							<i><img style="height: 22px;" id="codeImg" alt="点击更换"
 								title="点击更换" src="" /></i>
 						</div>
 
-						<span class="pull-right" style="padding-right:3%;"><a
+						<span class="pull-right" style="padding-right: 3%;"><a
 							href="javascript:quxiao();" class="btn btn-success">取消</a></span> <span
 							class="pull-right"><a onclick="severCheck();"
 							class="flip-link btn btn-info" id="to-recover">登录</a></span>
@@ -87,8 +88,8 @@
 
 			<div class="controls">
 				<div class="main_input_box">
-					<font color="white"><span id="nameerr">Copyright © FH
-							2100</span></font>
+					<font color="white"><span id="nameerr">Copyright ©
+							${pd.SYSNAME} 2016</span></font>
 				</div>
 			</div>
 		</div>
@@ -103,33 +104,66 @@
 	</div>
 
 	<script type="text/javascript">
-	
+		$(document).keyup(function(event) {
+			if (event.keyCode == 13) {
+				$("#to-recover").trigger("click");
+			}
+		});
+		
+		jQuery(function() {
+			var loginName = $.cookie('loginName');
+			var password = $.cookie('password');
+			if (typeof (loginName) != "undefined"
+					&& typeof (password) != "undefined") {
+				$("#loginName").val(loginName);
+				$("#password").val(password);
+				$("#saveId").attr("checked", true);
+				$("#code").focus();
+			}else{
+				$("#loginName").focus();
+			}
+		});
+		
+		$(document).ready(function() {
+			changeCode();
+			$("#codeImg").bind("click", changeCode);
+		});
+
+		function changeCode() {
+			var time = new Date();
+			$("#codeImg").attr("src",
+					"background/verificationCode.do?t=" + time.getTime());
+		}
+
 		//服务器校验
-		function severCheck(){
-			if(check()){
-				
-				var loginname = $("#loginname").val();
+		function severCheck() {
+			if (check()) {
+				var loginName = $("#loginName").val();
 				var password = $("#password").val();
-				var code = "qq123456789fh"+loginname+",fh,"+password+"QQ987654321fh"+",fh,"+$("#code").val();
+				var code = "ndknsdkfjksdfj" + loginName + ",jx," + password
+						+ "kgnlkfsl" + ",jx," + $("#code").val();
 				$.ajax({
-					type: "POST",
-					url: 'login_login',
-			    	data: {KEYDATA:code,tm:new Date().getTime()},
-					dataType:'json',
-					cache: false,
-					success: function(data){
-						if("success" == data.result){
+					type : "POST",
+					url : 'background/login/login',
+					data : {
+						keyData : code,
+						tm : new Date().getTime()
+					},
+					dataType : 'json',
+					cache : false,
+					success : function(data) {
+						if ("success" == data.result) {
 							saveCookie();
-							window.location.href="main/index";
-						}else if("usererror" == data.result){
-							$("#loginname").tips({
+							window.location.href = "background/main/index";
+						} else if ("usererror" == data.result) {
+							$("#loginName").tips({
 								side : 1,
 								msg : "用户名或密码有误",
 								bg : '#FF5080',
 								time : 15
 							});
-							$("#loginname").focus();
-						}else if("codeerror" == data.result){
+							$("#loginName").focus();
+						} else if ("codeerror" == data.result) {
 							$("#code").tips({
 								side : 1,
 								msg : "验证码输入有误",
@@ -137,109 +171,82 @@
 								time : 15
 							});
 							$("#code").focus();
-						}else{
-							$("#loginname").tips({
+						} else {
+							$("#loginName").tips({
 								side : 1,
 								msg : "缺少参数",
 								bg : '#FF5080',
 								time : 15
 							});
-							$("#loginname").focus();
+							$("#loginName").focus();
 						}
 					}
 				});
 			}
 		}
-	
-		$(document).ready(function() {
-			changeCode();
-			$("#codeImg").bind("click", changeCode);
-		});
-
-		$(document).keyup(function(event) {
-			if (event.keyCode == 13) {
-				$("#to-recover").trigger("click");
-			}
-		});
-
-		function genTimestamp() {
-			var time = new Date();
-			return time.getTime();
-		}
-
-		function changeCode() {
-			$("#codeImg").attr("src", "code.do?t=" + genTimestamp());
-		}
 
 		//客户端校验
 		function check() {
-
-			if ($("#loginname").val() == "") {
-
-				$("#loginname").tips({
+			if ($("#loginName").val() == "") {
+				$("#loginName").tips({
 					side : 2,
 					msg : '用户名不得为空',
 					bg : '#AE81FF',
 					time : 3
 				});
-
-				$("#loginname").focus();
+				$("#loginName").focus();
 				return false;
 			} else {
-				$("#loginname").val(jQuery.trim($('#loginname').val()));
+				$("#loginName").val(jQuery.trim($('#loginName').val()));
 			}
-
+			
 			if ($("#password").val() == "") {
-
 				$("#password").tips({
 					side : 2,
 					msg : '密码不得为空',
 					bg : '#AE81FF',
 					time : 3
 				});
-
 				$("#password").focus();
 				return false;
 			}
+			
 			if ($("#code").val() == "") {
-
 				$("#code").tips({
 					side : 1,
 					msg : '验证码不得为空',
 					bg : '#AE81FF',
 					time : 3
 				});
-
 				$("#code").focus();
 				return false;
 			}
-
+			
 			$("#loginbox").tips({
 				side : 1,
 				msg : '正在登录 , 请稍后 ...',
 				bg : '#68B500',
 				time : 10
 			});
-
 			return true;
 		}
 
 		function savePaw() {
-			if (!$("#saveid").attr("checked")) {
-				$.cookie('loginname', '', {
+			if (!$("#saveId").attr("checked")) {
+				$.cookie('loginName', '', {
 					expires : -1
 				});
 				$.cookie('password', '', {
 					expires : -1
 				});
-				$("#loginname").val('');
+				$("#loginName").val('');
 				$("#password").val('');
 			}
 		}
 
 		function saveCookie() {
-			if ($("#saveid").attr("checked")) {
-				$.cookie('loginname', $("#loginname").val(), {
+			if ($("#saveId").attr("checked")) {
+				$.cookie('loginName', $("#loginName").val(), {
 					expires : 7
 				});
 				$.cookie('password', $("#password").val(), {
@@ -248,23 +255,10 @@
 			}
 		}
 		function quxiao() {
-			$("#loginname").val('');
+			$("#loginName").val('');
 			$("#password").val('');
 		}
-		
-		jQuery(function() {
-			var loginname = $.cookie('loginname');
-			var password = $.cookie('password');
-			if (typeof(loginname) != "undefined"
-					&& typeof(password) != "undefined") {
-				$("#loginname").val(loginname);
-				$("#password").val(password);
-				$("#saveid").attr("checked", true);
-				$("#code").focus();
-			}
-		});
-	</script>
-	<script>
+
 		//TOCMAT重启之后 点击左侧列表跳转登录首页 
 		if (window != top) {
 			top.location.href = location.href;
