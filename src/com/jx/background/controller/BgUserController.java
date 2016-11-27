@@ -80,7 +80,7 @@ public class BgUserController extends BaseController {
 
 		if (null == bgUserService.findByUserName(pd)) {
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-				bgUserService.saveUser(pd);
+				bgUserService.addUser(pd);
 			} // 判断新增权限
 			mv.addObject("msg", "success");
 		} else {
@@ -259,7 +259,7 @@ public class BgUserController extends BaseController {
 		mv.addObject("userList", userList);
 		mv.addObject("roleList", roleList);
 		mv.addObject("pd", pd);
-		mv.addObject(Const.SESSION_QX, this.getHC()); // 按钮权限
+		mv.addObject(Const.SESSION_BG_QX, this.getHC()); // 按钮权限
 		return mv;
 	}
 
@@ -275,7 +275,7 @@ public class BgUserController extends BaseController {
 		mv.setViewName("system/user/user_tb_list");
 		mv.addObject("userList", userList);
 		mv.addObject("pd", pd);
-		mv.addObject(Const.SESSION_QX, this.getHC()); // 按钮权限
+		mv.addObject(Const.SESSION_BG_QX, this.getHC()); // 按钮权限
 		return mv;
 	}
 
@@ -295,7 +295,6 @@ public class BgUserController extends BaseController {
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
-
 	}
 
 	/**
@@ -476,7 +475,7 @@ public class BgUserController extends BaseController {
 				if (bgUserService.findByUserNumber(pd) != null) {
 					continue;
 				}
-				bgUserService.saveUser(pd);
+				bgUserService.addUser(pd);
 			}
 			/* 存入数据库操作====================================== */
 
@@ -497,7 +496,7 @@ public class BgUserController extends BaseController {
 	public Map<String, String> getHC() {
 		Subject currentUser = SecurityUtils.getSubject(); // shiro管理的session
 		Session session = currentUser.getSession();
-		return (Map<String, String>) session.getAttribute(Const.SESSION_QX);
+		return (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX);
 	}
 	/* ===============================权限================================== */
 }

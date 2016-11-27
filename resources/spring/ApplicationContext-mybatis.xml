@@ -115,9 +115,9 @@
 			
 			<property name="loginUrl" value="/" />
 			
-			<property name="successUrl" value="/main/index" />
+			<property name="successUrl" value="/background/main/index" />
 			
-			<property name="unauthorizedUrl" value="/background/login/toLogin" />
+			<property name="unauthorizedUrl" value="/background/main/toLogin" />
 			
 			<property name="filterChainDefinitions">
 				<value>
@@ -126,7 +126,7 @@
 				/static/js/** 				= anon
 				/uploadFiles/uploadImgs/** 	= anon
 	           	/background/verificationCode.do 					= anon
-	           	/background/login/login	 			= anon
+	           	/background/main/login	 			= anon
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon
 	           	/**							= authc

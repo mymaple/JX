@@ -144,7 +144,7 @@
 						+ "kgnlkfsl" + ",jx," + $("#code").val();
 				$.ajax({
 					type : "POST",
-					url : 'background/login/login',
+					url : 'background/main/login',
 					data : {
 						keyData : code,
 						tm : new Date().getTime()

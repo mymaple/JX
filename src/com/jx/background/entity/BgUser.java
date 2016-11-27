@@ -13,15 +13,19 @@ public class BgUser {
 	private String userName; // 用户名
 	private String password; // 密码
 	private String name; // 姓名
-	private String rights; // 权限
+	private String permissions; // 权限
 	private String roleId; // 角色id
 	private String lastLogin; // 最后登录时间
 	private String loginIp; // 用户登录ip地址
 	private String status; // 状态
+	private String bz; // 
 	private String skin; // 皮肤
+	private String email; // 皮肤
+	private String userNumber; // 皮肤
+	private String phone; // 皮肤
 	
-	private BgRole role; // 角色对象
-	private BgPage page; // 分页对象
+	private BgRole bgRole; // 角色对象
+	private BgPage bgpage; // 分页对象
 	
 	
 	public String getUserId() {
@@ -48,11 +52,11 @@ public class BgUser {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getRights() {
-		return rights;
+	public String getPermissions() {
+		return permissions;
 	}
-	public void setRights(String rights) {
-		this.rights = rights;
+	public void setPermissions(String permissions) {
+		this.permissions = permissions;
 	}
 	public String getRoleId() {
 		return roleId;
@@ -78,24 +82,51 @@ public class BgUser {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	public String getBz() {
+		return bz;
+	}
+	public void setBz(String bz) {
+		this.bz = bz;
+	}
+	
+	
 	public String getSkin() {
 		return skin;
 	}
 	public void setSkin(String skin) {
 		this.skin = skin;
 	}
-	public BgRole getRole() {
-		return role;
+	public String getEmail() {
+		return email;
 	}
-	public void setRole(BgRole role) {
-		this.role = role;
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public BgPage getPage() {
-		return page;
+	public String getUserNumber() {
+		return userNumber;
 	}
-	public void setPage(BgPage page) {
-		this.page = page;
+	public void setUserNumber(String userNumber) {
+		this.userNumber = userNumber;
 	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public BgRole getBgRole() {
+		return bgRole;
+	}
+	public void setBgRole(BgRole bgRole) {
+		this.bgRole = bgRole;
+	}
+	public BgPage getBgpage() {
+		return bgpage;
+	}
+	public void setBgpage(BgPage bgpage) {
+		this.bgpage = bgpage;
+	}
+	
 	
 
 }

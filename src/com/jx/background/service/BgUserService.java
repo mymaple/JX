@@ -17,118 +17,131 @@ public class BgUserService {
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 
-	// ======================================================================================
+	// ==========================================================================
 
 	/**
-	 * 通过userId获取数据
+	 * 新增用户
 	 */
-	public PageData findByUserId(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserXMapper.findByUserId", pd);
+	public void addUser(PageData pd) throws Exception {
+		dao.add("BgUserMapper.addUser", pd);
 	}
-
-	/**
-	 * 通过userName获取数据
-	 */
-	public PageData findByUserName(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserXMapper.findByUserName", pd);
-	}
-
-	/**
-	 * 通过email获取数据
-	 */
-	public PageData findByEmail(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserXMapper.findByEmail", pd);
-	}
-
-	/**
-	 * 通过userNumber获取数据
-	 */
-	public PageData findByUserNumber(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserXMapper.findByUserNumber", pd);
-	}
-
-	/**
-	 * 保存用户
-	 */
-	public void saveUser(PageData pd) throws Exception {
-		dao.add("BgUserXMapper.saveUser", pd);
-	}
-
-	/**
-	 * 修改用户
-	 */
-	public void editUser(PageData pd) throws Exception {
-		dao.edit("BgUserXMapper.editUser", pd);
-	}
-
-	/**
-	 * 换皮肤
-	 */
-	public void changeSkin(PageData pd) throws Exception {
-		dao.edit("BgUserXMapper.changeSkin", pd);
-	}
-
+	
 	/**
 	 * 删除用户
 	 */
 	public void deleteUser(PageData pd) throws Exception {
-		dao.delete("BgUserXMapper.deleteUser", pd);
+		dao.delete("BgUserMapper.deleteUser", pd);
 	}
 
 	/**
 	 * 批量删除用户
 	 */
 	public void deleteMoreUser(String[] arrayUserIds) throws Exception {
-		dao.delete("BgUserXMapper.deleteMoreUser", arrayUserIds);
+		dao.delete("BgUserMapper.deleteMoreUser", arrayUserIds);
 	}
+	
+	/**
+	 * 修改用户
+	 */
+	public void editUser(PageData pd) throws Exception {
+		dao.edit("BgUserMapper.editUser", pd);
+	}
+
+	/**
+	 * 更新皮肤
+	 */
+	public void changeSkin(PageData pd) throws Exception {
+		dao.edit("BgUserMapper.changeSkin", pd);
+	}
+	
+	/**
+	 * 更新用户IP
+	 */
+	public void changeLoginIpInfo(BgUser bgUser) throws Exception {
+		dao.edit("BgUserMapper.changeLoginIpInfo", bgUser);
+	}
+	
+
+	/**
+	 * 更新用户IP
+	 */
+	public void changeLoginIp(PageData pd) throws Exception {
+		dao.edit("BgUserMapper.changeLoginIp", pd);
+	}
+	
+	/**
+	 * 更新登录时间
+	 */
+	public void changeLastLogin(PageData pd) throws Exception {
+		dao.edit("BgUserMapper.changeLastLogin", pd);
+	}
+	
+	/**
+	 * 通过userId获取数据
+	 */
+	public PageData findByUserId(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgUserMapper.findByUserId", pd);
+	}
+
+	/**
+	 * 通过userName获取数据
+	 */
+	public PageData findByUserName(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgUserMapper.findByUserName", pd);
+	}
+
+	/**
+	 * 通过email获取数据
+	 */
+	public PageData findByEmail(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgUserMapper.findByEmail", pd);
+	}
+
+	/**
+	 * 通过userNumber获取数据
+	 */
+	public PageData findByUserNumber(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgUserMapper.findByUserNumber", pd);
+	}
+	
 
 	/**
 	 * 用户列表(用户组)
 	 */
 	public List<PageData> listUser(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserXMapper.listUser", bgPage);
+		return (List<PageData>) dao.findForList("BgUserMapper.listUser", bgPage);
 	}
 
 	/**
 	 * 用户列表(全部)
 	 */
 	public List<PageData> listAllUser(PageData pd) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserXMapper.listAllUser", pd);
+		return (List<PageData>) dao.findForList("BgUserMapper.listAllUser", pd);
 	}
 
 	/**
 	 * 用户列表(供应商用户)
 	 */
 	/*public List<PageData> listGPdPageUser(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserXMapper.userGlistPage", bgPage);
+		return (List<PageData>) dao.findForList("BgUserMapper.userGlistPage", bgPage);
 	}
 */
-	/**
-	 * 保存用户IP
-	 */
-	public void saveLoginIp(PageData pd) throws Exception {
-		dao.edit("BgUserXMapper.saveLoginIp", pd);
-	}
+
 
 	/**
 	 * 登录判断
 	 */
-	public PageData checkUserByNameAndPwd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserXMapper.checkUserByNameAndPwd", pd);
+	public BgUser checkUserByNameAndPwd(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.checkUserByNameAndPwd", pd);
 	}
 
-	/**
-	 * 更新登录时间
-	 */
-	public void updateLastLogin(PageData pd) throws Exception {
-		dao.edit("BgUserXMapper.updateLastLogin", pd);
-	}
 
 	/**
-	 * 通过userId获取数据
+	 * 通过userId获取用户角色
 	 */
-	public BgUser getUserAndRoleById(String userId) throws Exception {
-		return (BgUser) dao.findForObject("UserMapper.getUserAndRoleById", userId);
+	public BgUser getUserRoleById(String userId) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.getUserRoleById", userId);
 	}
+
 
 }

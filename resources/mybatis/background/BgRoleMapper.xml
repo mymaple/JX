@@ -3,282 +3,20 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgRoleMapper">
 	
+	<sql id="roleColumns">
+		roleId,roleName,permissions,parentId,addPermission,delPermission,
+		editPermission,findPermission,permissionId
+	</sql>
+	
 	<resultMap type="BgRole" id="roleResultMap">
 		<id column="roleId" property="roleId"/>
 		<result column="roleName" property="roleName"/>
-		<result column="rights" property="rights"/>
+		<result column="permissions" property="permissions"/>
 	</resultMap>
 	
 	
-	<!-- 权限 -->
-	<update id="c1" parameterType="pd">
-		update bgUserQx 
-		set c1=#{value} 
-		where userQxId=#{kefu_id}
-	</update>
-	
-	<!-- 列出二级角色信息 -->
-	<select id="listAllSecondRoles" resultMap="roleResultMap">
-		select 
-			roleId,
-			roleName,
-			rights,
-			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
-		from bgRole 
-		where 
-			parentId != '0'
-		 and 
-		 	parentId != '7'
-	</select>
-	
-	<!-- 列出会员二级角色信息 -->
-	<select id="listAllAppSecondRoles" resultMap="roleResultMap">
-		select 
-			roleId,
-			roleName,
-			rights,
-			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
-		from bgRole 
-		where 
-		 	parentId = '7'
-	</select>
-	
-	<!-- 列出所有顶级角色 -->
-	<select id="listAllTopRoles" resultMap="roleResultMap">
-		select 
-			roleId,
-			roleName,
-			rights,
-			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
-		from bgRole 
-		where parentId = '0'
-		ORDER BY roleId
-	</select>
-	
-	<!-- 通过当前登录用的roleId获取管理权限数据 -->
-	<select id="findGlByRoleId"  parameterType="pd" resultType="pd" >
-		SELECT 
-			b.glId,
-			b.roleId,
-			b.fxQx,
-			b.fwQx,
-			b.qx1,
-			b.qx2,
-			b.qx3,
-			b.qx4
-		from bgRole a, SYS_GL_QX b, bgUser c
-		where 
-			a.qxId = b.glId
-		and 
-			a.roleId = c.roleId
-		and
-			c.roleId =  '${roleId}'
-		limit 0,1
-	</select>
-	
-	<!-- 通过当前登录用的角色id获取用户权限数据 -->
-	<select id="findYHbyrid"  parameterType="pd" resultType="pd" >
-		SELECT 
-			b.userQxId,
-			b.c1,
-			b.c2,
-			b.c3,
-			b.c4,
-			b.q1,
-			b.q2,
-			b.q3,
-			b.q4
-		from bgRole a, bgUserQx b, bgUser c
-		where 
-			a.qxId = b.userQxId
-		and 
-			a.roleId = c.roleId
-		and
-			c.roleId =  '${roleId}'
-		limit 0,1
-	</select>
 	
 	
-	<!-- 列出此角色下的所有用户 -->
-	<select id="listAllUByRid"  parameterType="pd" resultType="pd" >
-		select userId
-		from bgUser
-		where 
-		roleId = #{roleId}
-	</select>
-
-	<!-- 列出此角色下的所有会员 -->
-	<select id="listAllAppUByRid"  parameterType="pd" resultType="pd" >
-		select userId
-		from bgAppUser
-		where 
-		roleId = #{roleId}
-	</select>
-	
-	<!-- 列出此部门的所有下级 -->
-	<select id="listAllRolesByPId" resultMap="roleResultMap">
-		select 
-			roleId,
-			roleName,
-			rights,
-			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
-		from bgRole  
-		where 
-			parentId = #{roleId}
-		ORDER BY roleId
-	</select>
-	
-	<!-- 列出K权限表里的数据 -->
-	<select id="listAllkefu"  parameterType="pd" resultType="pd" >
-		select 
-			glId,
-			roleId,
-			fxQx,
-			fwQx,
-			qx1,
-			qx2,
-			qx3,
-			qx4
-		from SYS_GL_QX
-	</select>
-	
-	<!-- 列出G权限表里的数据 -->
-	<select id="listAllGysQX"  parameterType="pd" resultType="pd" >
-		select 
-			userQxId,
-			c1,
-			c2,
-			c3,
-			c4,
-			q1,
-			q2,
-			q3,
-			q4
-		from bgUserQx
-	</select>
-	
-	<!-- 删除K权限表里对应的数据 -->
-	<delete id="deleteKeFuById" parameterType="String">
-		delete from SYS_GL_QX 
-		where glId = #{roleId}
-	</delete>
-	
-	<!-- 删除G权限表里对应的数据 -->
-	<delete id="deleteGById" parameterType="String">
-		delete from bgUserQx 
-		where userQxId = #{roleId}
-	</delete>
-	<!-- 给全部子职位加菜单权限 -->
-	<update id="setAllRights" parameterType="pd">
-		update bgRole 
-		set rights=#{rights} 
-		where parentId=#{roleId}
-	</update>
-	
-	<update id="add_qx" parameterType="pd">
-		update bgRole 
-		set addQx=#{value} 
-		where roleId=#{roleId}
-	</update>
-	
-	<update id="del_qx" parameterType="pd">
-		update bgRole 
-		set delQx=#{value} 
-		where roleId=#{roleId}
-	</update>
-	
-	<update id="edit_qx" parameterType="pd">
-		update bgRole 
-		set editQx=#{value} 
-		where roleId=#{roleId}
-	</update>
-	
-	<update id="cha_qx" parameterType="pd">
-		update bgRole 
-		set selectQx=#{value} 
-		where roleId=#{roleId}
-	</update>
-	
-	<update id="kfqx1" parameterType="pd">
-		update SYS_GL_QX 
-		set qx1=#{value} 
-		where glId=#{kefu_id}
-	</update>
-	
-	<update id="kfqx2" parameterType="pd">
-		update SYS_GL_QX 
-		set qx2=#{value} 
-		where glId=#{kefu_id}
-	</update>
-	
-	<update id="fxqx" parameterType="pd">
-		update SYS_GL_QX 
-		set fxQx=#{value} 
-		where glId=#{kefu_id}
-	</update>
-	
-	<update id="fwqx" parameterType="pd">
-		update SYS_GL_QX 
-		set fwQx=#{value} 
-		where glId=#{kefu_id}
-	</update>
-	
-	<select id="listAllRoles" resultMap="roleResultMap">
-		select 
-			roleId,
-			roleName,
-			rights,
-			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
-		from bgRole 
-		where parentId = '0'
-		ORDER BY roleId
-	</select>
-	
-
-	
-
-	<select id="getRoleById" parameterType="String" resultMap="roleResultMap">
-		select * from bgRole 
-		where roleId=#{roleId}
-	</select>
-	
-	
-	<update id="updateRoleRights" parameterType="BgRole">
-		update bgRole 
-		set rights=#{rights} 
-		where roleId=#{roleId}
-	</update>
-	<delete id="deleteRoleById" parameterType="String">
-		delete from bgRole 
-		where roleId=#{roleId}
-	</delete>
-	
-
 	
 	<!-- 保存K权限 -->
 	<insert id="saveKeFu" parameterType="pd">
@@ -333,37 +71,309 @@
 		insert into bgRole (
 			roleId,
 			roleName,
-			rights,
+			permissions,
 			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx,
-			qxId
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
 		) values (
 			#{roleId},
 			#{roleName},
-			#{rights},
+			#{permissions},
 			#{parentId},
-			#{addQx},
-			#{delQx},
-			#{editQx},
-			#{selectQx},
-			#{qxId}
+			#{addPermission},
+			#{delPermission},
+			#{editPermission},
+			#{findPermission},
+			#{permissionId}
 		)
 	</insert>
+	
+	
+	
+	<!-- 权限 -->
+	<update id="c1" parameterType="pd">
+		update bgUserQx 
+		set c1=#{value} 
+		where userQxId=#{kefu_id}
+	</update>
+	
+	<!-- 列出二级角色信息 -->
+	<select id="listAllSecondRoles" resultMap="roleResultMap">
+		select 
+			roleId,
+			roleName,
+			permissions,
+			parentId,
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
+		from bgRole 
+		where 
+			parentId != '0'
+		 and 
+		 	parentId != '7'
+	</select>
+	
+	<!-- 列出会员二级角色信息 -->
+	<select id="listAllAppSecondRoles" resultMap="roleResultMap">
+		select 
+			roleId,
+			roleName,
+			permissions,
+			parentId,
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
+		from bgRole 
+		where 
+		 	parentId = '7'
+	</select>
+	
+	<!-- 列出所有顶级角色 -->
+	<select id="listAllTopRoles" resultMap="roleResultMap">
+		select 
+			roleId,
+			roleName,
+			permissions,
+			parentId,
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
+		from bgRole 
+		where parentId = '0'
+		ORDER BY roleId
+	</select>
+	
+	<!-- 通过当前登录用的roleId获取管理权限数据 -->
+	<select id="findGlByRoleId"  parameterType="pd" resultType="pd" >
+		SELECT 
+			b.glId,
+			b.roleId,
+			b.fxQx,
+			b.fwQx,
+			b.qx1,
+			b.qx2,
+			b.qx3,
+			b.qx4
+		from bgRole a, SYS_GL_QX b, bgUser c
+		where 
+			a.permissionId = b.glId
+		and 
+			a.roleId = c.roleId
+		and
+			c.roleId =  '${roleId}'
+		limit 0,1
+	</select>
+	
+	<!-- 通过当前登录用的角色id获取用户权限数据 -->
+	<select id="findYHbyrid"  parameterType="pd" resultType="pd" >
+		SELECT 
+			b.userQxId,
+			b.c1,
+			b.c2,
+			b.c3,
+			b.c4,
+			b.q1,
+			b.q2,
+			b.q3,
+			b.q4
+		from bgRole a, bgUserQx b, bgUser c
+		where 
+			a.permissionId = b.userQxId
+		and 
+			a.roleId = c.roleId
+		and
+			c.roleId =  '${roleId}'
+		limit 0,1
+	</select>
+	
+	
+	<!-- 列出此角色下的所有用户 -->
+	<select id="listAllUByRid"  parameterType="pd" resultType="pd" >
+		select userId
+		from bgUser
+		where 
+		roleId = #{roleId}
+	</select>
+
+	<!-- 列出此角色下的所有会员 -->
+	<select id="listAllAppUByRid"  parameterType="pd" resultType="pd" >
+		select userId
+		from bgAppUser
+		where 
+		roleId = #{roleId}
+	</select>
+	
+	<!-- 列出此部门的所有下级 -->
+	<select id="listAllRolesByPId" resultMap="roleResultMap">
+		select 
+			roleId,
+			roleName,
+			permissions,
+			parentId,
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
+		from bgRole  
+		where 
+			parentId = #{roleId}
+		ORDER BY roleId
+	</select>
+	
+	<!-- 列出K权限表里的数据 -->
+	<select id="listAllkefu"  parameterType="pd" resultType="pd" >
+		select 
+			glId,
+			roleId,
+			fxQx,
+			fwQx,
+			qx1,
+			qx2,
+			qx3,
+			qx4
+		from SYS_GL_QX
+	</select>
+	
+	<!-- 列出G权限表里的数据 -->
+	<select id="listAllGysQX"  parameterType="pd" resultType="pd" >
+		select 
+			userQxId,
+			c1,
+			c2,
+			c3,
+			c4,
+			q1,
+			q2,
+			q3,
+			q4
+		from bgUserQx
+	</select>
+	
+	<!-- 删除K权限表里对应的数据 -->
+	<delete id="deleteKeFuById" parameterType="String">
+		delete from SYS_GL_QX 
+		where glId = #{roleId}
+	</delete>
+	
+	<!-- 删除G权限表里对应的数据 -->
+	<delete id="deleteGById" parameterType="String">
+		delete from bgUserQx 
+		where userQxId = #{roleId}
+	</delete>
+	<!-- 给全部子职位加菜单权限 -->
+	<update id="setAllRights" parameterType="pd">
+		update bgRole 
+		set permissions=#{permissions} 
+		where parentId=#{roleId}
+	</update>
+	
+	<update id="add_qx" parameterType="pd">
+		update bgRole 
+		set addPermission=#{value} 
+		where roleId=#{roleId}
+	</update>
+	
+	<update id="del_qx" parameterType="pd">
+		update bgRole 
+		set delPermission=#{value} 
+		where roleId=#{roleId}
+	</update>
+	
+	<update id="edit_qx" parameterType="pd">
+		update bgRole 
+		set editPermission=#{value} 
+		where roleId=#{roleId}
+	</update>
+	
+	<update id="cha_qx" parameterType="pd">
+		update bgRole 
+		set findPermission=#{value} 
+		where roleId=#{roleId}
+	</update>
+	
+	<update id="kfqx1" parameterType="pd">
+		update SYS_GL_QX 
+		set qx1=#{value} 
+		where glId=#{kefu_id}
+	</update>
+	
+	<update id="kfqx2" parameterType="pd">
+		update SYS_GL_QX 
+		set qx2=#{value} 
+		where glId=#{kefu_id}
+	</update>
+	
+	<update id="fxqx" parameterType="pd">
+		update SYS_GL_QX 
+		set fxQx=#{value} 
+		where glId=#{kefu_id}
+	</update>
+	
+	<update id="fwqx" parameterType="pd">
+		update SYS_GL_QX 
+		set fwQx=#{value} 
+		where glId=#{kefu_id}
+	</update>
+	
+	<select id="listAllRoles" resultMap="roleResultMap">
+		select 
+			roleId,
+			roleName,
+			permissions,
+			parentId,
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission,
+			permissionId
+		from bgRole 
+		where parentId = '0'
+		ORDER BY roleId
+	</select>
+	
+
+	
+
+	<select id="getRoleById" parameterType="String" resultMap="roleResultMap">
+		select * from bgRole 
+		where roleId=#{roleId}
+	</select>
+	
+	
+	<update id="updateRoleRights" parameterType="BgRole">
+		update bgRole 
+		set permissions=#{permissions} 
+		where roleId=#{roleId}
+	</update>
+	<delete id="deleteRoleById" parameterType="String">
+		delete from bgRole 
+		where roleId=#{roleId}
+	</delete>
+	
+
 	
 	<!-- 通过id查找 -->
 	<select id="findObjectById" parameterType="pd" resultType="pd">
 		select  
 			roleId,
 			roleName,
-			rights,
+			permissions,
 			parentId,
-			addQx,
-			delQx,
-			editQx,
-			selectQx
+			addPermission,
+			delPermission,
+			editPermission,
+			findPermission
 		from bgRole
 		where roleId = #{roleId}
 	</select>

@@ -32,12 +32,12 @@ public class BgLoginHandlerInterceptor extends HandlerInterceptorAdapter {
 				path = path.substring(1, path.length());
 				boolean b = Jurisdiction.hasJurisdiction(path);
 				if (!b) {
-					response.sendRedirect(request.getContextPath() + Const.LOGIN);
+					response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN);
 				}
 				return b;
 			} else {
 				// 登陆过滤
-				response.sendRedirect(request.getContextPath() + Const.LOGIN);
+				response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN);
 				return false;
 				// return true;
 			}

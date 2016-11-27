@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgMenuMapper">
-
+	<sql id="menuColumns">menuId,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType</sql>
+	
 	<resultMap type="BgMenu" id="menuResultMap">
 		<id column="menuId" property="menuId"/>
 		<result column="menuName" property="menuName"/>
@@ -13,72 +14,41 @@
 		<result column="menuType" property="menuType"/>
 	</resultMap>
 	
+	
 	<!-- ztree -->
 	<resultMap type="BgMenu" id="menuZtreeResultMap">
-	<id column="menuId" property="menuId"/>
-	<result column="menuName" property="menuName"/>
-	<result column="menuUrl" property="menuUrl"/>
-	<result column="parentId" property="parentId"/>
-	<result column="menuOrder" property="menuOrder"/>
-	<result column="menuIcon" property="menuIcon"/>
-	<result column="menuType" property="menuType"/>
-	<result column="target" property="target"></result>
-</resultMap>
+		<id column="menuId" property="menuId"/>
+		<result column="menuName" property="menuName"/>
+		<result column="menuUrl" property="menuUrl"/>
+		<result column="parentId" property="parentId"/>
+		<result column="menuOrder" property="menuOrder"/>
+		<result column="menuIcon" property="menuIcon"/>
+		<result column="menuType" property="menuType"/>
+		<result column="target" property="target"/>
+	</resultMap>
 
-	<!-- 根据menuId删除菜单 -->
-	<delete id="deleteMenuById" parameterType="String">
-		delete from bgMenu 
-		where menuId=#{menuId} 
-		or parentId=#{menuId}
-	</delete>
-	
-	<!-- 根据menuId获取菜单 -->
-	<select id="getMenuById" parameterType="pd" resultType="pd">
-		select  menuId,
-		 		menuName,
-		 		menuUrl,
-		 		parentId,
-		 		menuOrder,
-		 		menuType
-		 from bgMenu 
-		 where menuId=#{menuId}
-	</select>	
-	
-	<!-- 获取maxMenuId -->
-	<select id="getMaxMenuId" parameterType="pd" resultType="pd">
-		select MAX(menuId) maxMenuId FROM bgMenu
-	</select>
-	
-	<!-- 获取所有顶级菜单 -->
-	<select id="listAllParentMenu" resultMap="menuResultMap">
-		select * from bgMenu 
-		where parentId = '0' order by menuOrder 
-	</select>
-
-	<!-- 根据parentId 获取所有子菜单 -->
-	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
-		select  * from bgMenu
-		where parentId = #{parentId} order by menuOrder 
-	</select>
 	
 	<!-- 新增菜单 -->
 	<insert id="addMenu" parameterType="BgMenu">
-		insert into bgMenu (
-			menuId,
-			menuName,
-			menuUrl,
-			parentId,
-			menuOrder,
-			menuType
+		insert into bgMenu ( 
+			<include refid="menuColumns"/>
 		) values (
 			#{menuId},
 			#{menuName},
 			#{menuUrl},
 			#{parentId},
 			#{menuOrder},
+			#{menuIcon},
 			#{menuType}
 		)
 	</insert>
+	
+	<!-- 根据menuId删除菜单和二级子菜单 -->
+	<delete id="deleteMenuById" parameterType="String">
+		delete from bgMenu 
+		where menuId=#{menuId} 
+		or parentId=#{menuId}
+	</delete>
 
 	<!-- 编辑菜单 -->
 	<update id="editMenu" parameterType="BgMenu">
@@ -87,6 +57,7 @@
 			menuUrl  =#{menuUrl} ,
 			parentId =#{parentId},
 			menuOrder=#{menuOrder},
+			menuIcon =#{menuIcon},
 			menuType =#{menuType}
 		where 
 			menuId=#{menuId}
@@ -105,5 +76,34 @@
 			menuType=#{menuType}
 		where parentId=#{menuId}
 	</update>
+
+	<!-- 根据menuId获取菜单 -->
+	<select id="findByMenuId" parameterType="pd" resultType="BgMenu">
+		select  menuId,
+		 		menuName,
+		 		menuUrl,
+		 		parentId,
+		 		menuOrder,
+		 		menuType
+		 from bgMenu 
+		 where menuId=#{menuId}
+	</select>	
+	
+	<!-- 获取所有顶级菜单 -->
+	<select id="listAllTopMenu" resultMap="menuResultMap">
+		select * from bgMenu 
+		where parentId = '0' order by menuOrder 
+	</select>
+
+	<!-- 根据parentId 获取所有直接子菜单 -->
+	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
+		select  * from bgMenu
+		where parentId = #{parentId} order by menuOrder 
+	</select>
+	
+	<!-- 获取maxMenuId -->
+	<select id="getMaxMenuId" parameterType="pd" resultType="BgMenu">
+		select MAX(menuId) maxMenuId FROM bgMenu
+	</select>
 	
 </mapper>

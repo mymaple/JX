@@ -83,7 +83,7 @@ public class BgMenuController extends BaseController {
 			if (!"0".equals(parentId)) {
 				// 处理菜单类型====
 				pd.put("menuId", parentId);
-				pd = bgMenuService.getMenuById(pd);
+				pd = bgMenuService.findByMenuId(pd);
 				menu.setMenuType(pd.getString("menuType"));
 				// 处理菜单类型====
 			}
@@ -111,7 +111,7 @@ public class BgMenuController extends BaseController {
 		try {
 			pd = this.getPageData();
 			pd.put("menuId", menuId);
-			pd = bgMenuService.getMenuById(pd);
+			pd = bgMenuService.findByMenuId(pd);
 			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
 			mv.addObject("pd", pd);
@@ -229,7 +229,7 @@ public class BgMenuController extends BaseController {
 	public void delete(@RequestParam String menuId, PrintWriter out) throws Exception {
 
 		try {
-			bgMenuService.deleteMenuById(menuId);
+			bgMenuService.deleteMenuAndSubMenuById(menuId);
 			out.write("success");
 			out.flush();
 			out.close();

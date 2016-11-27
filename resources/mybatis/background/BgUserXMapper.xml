@@ -3,7 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgUserXMapper">
 	
-    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>  
+    <cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+    
+   	<sql id="userColumns">userId,userName,password,name,rights,status,roleId,lastLogin,loginIp,skin</sql>
+    
+    
+    
+    
+      
 	
 	<!-- 通过userId获取数据 -->
 	<select id="findByUserId" parameterType="pd" resultType="pd" useCache="false">

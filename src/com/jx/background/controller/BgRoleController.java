@@ -136,7 +136,7 @@ public class BgRoleController extends BaseController {
 		mv.addObject("roleList", roleList);
 		mv.addObject("roleList_z", roleList_z);
 		mv.setViewName("system/bgRole/role_list");
-		mv.addObject(Const.SESSION_QX, this.getHC()); // 按钮权限
+		mv.addObject(Const.SESSION_BG_QX, this.getHC()); // 按钮权限
 
 		return mv;
 	}
@@ -212,7 +212,7 @@ public class BgRoleController extends BaseController {
 			pd.put("EDIT_QX", "0");
 			pd.put("CHA_QX", "0");
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "add")) {
-				bgRoleService.add(pd);
+				bgRoleService.addRole(pd);
 			}
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
@@ -252,7 +252,7 @@ public class BgRoleController extends BaseController {
 		try {
 			pd = this.getPageData();
 			if (Jurisdiction.buttonJurisdiction(menuUrl, "edit")) {
-				pd = bgRoleService.edit(pd);
+				pd = bgRoleService.editRole(pd);
 			}
 			mv.addObject("msg", "success");
 		} catch (Exception e) {
@@ -270,9 +270,9 @@ public class BgRoleController extends BaseController {
 	public String auth(@RequestParam String roleId, Model model) throws Exception {
 
 		try {
-			List<BgMenu> menuList = bgMenuService.listAllMenu();
+			List<BgMenu> menuList = bgMenuService.listAllMenuInRank();
 			BgRole bgRole = bgRoleService.getRoleById(roleId);
-			String roleRights = bgRole.getRights();
+			String roleRights = bgRole.getPermissions();
 			if (Tools.notEmpty(roleRights)) {
 				for (BgMenu bgMenu : menuList) {
 					bgMenu.setHasMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
@@ -303,18 +303,18 @@ public class BgRoleController extends BaseController {
 	public ModelAndView button(@RequestParam String roleId, @RequestParam String msg, Model model) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
-			List<BgMenu> menuList = bgMenuService.listAllMenu();
+			List<BgMenu> menuList = bgMenuService.listAllMenuInRank();
 			BgRole bgRole = bgRoleService.getRoleById(roleId);
 
 			String roleRights = "";
 			if ("add_qx".equals(msg)) {
-				roleRights = bgRole.getAddQx();
+				roleRights = bgRole.getAddPermission();
 			} else if ("del_qx".equals(msg)) {
-				roleRights = bgRole.getDelQx();
+				roleRights = bgRole.getDelPermission();
 			} else if ("edit_qx".equals(msg)) {
-				roleRights = bgRole.getEditQx();
+				roleRights = bgRole.getEditPermission();
 			} else if ("cha_qx".equals(msg)) {
-				roleRights = bgRole.getSelectQx();
+				roleRights = bgRole.getFindPermission();
 			}
 
 			if (Tools.notEmpty(roleRights)) {
@@ -353,12 +353,12 @@ public class BgRoleController extends BaseController {
 				if (null != menuIds && !"".equals(menuIds.trim())) {
 					BigInteger rights = RightsHelper.sumRights(Tools.str2StrArray(menuIds));
 					BgRole bgRole = bgRoleService.getRoleById(roleId);
-					bgRole.setRights(rights.toString());
+					bgRole.setPermissions(rights.toString());
 					bgRoleService.updateRoleRights(bgRole);
 					pd.put("rights", rights.toString());
 				} else {
 					BgRole bgRole = new BgRole();
-					bgRole.setRights("");
+					bgRole.setPermissions("");
 					bgRole.setRoleId(roleId);
 					bgRoleService.updateRoleRights(bgRole);
 					pd.put("rights", "");
@@ -439,7 +439,7 @@ public class BgRoleController extends BaseController {
 	public Map<String, String> getHC() {
 		Subject currentUser = SecurityUtils.getSubject(); // shiro管理的session
 		Session session = currentUser.getSession();
-		return (Map<String, String>) session.getAttribute(Const.SESSION_QX);
+		return (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX);
 	}
 	/* ===============================权限================================== */
 

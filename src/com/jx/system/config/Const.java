@@ -7,22 +7,68 @@ import org.springframework.context.ApplicationContext;
  * @author:fh
  */
 public class Const {
+	
+	/**
+	 * 后台 验证码
+	 */
 	public static final String SESSION_BG_VERIFICATIONCODE = "sessionBgVerificationCode";
 	
+	/**
+	 * 后台 用户
+	 */
 	public static final String SESSION_BG_USER = "sessionBgUser";
-	public static final String SESSION_BG_ROLERIGHTS = "sessionBgRoleRights";
-	public static final String SESSION_menuList = "menuList"; // 当前菜单
-	public static final String SESSION_BG_ALLMENULIST = "bgAllMenuList"; // 全部菜单
-	public static final String SESSION_QX = "QX";
-	public static final String SESSION_userpds = "userpds";
-//	public static final String SESSION_USERROL = "USERROL"; // 用户对象
-	public static final String SESSION_BG_USER_ROLE = "seeeionBgUserRole"; // 用户对象
-	public static final String SESSION_BG_USERNAME = "bgUserName"; // 用户名
-	public static final String TRUE = "T";
-	public static final String FALSE = "F";
-	public static final String LOGIN = "/background/login/toLogin.do"; // 登录地址
-//	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
+	
+	/**
+	 * 后台 角色权限
+	 */
+	public static final String SESSION_BG_ROLEPERMISSIONS = "sessionBgRolePermissions";
+	
+	/**
+	 * 后台 当前菜单列表
+	 */
+	public static final String SESSION_BG_MENULIST = "sessionBgMenuList";
+	
+	/**
+	 * 后台 全部菜单列表
+	 */
+	public static final String SESSION_BG_ALLMENUINRANKLIST = "sessionBgAllMenuInRankList";
+	
+	/**
+	 * 后台 用户权限
+	 */
+	public static final String SESSION_BG_QX = "sessionBgQx";
+	
+	/**
+	 * 后台
+	 */
+	public static final String SESSION_BG_USERPDS = "sessionBguserpds";
+	
+	/**
+	 * 后台 用户角色
+	 */
+	public static final String SESSION_BG_USER_ROLE = "seesionBgUserRole";
+	/**
+	 * 后台 用户名
+	 */
+	public static final String SESSION_BG_USERNAME = "seesionBgUserName";
+	
+	
+	public static final String TRUE = "TRUE";
+	
+	public static final String FALSE = "FALSE";
+	
+	/**
+	 * 后台 登录地址
+	 */
+	public static final String URL_BG_LOGIN = "/background/main/toLogin.do";
+	
+	/**
+	 *  系统名称
+	 */
 	public static final String SYSNAME = "JX";
+	
+//	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
+	
 	public static final String PAGE = "admin/config/PAGE.txt"; // 分页条数配置路径
 	public static final String EMAIL = "admin/config/EMAIL.txt"; // 邮箱服务器配置路径
 	public static final String SMS1 = "admin/config/SMS1.txt"; // 短信账户配置路径1
@@ -36,7 +82,7 @@ public class Const {
 	public static final String FILEPATHFILE = "uploadFiles/file/"; // 文件上传路径
 	public static final String FILEPATHTWODIMENSIONCODE = "uploadFiles/twoDimensionCode/"; // 二维码存放路径
 	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(code)|(app)|(weixin)|(static)|(main)|(websocket)).*"; // 不对匹配该值的访问路径拦截（正则）
-	public static final String INTERCEPTOR_PATH = "^/background/(?!((login)|(verificationCode))).*";
+	public static final String INTERCEPTOR_PATH = "^/background/(?!((verificationCode)|(main))).*";
 	
 	public static ApplicationContext WEB_APP_CONTEXT = null; // 该值会在web容器启动时由WebAppContextListener初始化
 

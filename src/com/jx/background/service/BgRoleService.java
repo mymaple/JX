@@ -15,6 +15,47 @@ public class BgRoleService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
+	
+	// ==================================================================
+	
+	/**
+	 * 添加角色
+	 */
+	public void addRole(PageData pd) throws Exception {
+		dao.findForList("BgRoleMapper.addRole", pd);
+	}
+	
+	/**
+	 * 根据roleId 删除角色
+	 * @param roleId
+	 * @throws Exception
+	 */
+	public void deleteRoleById(String roleId) throws Exception {
+		dao.delete("BgRoleMapper.deleteRoleById", roleId);
+	}
+	
+	/**
+	 * 根据roleId 删除K权限表里对应的数据
+	 * @param roleId
+	 * @throws Exception
+	 */
+	public void deleteKeFuById(String roleId) throws Exception {
+		dao.delete("BgRoleMapper.deleteKeFuById", roleId);
+	}
+
+	// 删除G权限表里对应的数据
+	public void deleteGById(String roleId) throws Exception {
+		dao.delete("BgRoleMapper.deleteGById", roleId);
+	}
+
+	
+	
+	/**
+	 * 编辑角色
+	 */
+	public PageData editRole(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("BgRoleMapper.editRole", pd);
+	}
 
 	/**
 	 * 列出二级角色信息
@@ -24,6 +65,24 @@ public class BgRoleService {
 	public List<BgRole> listAllSecondRoles() throws Exception {
 		return (List<BgRole>) dao.findForList("BgRoleMapper.listAllSecondRoles", null);
 
+	}
+	
+	public void updateRoleRights(BgRole role) throws Exception {
+		dao.edit("BgRoleMapper.updateRoleRights", role);
+	}
+
+	/**
+	 * 权限(增删改查)
+	 */
+	public void updateQx(String msg, PageData pd) throws Exception {
+		dao.edit("BgRoleMapper." + msg, pd);
+	}
+
+	/**
+	 * 客服权限
+	 */
+	public void updateKFQx(String msg, PageData pd) throws Exception {
+		dao.edit("BgRoleMapper." + msg, pd);
 	}
 
 	/**
@@ -118,43 +177,14 @@ public class BgRoleService {
 		return (List<PageData>) dao.findForList("BgRoleMapper.listAllGysQX", pd);
 	}
 
-	// 删除K权限表里对应的数据
-	public void deleteKeFuById(String ROLE_ID) throws Exception {
-		dao.delete("BgRoleMapper.deleteKeFuById", ROLE_ID);
-	}
-
-	// 删除G权限表里对应的数据
-	public void deleteGById(String ROLE_ID) throws Exception {
-		dao.delete("BgRoleMapper.deleteGById", ROLE_ID);
-	}
-
-	public void deleteRoleById(String ROLE_ID) throws Exception {
-		dao.delete("BgRoleMapper.deleteRoleById", ROLE_ID);
-
-	}
+	
 
 	public BgRole getRoleById(String roleId) throws Exception {
 		return (BgRole) dao.findForObject("BgRoleMapper.getRoleById", roleId);
 
 	}
 
-	public void updateRoleRights(BgRole role) throws Exception {
-		dao.edit("BgRoleMapper.updateRoleRights", role);
-	}
-
-	/**
-	 * 权限(增删改查)
-	 */
-	public void updateQx(String msg, PageData pd) throws Exception {
-		dao.edit("BgRoleMapper." + msg, pd);
-	}
-
-	/**
-	 * 客服权限
-	 */
-	public void updateKFQx(String msg, PageData pd) throws Exception {
-		dao.edit("BgRoleMapper." + msg, pd);
-	}
+	
 
 	/**
 	 * Gc权限
@@ -171,12 +201,6 @@ public class BgRoleService {
 
 	}
 
-	/**
-	 * 添加
-	 */
-	public void add(PageData pd) throws Exception {
-		dao.findForList("BgRoleMapper.insert", pd);
-	}
 
 	/**
 	 * 保存客服权限
@@ -199,11 +223,6 @@ public class BgRoleService {
 		return (PageData) dao.findForObject("BgRoleMapper.findObjectById", pd);
 	}
 
-	/**
-	 * 编辑角色
-	 */
-	public PageData edit(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgRoleMapper.edit", pd);
-	}
+
 
 }

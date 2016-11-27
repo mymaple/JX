@@ -9,15 +9,13 @@ public class BgRole {
 	
 	private String roleId;
 	private String roleName;
-	private String rights;
+	private String permissions;
 	private String parentId;
-	private String addQx;
-	private String delQx;
-	private String editQx;
-	private String selectQx;
-	private String qxId;
-	
-	
+	private String addPermission;
+	private String delPermission;
+	private String editPermission;
+	private String findPermission;
+	private String permissionId;
 	
 	
 	public String getRoleId() {
@@ -32,11 +30,11 @@ public class BgRole {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-	public String getRights() {
-		return rights;
+	public String getPermissions() {
+		return permissions;
 	}
-	public void setRights(String rights) {
-		this.rights = rights;
+	public void setPermissions(String permissions) {
+		this.permissions = permissions;
 	}
 	public String getParentId() {
 		return parentId;
@@ -44,35 +42,35 @@ public class BgRole {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-	public String getAddQx() {
-		return addQx;
+	public String getAddPermission() {
+		return addPermission;
 	}
-	public void setAddQx(String addQx) {
-		this.addQx = addQx;
+	public void setAddPermission(String addPermission) {
+		this.addPermission = addPermission;
 	}
-	public String getDelQx() {
-		return delQx;
+	public String getDelPermission() {
+		return delPermission;
 	}
-	public void setDelQx(String delQx) {
-		this.delQx = delQx;
+	public void setDelPermission(String delPermission) {
+		this.delPermission = delPermission;
 	}
-	public String getEditQx() {
-		return editQx;
+	public String getEditPermission() {
+		return editPermission;
 	}
-	public void setEditQx(String editQx) {
-		this.editQx = editQx;
+	public void setEditPermission(String editPermission) {
+		this.editPermission = editPermission;
 	}
-	public String getSelectQx() {
-		return selectQx;
+	public String getFindPermission() {
+		return findPermission;
 	}
-	public void setSelectQx(String selectQx) {
-		this.selectQx = selectQx;
+	public void setFindPermission(String findPermission) {
+		this.findPermission = findPermission;
 	}
-	public String getQxId() {
-		return qxId;
+	public String getPermissionId() {
+		return permissionId;
 	}
-	public void setQxId(String qxId) {
-		this.qxId = qxId;
+	public void setPermissionId(String permissionId) {
+		this.permissionId = permissionId;
 	}
 	
 	
