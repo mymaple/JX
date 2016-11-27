@@ -12,8 +12,8 @@
 	
 	<sql id="userRoleColumns">
 		u.userId,u.userName,u.password,u.name,u.permissions as userPermissions
-		,u.roleId,u.lastLogin,u.loginIp,u.status,u.bz,u.skin,u.email,u.userNumber
-		,u.phone,r.roleId,r.roleName,r.permissions as rolePermissions 
+		,u.lastLogin,u.loginIp,u.status,u.bz,u.skin,u.email,u.userNumber,u.phone
+		,r.roleId,r.roleName,r.permissions as rolePermissions 
 		</sql>
 	
 	<resultMap type="BgUser" id="userResultMap">
@@ -22,6 +22,7 @@
 		<result column="password" property="password"/>
 		<result column="name" property="name"/>
 		<result column="permissions" property="permissions"/>
+		<result column="roleId" property="roleId"/>
 		<result column="lastLogin" property="lastLogin"/>
 		<result column="loginIp" property="loginIp"/>
 		<result column="status" property="status"/>
@@ -38,6 +39,7 @@
 		<result column="password" property="password"/>
 		<result column="name" property="name"/>
 		<result column="userPermissions" property="permissions"/>
+		<result column="roleId" property="roleId"/>
 		<result column="lastLogin" property="lastLogin"/>
 		<result column="loginIp" property="loginIp"/>
 		<result column="status" property="status"/>
@@ -281,7 +283,7 @@
 	</select>
 	
 	<!-- 通过userId获取数据 -->
-	<select id="getUserRoleById" parameterType="String" resultMap="userRoleResultMap">
+	<select id="getUserRoleById" parameterType="String" resultMap="userRoleResultMap" useCache="false">
 		select  
 			<include refid="userRoleColumns"/> 
 		from bgUser u 

@@ -189,7 +189,7 @@ public class BgMainController extends BaseController {
 				} else {
 					bgUser = bgUserRole;
 				}
-				BgRole bgRole = bgUserRole.getBgRole();
+				BgRole bgRole = bgUser.getBgRole();
 				String rolePermissions = bgRole != null ? bgRole.getPermissions() : "";
 				// 避免每次拦截用户操作时查询数据库，以下将用户所属角色权限、用户权限限都存入session
 				session.setAttribute(Const.SESSION_BG_ROLEPERMISSIONS, rolePermissions); // 将角色权限存入session
