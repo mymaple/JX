@@ -1,11 +1,18 @@
 var locat = (window.location+'').split('/'); 
-$(function(){if('main'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =  locat[0]+'//'+locat[2]+'/'+locat[3];};});
+$(function(){
+	if('main'== locat[3]){
+		locat =  locat[0]+'//'+locat[2];
+	}else{
+			locat =  locat[0]+'//'+locat[2]+'/'+locat[3];
+	};
+//	console.log(locat);
+});
 
 
 //菜单状态切换
-var fmid = "fhindex";
-var mid = "fhindex";
-function siMenu(id,fid,MENU_NAME,MENU_URL){
+var fmid = "xxxxxxxxxxx";
+var mid =  "xxxxxxxxxxx";
+function siMenu(id,fid,menuName,menuUrl){
 	if(id != mid){
 		$("#"+mid).removeClass();
 		mid = id;
@@ -16,52 +23,49 @@ function siMenu(id,fid,MENU_NAME,MENU_URL){
 	}
 	$("#"+fid).attr("class","active open");
 	$("#"+id).attr("class","active");
-	top.mainFrame.tabAddHandler(id,MENU_NAME,MENU_URL);
-	if(MENU_URL != "druid/index.html"){
+	top.mainFrame.tabAddHandler(id,menuName,menuUrl);
+	if(menuUrl != "druid/index.html"){
 		jzts();
 	}
 }
 
 $(function(){
-
 	//换肤
 	$("#skin-colorpicker").ace_colorpicker().on("change",function(){
 		var b=$(this).find("option:selected").data("class");
-		hf(b);
-		var url = locat+'/head/setSKIN.do?SKIN='+b+'&tm='+new Date().getTime();
+		changeSkin(b);
+		var url = locat+'/background/head/changeSkin.do?skin='+b+'&tm='+new Date().getTime();
 		$.get(url,function(data){});
-	
 	});
 });
 
-var USER_ID;
-
-var user = "FH";	//用于即时通讯（ 当前登录用户）
+var userId = "xxxxxxxxxxx";
+var userName = "xxxxxxxxxxx";	//用于即时通讯（ 当前登录用户）
 
 $(function(){
 	$.ajax({
 		type: "POST",
-		url: locat+'/head/getUname.do?tm='+new Date().getTime(),
+		url: locat+'/background/head/getUserInfo.do?tm='+new Date().getTime(),
     	data: encodeURI(""),
 		dataType:'json',
 		//beforeSend: validateData,
 		cache: false,
 		success: function(data){
 			//alert(data.list.length);
-			 $.each(data.list, function(i, list){
-				 //登陆者资料
-				 $("#user_info").html('<small>Welcome</small> '+list.NAME+'');
-				 user = list.USERNAME;
-				 USER_ID = list.USER_ID;//用户ID
-				 hf(list.SKIN);//皮肤
-				 if(list.USERNAME != 'admin'){
-					 $("#adminmenu").hide();	//隐藏菜单设置
-					 $("#adminzidian").hide();	//隐藏数据字典
-					 $("#systemset").hide();	//隐藏系统设置
-					 $("#productCode").hide();	//隐藏代码生成
-				 }
-				 online();//连接在线管理
-			 });
+//			 $.each(data.list, function(i, list){
+//			 });
+			 //登陆者资料
+			 $("#user_info").html('<small>Welcome</small> '+data.user.name+'');
+			 userName = data.user.userName;
+			 userId = data.user.userId;//用户ID
+			 changeSkin(data.user.skin);//皮肤
+			 if(data.user.userName != 'admin'){
+				 $("#adminmenu").hide();	//隐藏菜单设置
+				 $("#adminzidian").hide();	//隐藏数据字典
+				 $("#systemset").hide();	//隐藏系统设置
+				 $("#productCode").hide();	//隐藏代码生成
+			 }
+			 online();//连接在线管理
 		}
 	});
 });
@@ -74,7 +78,7 @@ function online(){
 		
 		websocket.onopen = function() {
 			//连接成功
-			websocket.send('[join]'+user);
+			websocket.send('[join]'+userName);
 		};
 		websocket.onerror = function() {
 			//连接失败
@@ -94,7 +98,7 @@ function online(){
 				$("body").html("");
 				goOut("您被系统管理员强制下线");
 			}else if(message.type == 'changeMenu'){
-				window.location.href=locat+'/main/yes';
+				window.location.href=locat+'background/main/yes';
 			}else if(message.type == 'userlist'){
 				userlist = message.list;
 			}
@@ -105,13 +109,13 @@ function online(){
 //在线总数
 var userCount = 0;
 function getUserCount(){
-	websocket.send('[count]'+user);
+	websocket.send('[count]'+userName);
 	return userCount;
 }
 //用户列表
 var userlist = "";
 function getUserlist(){
-	websocket.send('[getUserlist]'+user);
+	websocket.send('[getUserlist]'+userName);
 	return userlist;
 }
 //强制下线
@@ -128,7 +132,7 @@ function goOutUser(theuser){
 
 
 //换肤
-function hf(b){
+function changeSkin(b){
 	
 	var a=$(document.body);
 	a.attr("class",a.hasClass("navbar-fixed")?"navbar-fixed":"");
@@ -163,7 +167,7 @@ function editUserH(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="个人资料";
-	 diag.URL = locat+'/user/goEditU.do?USER_ID='+USER_ID+'&fx=head';
+	 diag.URL = locat+'/background/user/goEditUser.do?userId='+userId+'&fx=head';
 	 diag.Width = 225;
 	 diag.Height = 389;
 	 diag.CancelEvent = function(){ //关闭事件
@@ -237,7 +241,7 @@ function menu(){
 
 //切换菜单
 function changeMenu(){
-	websocket.send('[changeMenu]'+user);
+	websocket.send('[changeMenu]'+userName);
 }
 
 //清除加载进度

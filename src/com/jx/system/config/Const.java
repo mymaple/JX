@@ -3,54 +3,59 @@ package com.jx.system.config;
 import org.springframework.context.ApplicationContext;
 
 /**
- * 项目名称：
- * @author:fh
+ * 全局静态变量命名规则  作用_服务包_名称_类型
  */
 public class Const {
 	
 	/**
+	 * 后台 管理员用户名
+	 */
+	public static final String ADMIN_BG_USERNAME_STR = "admin";
+	
+	
+	/**
 	 * 后台 验证码
 	 */
-	public static final String SESSION_BG_VERIFICATIONCODE = "sessionBgVerificationCode";
+	public static final String SESSION_BG_VERIFICATIONCODE_STR = "sessionBgVerificationCode";
 	
 	/**
 	 * 后台 用户
 	 */
-	public static final String SESSION_BG_USER = "sessionBgUser";
+	public static final String SESSION_BG_USER_OBJ = "sessionBgUser";
+	
+	/**
+	 * 后台 将要换的菜单类型
+	 */
+	public static final String SESSION_BG_CHANGEMENU_STR = "changeMenu";
 	
 	/**
 	 * 后台 角色权限
 	 */
-	public static final String SESSION_BG_ROLEPERMISSIONS = "sessionBgRolePermissions";
+	public static final String SESSION_BG_ROLEPERMISSIONS_STR = "sessionBgRolePermissions";
 	
 	/**
 	 * 后台 当前菜单列表
 	 */
-	public static final String SESSION_BG_MENULIST = "sessionBgMenuList";
+	public static final String SESSION_BG_MENU_INCURRTEN_LIST = "sessionBgMenuInCurrentList";
 	
 	/**
-	 * 后台 全部菜单列表
+	 * 后台 全部菜单列表 分级
 	 */
-	public static final String SESSION_BG_ALLMENUINRANKLIST = "sessionBgAllMenuInRankList";
+	public static final String SESSION_BG_ALLMENU_INRANK_LIST = "sessionBgAllMenuInRankList";
 	
 	/**
 	 * 后台 用户权限
 	 */
-	public static final String SESSION_BG_QX = "sessionBgQx";
-	
-	/**
-	 * 后台
-	 */
-	public static final String SESSION_BG_USERPDS = "sessionBguserpds";
+	public static final String SESSION_BG_QX_STR = "sessionBgQx";
 	
 	/**
 	 * 后台 用户角色
 	 */
-	public static final String SESSION_BG_USER_ROLE = "seesionBgUserRole";
+	public static final String SESSION_BG_USER_ROLE_OBJ = "seesionBgUserRole";
 	/**
 	 * 后台 用户名
 	 */
-	public static final String SESSION_BG_USERNAME = "seesionBgUserName";
+	public static final String SESSION_BG_USERNAME_STR = "seesionBgUserName";
 	
 	
 	public static final String TRUE = "TRUE";
@@ -60,12 +65,12 @@ public class Const {
 	/**
 	 * 后台 登录地址
 	 */
-	public static final String URL_BG_LOGIN = "/background/main/toLogin.do";
+	public static final String URL_BG_LOGIN_STR = "/background/main/toLogin.do";
 	
 	/**
-	 *  系统名称
+	 * 后台 系统名称
 	 */
-	public static final String SYSNAME = "JX";
+	public static final String ADMIN_BG_SYSNAME_STR = "JX";
 	
 //	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
 	

@@ -49,10 +49,10 @@ import com.jx.system.util.Tools;
  * @version
  */
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/background/user")
 public class BgUserController extends BaseController {
 
-	String menuUrl = "user/listUsers.do"; // 菜单地址(权限用)
+	String menuUrl = "background/user/listUsers.do"; // 菜单地址(权限用)
 	@Resource(name = "bgUserService")
 	private BgUserService bgUserService;
 	@Resource(name = "bgRoleService")
@@ -61,16 +61,16 @@ public class BgUserController extends BaseController {
 	private BgMenuService bgMenuService;
 
 	/**
-	 * 保存用户
+	 * 新增用户
 	 */
-	@RequestMapping(value = "/saveU")
+	@RequestMapping(value = "/addUser")
 	public ModelAndView saveU(PrintWriter out) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 
 		pd.put("userId", this.get32UUID()); // ID
-		pd.put("rights", ""); // 权限
+		pd.put("permissions", ""); // 权限
 		pd.put("lastLogin", ""); // 最后登录时间
 		pd.put("loginIp", ""); // loginIp
 		pd.put("status", "0"); // 状态
@@ -86,16 +86,16 @@ public class BgUserController extends BaseController {
 		} else {
 			mv.addObject("msg", "failed");
 		}
-		mv.setViewName("save_result");
+		mv.setViewName("bgSaveResult");
 		return mv;
 	}
 
 	/**
 	 * 判断用户名是否存在
 	 */
-	@RequestMapping(value = "/hasU")
+	@RequestMapping(value = "/hasUser")
 	@ResponseBody
-	public Object hasU() {
+	public Object hasUser() {
 		Map<String, String> map = new HashMap<String, String>();
 		String errInfo = "success";
 		PageData pd = new PageData();
@@ -114,9 +114,9 @@ public class BgUserController extends BaseController {
 	/**
 	 * 判断邮箱是否存在
 	 */
-	@RequestMapping(value = "/hasE")
+	@RequestMapping(value = "/hasEmail")
 	@ResponseBody
-	public Object hasE() {
+	public Object hasEmail() {
 		Map<String, String> map = new HashMap<String, String>();
 		String errInfo = "success";
 		PageData pd = new PageData();
@@ -136,9 +136,9 @@ public class BgUserController extends BaseController {
 	/**
 	 * 判断编码是否存在
 	 */
-	@RequestMapping(value = "/hasN")
+	@RequestMapping(value = "/hasUserNumber")
 	@ResponseBody
-	public Object hasN() {
+	public Object hasUserNumber() {
 		Map<String, String> map = new HashMap<String, String>();
 		String errInfo = "success";
 		PageData pd = new PageData();
@@ -157,8 +157,8 @@ public class BgUserController extends BaseController {
 	/**
 	 * 修改用户
 	 */
-	@RequestMapping(value = "/editU")
-	public ModelAndView editU() throws Exception {
+	@RequestMapping(value = "/editUser")
+	public ModelAndView editUser() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -169,14 +169,14 @@ public class BgUserController extends BaseController {
 			bgUserService.editUser(pd);
 		}
 		mv.addObject("msg", "success");
-		mv.setViewName("save_result");
+		mv.setViewName("bgSaveResult");
 		return mv;
 	}
 
 	/**
 	 * 去修改用户页面
 	 */
-	@RequestMapping(value = "/goEditU")
+	@RequestMapping(value = "/goEditUser")
 	public ModelAndView goEditU() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
@@ -195,8 +195,8 @@ public class BgUserController extends BaseController {
 
 		List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 		pd = bgUserService.findByUserId(pd); // 根据ID读取
-		mv.setViewName("system/user/user_edit");
-		mv.addObject("msg", "editU");
+		mv.setViewName("background/user/userEdit");
+		mv.addObject("msg", "editUser");
 		mv.addObject("pd", pd);
 		mv.addObject("roleList", roleList);
 

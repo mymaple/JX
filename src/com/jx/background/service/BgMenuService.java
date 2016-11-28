@@ -98,8 +98,8 @@ public class BgMenuService {
 	public List<BgMenu> listAllMenuInRank() throws Exception {
 		List<BgMenu> rl = this.listAllTopMenu();
 		for (BgMenu bgMenu : rl) {
-			List<BgMenu> subList = this.listSubMenuByParentId(bgMenu.getMenuId());
-			bgMenu.setSubMenu(subList);
+			List<BgMenu> subBgMenuList = this.listSubMenuByParentId(bgMenu.getMenuId());
+			bgMenu.setSubBgMenuList(subBgMenuList);
 		}
 		return rl;
 	}

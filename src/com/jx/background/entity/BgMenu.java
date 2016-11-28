@@ -18,8 +18,8 @@ public class BgMenu {
 	private String menuType;
 	private String target;
 
-	private BgMenu parentMenu;
-	private List<BgMenu> subMenu;
+	private BgMenu parentBgMenu;
+	private List<BgMenu> subBgMenuList;
 
 	private boolean hasMenu = false;
 
@@ -87,20 +87,20 @@ public class BgMenu {
 		this.target = target;
 	}
 
-	public BgMenu getParentMenu() {
-		return parentMenu;
+	public BgMenu getParentBgMenu() {
+		return parentBgMenu;
 	}
 
-	public void setParentMenu(BgMenu parentMenu) {
-		this.parentMenu = parentMenu;
+	public void setParentBgMenu(BgMenu parentBgMenu) {
+		this.parentBgMenu = parentBgMenu;
 	}
 
-	public List<BgMenu> getSubMenu() {
-		return subMenu;
+	public List<BgMenu> getSubBgMenuList() {
+		return subBgMenuList;
 	}
 
-	public void setSubMenu(List<BgMenu> subMenu) {
-		this.subMenu = subMenu;
+	public void setSubBgMenuList(List<BgMenu> subBgMenuList) {
+		this.subBgMenuList = subBgMenuList;
 	}
 
 	public boolean isHasMenu() {

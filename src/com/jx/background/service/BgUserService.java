@@ -79,44 +79,44 @@ public class BgUserService {
 	/**
 	 * 通过userId获取数据
 	 */
-	public PageData findByUserId(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserMapper.findByUserId", pd);
+	public BgUser findByUserId(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByUserId", pd);
 	}
 
 	/**
 	 * 通过userName获取数据
 	 */
-	public PageData findByUserName(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserMapper.findByUserName", pd);
+	public BgUser findByUserName(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByUserName", pd);
 	}
 
 	/**
 	 * 通过email获取数据
 	 */
-	public PageData findByEmail(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserMapper.findByEmail", pd);
+	public BgUser findByEmail(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByEmail", pd);
 	}
 
 	/**
 	 * 通过userNumber获取数据
 	 */
-	public PageData findByUserNumber(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgUserMapper.findByUserNumber", pd);
+	public BgUser findByUserNumber(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByUserNumber", pd);
 	}
 	
 
 	/**
 	 * 用户列表(用户组)
 	 */
-	public List<PageData> listUser(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserMapper.listUser", bgPage);
+	public List<BgUser> listUser(BgPage bgPage) throws Exception {
+		return (List<BgUser>) dao.findForList("BgUserMapper.listUser", bgPage);
 	}
 
 	/**
 	 * 用户列表(全部)
 	 */
-	public List<PageData> listAllUser(PageData pd) throws Exception {
-		return (List<PageData>) dao.findForList("BgUserMapper.listAllUser", pd);
+	public List<BgUser> listAllUser(PageData pd) throws Exception {
+		return (List<BgUser>) dao.findForList("BgUserMapper.listAllUser", pd);
 	}
 
 	/**

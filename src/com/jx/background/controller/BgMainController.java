@@ -58,8 +58,8 @@ public class BgMainController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-//		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
-		pd.put("SYSNAME", Const.SYSNAME); // 读取系统名称
+//		pd.put("ADMIN_BG_SYSNAME_STR", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
+		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		return mv;
@@ -77,15 +77,14 @@ public class BgMainController extends BaseController {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 
-		session.removeAttribute(Const.SESSION_BG_USER);
-		session.removeAttribute(Const.SESSION_BG_ROLEPERMISSIONS);
-		session.removeAttribute(Const.SESSION_BG_ALLMENUINRANKLIST);
-		session.removeAttribute(Const.SESSION_BG_MENULIST);
-		session.removeAttribute(Const.SESSION_BG_QX);
-		session.removeAttribute(Const.SESSION_BG_USERPDS);
-		session.removeAttribute(Const.SESSION_BG_USERNAME);
-		session.removeAttribute(Const.SESSION_BG_USER_ROLE);
-		session.removeAttribute("changeMenu");
+		session.removeAttribute(Const.SESSION_BG_USER_OBJ);
+		session.removeAttribute(Const.SESSION_BG_ROLEPERMISSIONS_STR);
+		session.removeAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST);
+		session.removeAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
+		session.removeAttribute(Const.SESSION_BG_QX_STR);
+		session.removeAttribute(Const.SESSION_BG_USERNAME_STR);
+		session.removeAttribute(Const.SESSION_BG_USER_ROLE_OBJ);
+		session.removeAttribute(Const.SESSION_BG_CHANGEMENU_STR);
 
 		// shiro销毁登录
 		Subject subject = SecurityUtils.getSubject();
@@ -97,8 +96,8 @@ public class BgMainController extends BaseController {
 		pd = this.getPageData();
 		String msg = pd.getString("msg");
 		pd.put("msg", msg);
-//		pd.put("SYSNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
-		pd.put("SYSNAME", Const.SYSNAME); // 读取系统名称
+//		pd.put("ADMIN_BG_SYSNAME_STR", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
+		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		
@@ -121,7 +120,7 @@ public class BgMainController extends BaseController {
 			// shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
-			String sessionBgVerificationCode = (String) session.getAttribute(Const.SESSION_BG_VERIFICATIONCODE); // 获取session中的验证码
+			String sessionBgVerificationCode = (String) session.getAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR); // 获取session中的验证码
 
 			String bgVerificationCode = keyData[2];
 			if (null == bgVerificationCode || "".equals(bgVerificationCode)) {
@@ -139,8 +138,8 @@ public class BgMainController extends BaseController {
 						
 						bgUser = this.changeLoginIpInfo(bgUser);
 						
-						session.setAttribute(Const.SESSION_BG_USER, bgUser);
-						session.removeAttribute(Const.SESSION_BG_VERIFICATIONCODE);
+						session.setAttribute(Const.SESSION_BG_USER_OBJ, bgUser);
+						session.removeAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR);
 
 						// shiro加入身份验证
 						Subject subject = SecurityUtils.getSubject();
@@ -180,72 +179,72 @@ public class BgMainController extends BaseController {
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
 
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER);
+			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER_OBJ);
 			if (bgUser != null) {
-				BgUser bgUserRole = (BgUser) session.getAttribute(Const.SESSION_BG_USER_ROLE);
+				BgUser bgUserRole = (BgUser) session.getAttribute(Const.SESSION_BG_USER_ROLE_OBJ);
 				if (null == bgUserRole) {
 					bgUser = bgUserService.getUserRoleById(bgUser.getUserId());
-					session.setAttribute(Const.SESSION_BG_USER_ROLE, bgUser);
+					session.setAttribute(Const.SESSION_BG_USER_ROLE_OBJ, bgUser);
 				} else {
 					bgUser = bgUserRole;
 				}
 				BgRole bgRole = bgUser.getBgRole();
 				String rolePermissions = bgRole != null ? bgRole.getPermissions() : "";
 				// 避免每次拦截用户操作时查询数据库，以下将用户所属角色权限、用户权限限都存入session
-				session.setAttribute(Const.SESSION_BG_ROLEPERMISSIONS, rolePermissions); // 将角色权限存入session
-				session.setAttribute(Const.SESSION_BG_USERNAME, bgUser.getUserName()); // 放入用户名
+				session.setAttribute(Const.SESSION_BG_ROLEPERMISSIONS_STR, rolePermissions); // 将角色权限存入session
+				session.setAttribute(Const.SESSION_BG_USERNAME_STR, bgUser.getUserName()); // 放入用户名
 
 				List<BgMenu> bgAllMenuInRankList = new ArrayList<BgMenu>();
 
-				if (null == session.getAttribute(Const.SESSION_BG_ALLMENUINRANKLIST)) {
+				if (null == session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST)) {
 					bgAllMenuInRankList = bgMenuService.listAllMenuInRank();
 					if (Tools.notEmpty(rolePermissions)) {
 						for (BgMenu bgMenu : bgAllMenuInRankList) {
 							bgMenu.setHasMenu(RightsHelper.testRights(rolePermissions, bgMenu.getMenuId()));
 							if (bgMenu.isHasMenu()) {
-								List<BgMenu> bgSubMenuList = bgMenu.getSubMenu();
-								for (BgMenu bgSubMenu : bgSubMenuList) {
-									bgSubMenu.setHasMenu(RightsHelper.testRights(rolePermissions, bgSubMenu.getMenuId()));
+								List<BgMenu> subBgMenuList = bgMenu.getSubBgMenuList();
+								for (BgMenu subBgMenu : subBgMenuList) {
+									subBgMenu.setHasMenu(RightsHelper.testRights(rolePermissions, subBgMenu.getMenuId()));
 								}
 							}
 						}
 					}
-					session.setAttribute(Const.SESSION_BG_ALLMENUINRANKLIST, bgAllMenuInRankList); // 菜单权限放入session中
+					session.setAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST, bgAllMenuInRankList); // 菜单权限放入session中
 				} else {
-					bgAllMenuInRankList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_ALLMENUINRANKLIST);
+					bgAllMenuInRankList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST);
 				}
 
 				// 切换菜单=====
-				List<BgMenu> bgMenuList = new ArrayList<BgMenu>();
+				List<BgMenu> bgMenuInCurrentList = new ArrayList<BgMenu>();
 				// if(null == session.getAttribute(Const.SESSION_BG_MENULIST) || ("yes".equals(pd.getString("changeMenu")))){
-				if (null == session.getAttribute(Const.SESSION_BG_MENULIST) || ("yes".equals(changeMenu))) {
-					List<BgMenu> bgMenuList1 = new ArrayList<BgMenu>();
-					List<BgMenu> bgMenuList2 = new ArrayList<BgMenu>();
+				if (null == session.getAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST) || ("yes".equals(changeMenu))) {
+					List<BgMenu> bgMenuInCurrentList1 = new ArrayList<BgMenu>();
+					List<BgMenu> bgMenuInCurrentList2 = new ArrayList<BgMenu>();
 
 					// 拆分菜单
 					for (int i = 0; i < bgAllMenuInRankList.size(); i++) {
 						BgMenu bgMenu = bgAllMenuInRankList.get(i);
 						if ("1".equals(bgMenu.getMenuType())) {
-							bgMenuList1.add(bgMenu);
+							bgMenuInCurrentList1.add(bgMenu);
 						} else {
-							bgMenuList2.add(bgMenu);
+							bgMenuInCurrentList2.add(bgMenu);
 						}
 					}
 
-					session.removeAttribute(Const.SESSION_BG_MENULIST);
+					session.removeAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
 					if ("2".equals(session.getAttribute("changeMenu"))) {
-						session.setAttribute(Const.SESSION_BG_MENULIST, bgMenuList1);
+						session.setAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST, bgMenuInCurrentList1);
 						session.removeAttribute("changeMenu");
 						session.setAttribute("changeMenu", "1");
-						bgMenuList = bgMenuList1;
+						bgMenuInCurrentList = bgMenuInCurrentList1;
 					} else {
-						session.setAttribute(Const.SESSION_BG_MENULIST, bgMenuList2);
+						session.setAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST, bgMenuInCurrentList2);
 						session.removeAttribute("changeMenu");
 						session.setAttribute("changeMenu", "2");
-						bgMenuList = bgMenuList2;
+						bgMenuInCurrentList = bgMenuInCurrentList2;
 					}
 				} else {
-					bgMenuList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_MENULIST);
+					bgMenuInCurrentList = (List<BgMenu>) session.getAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST);
 				}
 				// 切换菜单=====
 
@@ -272,7 +271,7 @@ public class BgMainController extends BaseController {
 				}
 				// 读取websocket配置
 				mv.addObject("bgUser", bgUser);
-				mv.addObject("bgMenuList", bgMenuList);
+				mv.addObject("bgMenuInCurrentList", bgMenuInCurrentList);
 				mv.setViewName("background/main/bgIndex");
 			} else {
 				mv.setViewName("background/main/bgLogin");// session失效后跳转登录页面
@@ -282,7 +281,7 @@ public class BgMainController extends BaseController {
 			mv.setViewName("background/main/bgLogin");
 			logger.error(e.getMessage(), e);
 		}
-		pd.put("SYSNAME", Const.SYSNAME); // 读取系统名称
+		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
 		mv.addObject("pd", pd);
 		return mv;
 	}
@@ -312,15 +311,15 @@ public class BgMainController extends BaseController {
 		PageData pd = new PageData();
 		Map<String, String> map = new HashMap<String, String>();
 		try {
-			String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString();
-			String roleId = bgUserService.findByUserName(pd).get("roleId").toString();
+			String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString();
+			String roleId = bgUserService.findByUserName(pd).getRoleId();
 
-			pd.put(Const.SESSION_BG_USERNAME, userName);
+			pd.put(Const.SESSION_BG_USERNAME_STR, userName);
 			pd.put("roleId", roleId);
 			pd = bgRoleService.findObjectById(pd);
 
 			PageData pd2 = new PageData();
-			pd2.put(Const.SESSION_BG_USERNAME, userName);
+			pd2.put(Const.SESSION_BG_USERNAME_STR, userName);
 			pd2.put("roleId", roleId);
 			pd2 = bgRoleService.findGlByRoleId(pd2);
 			
