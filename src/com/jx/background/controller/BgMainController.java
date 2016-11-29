@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jx.background.entity.BgConfig;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
 import com.jx.background.entity.BgUser;
+import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
@@ -47,6 +49,8 @@ public class BgMainController extends BaseController {
 	private BgMenuService bgMenuService;
 	@Resource(name = "bgRoleService")
 	private BgRoleService bgRoleService;
+	@Resource(name = "bgConfigService")
+	private BgConfigService bgConfigService;
 
 
 	/**
@@ -57,9 +61,18 @@ public class BgMainController extends BaseController {
 	public ModelAndView toLogin() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
+		
 		pd = this.getPageData();
-//		pd.put("ADMIN_BG_SYSNAME_STR", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
-		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
+		// shiro管理的session
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
+		if (bgConfigSystem == null) {
+			bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+			session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
+		}
+		
+		pd.put("systemName", bgConfigSystem.getUrl()); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		return mv;
@@ -96,8 +109,14 @@ public class BgMainController extends BaseController {
 		pd = this.getPageData();
 		String msg = pd.getString("msg");
 		pd.put("msg", msg);
-//		pd.put("ADMIN_BG_SYSNAME_STR", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
-		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
+		
+		BgConfig bgConfigSystem = null;
+		try {
+			bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		pd.put("systemName", bgConfigSystem==null?"":bgConfigSystem.getUrl()); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		
@@ -258,7 +277,9 @@ public class BgMainController extends BaseController {
 				// FusionCharts 报表
 
 				// 读取websocket配置
-//				String strWebscoket = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置
+				
+				
+				
 				String strWebscoket = Const.WEBSOCKET;
 				if (null != strWebscoket && !"".equals(strWebscoket)) {
 					String strIW[] = strWebscoket.split(",jx,");
@@ -276,12 +297,18 @@ public class BgMainController extends BaseController {
 			} else {
 				mv.setViewName("background/main/bgLogin");// session失效后跳转登录页面
 			}
+			
+			BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
+			if (bgConfigSystem == null) {
+				bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+				session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
+			}
+			pd.put("systemName", bgConfigSystem.getUrl()); // 读取系统名称
 
 		} catch (Exception e) {
 			mv.setViewName("background/main/bgLogin");
 			logger.error(e.getMessage(), e);
 		}
-		pd.put("ADMIN_BG_SYSNAME_STR", Const.ADMIN_BG_SYSNAME_STR); // 读取系统名称
 		mv.addObject("pd", pd);
 		return mv;
 	}

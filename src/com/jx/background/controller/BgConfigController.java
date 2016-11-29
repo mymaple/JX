@@ -1,6 +1,5 @@
 package com.jx.background.controller;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,16 +7,14 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.entity.BgUser;
+import com.jx.background.entity.BgConfig;
 import com.jx.background.service.AppuserService;
+import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgUserService;
 import com.jx.system.config.BaseController;
 import com.jx.system.config.Const;
@@ -30,14 +27,15 @@ import com.jx.system.util.Tools;
  * @version
  */
 @Controller
-@RequestMapping(value = "/background/head")
-public class BgSystemConfigController extends BaseController {
+@RequestMapping(value = "/background/config")
+public class BgConfigController extends BaseController {
 
 	@Resource(name = "bgUserService")
 	private BgUserService bgUserService;
 	@Resource(name = "appuserService")
 	private AppuserService appuserService;
-
+	@Resource(name = "bgConfigService")
+	private BgConfigService bgConfigService;
 
 
 	
@@ -45,78 +43,19 @@ public class BgSystemConfigController extends BaseController {
 	/**
 	 * 去系统设置页面
 	 */
-	@RequestMapping(value = "/goEditSystem")
-	public ModelAndView goEditSystem() throws Exception {
+	@RequestMapping(value = "/goEditConfig")
+	public ModelAndView goEditConfig() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd.put("YSYNAME", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
-		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE)); // 读取每页条数
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL); // 读取邮件配置
-		String strSMS1 = Tools.readTxtFile(Const.SMS1); // 读取短信1配置
-		String strSMS2 = Tools.readTxtFile(Const.SMS2); // 读取短信2配置
-		String strFWATERM = Tools.readTxtFile(Const.FWATERM); // 读取文字水印配置
-		String strIWATERM = Tools.readTxtFile(Const.IWATERM); // 读取图片水印配置
-		pd.put("Token", Tools.readTxtFile(Const.WEIXIN)); // 读取微信配置
-		String strWEBSOCKET = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置
-
-		if (null != strEMAIL && !"".equals(strEMAIL)) {
-			String strEM[] = strEMAIL.split(",fh,");
-			if (strEM.length == 4) {
-				pd.put("SMTP", strEM[0]);
-				pd.put("PORT", strEM[1]);
-				pd.put("EMAIL", strEM[2]);
-				pd.put("PAW", strEM[3]);
-			}
+		List<BgConfig> bgConfigList = bgConfigService.listBgConfig();
+		
+		for(int i=0;i<bgConfigList.size();i++){
+			BgConfig bgConfig = bgConfigList.get(i);
+			pd.put(bgConfig.getConfigType(), bgConfig);
 		}
 
-		if (null != strSMS1 && !"".equals(strSMS1)) {
-			String strS1[] = strSMS1.split(",fh,");
-			if (strS1.length == 2) {
-				pd.put("SMSU1", strS1[0]);
-				pd.put("SMSPAW1", strS1[1]);
-			}
-		}
-
-		if (null != strSMS2 && !"".equals(strSMS2)) {
-			String strS2[] = strSMS2.split(",fh,");
-			if (strS2.length == 2) {
-				pd.put("SMSU2", strS2[0]);
-				pd.put("SMSPAW2", strS2[1]);
-			}
-		}
-
-		if (null != strFWATERM && !"".equals(strFWATERM)) {
-			String strFW[] = strFWATERM.split(",fh,");
-			if (strFW.length == 5) {
-				pd.put("isCheck1", strFW[0]);
-				pd.put("fcontent", strFW[1]);
-				pd.put("fontSize", strFW[2]);
-				pd.put("fontX", strFW[3]);
-				pd.put("fontY", strFW[4]);
-			}
-		}
-
-		if (null != strIWATERM && !"".equals(strIWATERM)) {
-			String strIW[] = strIWATERM.split(",fh,");
-			if (strIW.length == 4) {
-				pd.put("isCheck2", strIW[0]);
-				pd.put("imgUrl", strIW[1]);
-				pd.put("imgX", strIW[2]);
-				pd.put("imgY", strIW[3]);
-			}
-		}
-		if (null != strWEBSOCKET && !"".equals(strWEBSOCKET)) {
-			String strIW[] = strWEBSOCKET.split(",fh,");
-			if (strIW.length == 4) {
-				pd.put("WIMIP", strIW[0]);
-				pd.put("WIMPORT", strIW[1]);
-				pd.put("OLIP", strIW[2]);
-				pd.put("OLPORT", strIW[3]);
-			}
-		}
-
-		mv.setViewName("background/head/bgSystemEdit");
+		mv.setViewName("background/config/bgConfigEdit");
 		mv.addObject("pd", pd);
 
 		return mv;

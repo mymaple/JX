@@ -16,13 +16,13 @@ import org.java_websocket.server.WebSocketServer;
  * 在线管理
  * @author FH QQ 123456789 2015-5-25
  */
-public class BgOnlineChatServer extends WebSocketServer {
+public class BgOnlineManageServer extends WebSocketServer {
 
-	public BgOnlineChatServer(int port) throws UnknownHostException {
+	public BgOnlineManageServer(int port) throws UnknownHostException {
 		super(new InetSocketAddress(port));
 	}
 
-	public BgOnlineChatServer(InetSocketAddress address) {
+	public BgOnlineManageServer(InetSocketAddress address) {
 		super(address);
 	}
 
@@ -63,7 +63,7 @@ public class BgOnlineChatServer extends WebSocketServer {
 		} else if (null != message && message.startsWith("[getUserlist]")) {
 			this.getUserList(conn);
 		} else {
-			BgOnlineChatServerPool.sendMessageToUser(conn, message);// 同时向本人发送消息
+			BgOnlineManageServerPool.sendMessageToUser(conn, message);// 同时向本人发送消息
 		}
 	}
 
@@ -86,8 +86,8 @@ public class BgOnlineChatServer extends WebSocketServer {
 	 * @param user
 	 */
 	public void userjoin(String user, WebSocket conn) {
-		if (null == BgOnlineChatServerPool.getWebSocketByUser(user)) { // 判断用户是否在其它终端登录
-			BgOnlineChatServerPool.addUser(user, conn); // 向连接池添加当前的连接对象
+		if (null == BgOnlineManageServerPool.getWebSocketByUser(user)) { // 判断用户是否在其它终端登录
+			BgOnlineManageServerPool.addUser(user, conn); // 向连接池添加当前的连接对象
 		} else {
 			goOut(conn, "goOut");
 		}
@@ -98,7 +98,7 @@ public class BgOnlineChatServer extends WebSocketServer {
 	 * @param user
 	 */
 	public void goOut(String user) {
-		this.goOut(BgOnlineChatServerPool.getWebSocketByUser(user), "thegoout");
+		this.goOut(BgOnlineManageServerPool.getWebSocketByUser(user), "thegoout");
 	}
 
 	/**
@@ -109,7 +109,7 @@ public class BgOnlineChatServer extends WebSocketServer {
 		JSONObject result = new JSONObject();
 		result.element("type", type);
 		result.element("msg", "goOut");
-		BgOnlineChatServerPool.sendMessageToUser(conn, result.toString());
+		BgOnlineManageServerPool.sendMessageToUser(conn, result.toString());
 	}
 
 	/**
@@ -117,7 +117,7 @@ public class BgOnlineChatServer extends WebSocketServer {
 	 * @param user
 	 */
 	public void userLeave(WebSocket conn) {
-		BgOnlineChatServerPool.removeUser(conn); // 在连接池中移除连接
+		BgOnlineManageServerPool.removeUser(conn); // 在连接池中移除连接
 	}
 
 	/**
@@ -125,11 +125,11 @@ public class BgOnlineChatServer extends WebSocketServer {
 	 * @param conn
 	 */
 	public void changeMenu(WebSocket conn) {
-		if (BgOnlineChatServerPool.removeUser(conn)) {
+		if (BgOnlineManageServerPool.removeUser(conn)) {
 			JSONObject result = new JSONObject();
 			result.element("type", "changeMenu");
 			result.element("msg", "changeMenu");
-			BgOnlineChatServerPool.sendMessageToUser(conn, result.toString());
+			BgOnlineManageServerPool.sendMessageToUser(conn, result.toString());
 		}
 	}
 
@@ -140,8 +140,8 @@ public class BgOnlineChatServer extends WebSocketServer {
 	public void getUserCount(WebSocket conn) {
 		JSONObject result = new JSONObject();
 		result.element("type", "count");
-		result.element("msg", BgOnlineChatServerPool.getUserCount());
-		BgOnlineChatServerPool.sendMessageToUser(conn, result.toString());
+		result.element("msg", BgOnlineManageServerPool.getUserCount());
+		BgOnlineManageServerPool.sendMessageToUser(conn, result.toString());
 	}
 
 	/**
@@ -151,14 +151,14 @@ public class BgOnlineChatServer extends WebSocketServer {
 	public void getUserList(WebSocket conn) {
 		JSONObject result = new JSONObject();
 		result.element("type", "userlist");
-		result.element("list", BgOnlineChatServerPool.getOnlineUser());
-		BgOnlineChatServerPool.sendMessageToUser(conn, result.toString());
+		result.element("list", BgOnlineManageServerPool.getOnlineUser());
+		BgOnlineManageServerPool.sendMessageToUser(conn, result.toString());
 	}
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		WebSocketImpl.DEBUG = false;
 		int port = 8887; // 端口
-		BgOnlineChatServer s = new BgOnlineChatServer(port);
+		BgOnlineManageServer s = new BgOnlineManageServer(port);
 		s.start();
 		// System.out.println( "服务器的端口" + s.getPort() );
 	}

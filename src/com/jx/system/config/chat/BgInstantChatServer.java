@@ -17,13 +17,13 @@ import org.java_websocket.server.WebSocketServer;
  * 即时通讯
  * @author FH QQ 123456789 2015-5-16
  */
-public class BgChatServer extends WebSocketServer {
+public class BgInstantChatServer extends WebSocketServer {
 
-	public BgChatServer(int port) throws UnknownHostException {
+	public BgInstantChatServer(int port) throws UnknownHostException {
 		super(new InetSocketAddress(port));
 	}
 
-	public BgChatServer(InetSocketAddress address) {
+	public BgInstantChatServer(InetSocketAddress address) {
 		super(address);
 	}
 
@@ -59,10 +59,10 @@ public class BgChatServer extends WebSocketServer {
 		if (null != message && message.contains("fhadmin886")) {
 			String toUser = message.substring(message.indexOf("fhadmin886") + 10, message.indexOf("fhfhadmin888"));
 			message = message.substring(0, message.indexOf("fhadmin886")) + "[私信]  " + message.substring(message.indexOf("fhfhadmin888") + 12, message.length());
-			BgChatServerPool.sendMessageToUser(BgChatServerPool.getWebSocketByUser(toUser), message);// 向所某用户发送消息
-			BgChatServerPool.sendMessageToUser(conn, message);// 同时向本人发送消息
+			BgInstantChatServerPool.sendMessageToUser(BgInstantChatServerPool.getWebSocketByUser(toUser), message);// 向所某用户发送消息
+			BgInstantChatServerPool.sendMessageToUser(conn, message);// 同时向本人发送消息
 		} else {
-			BgChatServerPool.sendMessage(message.toString());// 向所有在线用户发送消息
+			BgInstantChatServerPool.sendMessage(message.toString());// 向所有在线用户发送消息
 		}
 	}
 
@@ -88,14 +88,14 @@ public class BgChatServer extends WebSocketServer {
 		JSONObject result = new JSONObject();
 		result.element("type", "user_join");
 		result.element("user", "<a onclick=\"toUserMsg('" + user + "');\">" + user + "</a>");
-		BgChatServerPool.sendMessage(result.toString()); // 把当前用户加入到所有在线用户列表中
+		BgInstantChatServerPool.sendMessage(result.toString()); // 把当前用户加入到所有在线用户列表中
 		String joinMsg = "{\"from\":\"[系统]\",\"content\":\"" + user + "上线了\",\"timestamp\":" + new Date().getTime() + ",\"type\":\"message\"}";
-		BgChatServerPool.sendMessage(joinMsg); // 向所有在线用户推送当前用户上线的消息
+		BgInstantChatServerPool.sendMessage(joinMsg); // 向所有在线用户推送当前用户上线的消息
 		result = new JSONObject();
 		result.element("type", "get_online_user");
-		BgChatServerPool.addUser(user, conn); // 向连接池添加当前的连接对象
-		result.element("list", BgChatServerPool.getOnlineUser());
-		BgChatServerPool.sendMessageToUser(conn, result.toString()); // 向当前连接发送当前在线用户的列表
+		BgInstantChatServerPool.addUser(user, conn); // 向连接池添加当前的连接对象
+		result.element("list", BgInstantChatServerPool.getOnlineUser());
+		BgInstantChatServerPool.sendMessageToUser(conn, result.toString()); // 向当前连接发送当前在线用户的列表
 	}
 
 	/**
@@ -103,22 +103,22 @@ public class BgChatServer extends WebSocketServer {
 	 * @param user
 	 */
 	public void userLeave(WebSocket conn) {
-		String user = BgChatServerPool.getUserByKey(conn);
-		boolean b = BgChatServerPool.removeUser(conn); // 在连接池中移除连接
+		String user = BgInstantChatServerPool.getUserByKey(conn);
+		boolean b = BgInstantChatServerPool.removeUser(conn); // 在连接池中移除连接
 		if (b) {
 			JSONObject result = new JSONObject();
 			result.element("type", "user_leave");
 			result.element("user", "<a onclick=\"toUserMsg('" + user + "');\">" + user + "</a>");
-			BgChatServerPool.sendMessage(result.toString()); // 把当前用户从所有在线用户列表中删除
+			BgInstantChatServerPool.sendMessage(result.toString()); // 把当前用户从所有在线用户列表中删除
 			String joinMsg = "{\"from\":\"[系统]\",\"content\":\"" + user + "下线了\",\"timestamp\":" + new Date().getTime() + ",\"type\":\"message\"}";
-			BgChatServerPool.sendMessage(joinMsg); // 向在线用户发送当前用户退出的消息
+			BgInstantChatServerPool.sendMessage(joinMsg); // 向在线用户发送当前用户退出的消息
 		}
 	}
 
 	public static void main(String[] args) throws InterruptedException, IOException {
 		WebSocketImpl.DEBUG = false;
 		int port = 8887; // 端口
-		BgChatServer s = new BgChatServer(port);
+		BgInstantChatServer s = new BgInstantChatServer(port);
 		s.start();
 		// System.out.println( "服务器的端口" + s.getPort() );
 	}

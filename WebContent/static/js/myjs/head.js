@@ -182,7 +182,7 @@ function editSystem(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="系统设置";
-	 diag.URL = locat+'/background/head/goEditSystem.do';
+	 diag.URL = locat+'/background/config/goEditSystem.do';
 	 diag.Width = 600;
 	 diag.Height = 596;
 	 diag.CancelEvent = function(){ //关闭事件
@@ -197,7 +197,7 @@ function productCode(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="代码生成器";
-	 diag.URL = locat+'/background/head/goProductCode.do';
+	 diag.URL = locat+'/background/config/goProductCode.do';
 	 diag.Width = 800;
 	 diag.Height = 450;
 	 diag.CancelEvent = function(){ //关闭事件

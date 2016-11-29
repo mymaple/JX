@@ -1,7 +1,6 @@
 package com.jx.system.config.filter;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Timer;
@@ -16,11 +15,14 @@ import javax.servlet.ServletResponse;
 
 import org.java_websocket.WebSocketImpl;
 
+import com.jx.background.entity.BgConfig;
+import com.jx.background.entity.BgUser;
+import com.jx.background.service.BgConfigService;
+import com.jx.background.service.BgUserService;
 import com.jx.system.config.BaseController;
 import com.jx.system.config.Const;
-import com.jx.system.config.chat.BgChatServer;
-import com.jx.system.config.chat.BgOnlineChatServer;
-import com.jx.system.util.Tools;
+import com.jx.system.config.chat.BgInstantChatServer;
+import com.jx.system.config.chat.BgOnlineManageServer;
 
 /**
  * 创建人：FH 创建时间：2014年2月17日
@@ -28,32 +30,36 @@ import com.jx.system.util.Tools;
  */
 public class BgWebsocketFilter extends BaseController implements Filter {
 
+	private BgConfigService bgConfigService = new BgConfigService();
+	private BgUserService bgUserService = new BgUserService();
+	
 	/**
 	 * 初始化
 	 */
 	public void init(FilterConfig fc) throws ServletException {
-		this.startWebsocketInstantMsg();
-		this.startWebsocketOnline();
+		this.startWebsocketInstantChat();
+		this.startWebsocketOnlineManage();
 	}
 
 	/**
 	 * 启动即时聊天服务
 	 */
-	public void startWebsocketInstantMsg() {
+	public void startWebsocketInstantChat() {
 		WebSocketImpl.DEBUG = false;
-		BgChatServer s;
+		BgInstantChatServer s;
 		try {
-//			String strWebscoket = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
-			String strWebscoket = Const.WEBSOCKET;
-			if (null != strWebscoket && !"".equals(strWebscoket)) {
-				String strIW[] = strWebscoket.split(",fh,");
-				if (strIW.length == 4) {
-					s = new BgChatServer(Integer.parseInt(strIW[1]));
-					s.start();
-				}
+			BgUser bgUser = bgUserService.getUserRoleById("1");
+			
+			BgConfig bgConfig = bgConfigService.
+					findConfigByType(Const.CONFIG_BG_INSTANTCHAR_OBJ);
+			
+			String port =  bgConfig.getPort();
+			if(port != null && "".equals(port)){
+				s = new BgInstantChatServer(Integer.parseInt(port));
+				s.start();
 			}
 			// System.out.println( "websocket服务器启动,端口" + s.getPort() );
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -61,21 +67,18 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 	/**
 	 * 启动在线管理服务
 	 */
-	public void startWebsocketOnline() {
+	public void startWebsocketOnlineManage() {
 		WebSocketImpl.DEBUG = false;
-		BgOnlineChatServer s;
+		BgOnlineManageServer s;
 		try {
-//			String strWebscoket = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置,获取端口配置
-			String strWebscoket = Const.WEBSOCKET;
-			if (null != strWebscoket && !"".equals(strWebscoket)) {
-				String strIW[] = strWebscoket.split(",jx,");
-				if (strIW.length == 4) {
-					s = new BgOnlineChatServer(Integer.parseInt(strIW[3]));
-					s.start();
-				}
+			String port =  (bgConfigService.
+					findConfigByType(Const.CONFIG_BG_INSTANTCHAR_OBJ)).getPort();
+			if(port != null && "".equals(port)){
+				s = new BgOnlineManageServer(Integer.parseInt(port));
+				s.start();
 			}
 			// System.out.println( "websocket服务器启动,端口" + s.getPort() );
-		} catch (UnknownHostException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

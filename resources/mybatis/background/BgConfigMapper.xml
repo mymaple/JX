@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BgConfigMapper">
+	<sql id="configColumns">configId,type,name,url,port,account,password,isOpen</sql>
+	
+	<resultMap type="BgConfig" id="configResultMap">
+		<id column="configId" property="configId"/>
+		<result column="type" property="type"/>
+		<result column="name" property="name"/>
+		<result column="url" property="url"/>
+		<result column="port" property="port"/>
+		<result column="account" property="account"/>
+		<result column="password" property="password"/>
+	</resultMap>
+	
+	<!-- 新增配置 -->
+	<insert id="addConfig" parameterType="BgConfig">
+		insert into bgConfig ( 
+			<include refid="configColumns"/>
+		) values (
+			#{configId},
+			#{type},
+			#{name},
+			#{url},
+			#{port},
+			#{account},
+			#{password},
+			#{isOpen}
+		)
+	</insert>
+	
+	<!-- 根据configId删配置 -->
+	<delete id="deleteConfigById" parameterType="String">
+		delete from bgConfig 
+		where configId=#{configId} 
+	</delete>
+
+	<!-- 编辑配置 -->
+	<update id="editConfig" parameterType="BgConfig">
+		update bgConfig set 
+			type =#{type},
+			name  =#{name} ,
+			url =#{url},
+			port=#{port},
+			account =#{account},
+			password =#{password},
+			isOpen =#{isOpen}
+		where 
+			configId=#{configId}
+	</update>
+	
+	<!-- 根据configId获取配置 -->
+	<select id="findByConfigId" parameterType="pd" resultType="BgConfig">
+		select  <include refid="configColumns"/>
+		 from bgConfig 
+		 where configId=#{configId}
+	</select>
+	
+	<!-- 根据type获取配置 -->
+	<select id="findConfigByType" parameterType="String" resultMap="configResultMap">
+		select  <include refid="configColumns"/> 
+		 from bgConfig 
+		 where type=#{type}
+	</select>		
+	
+	<!-- 获取所有顶级配置 -->
+	<select id="listBgConfig" resultMap="configResultMap">
+		select <include refid="configColumns"/> 
+		from bgConfig 
+		order by configId 
+	</select>
+
+	
+</mapper>

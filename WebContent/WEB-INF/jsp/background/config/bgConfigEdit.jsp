@@ -50,6 +50,7 @@
             <div class="tab-content">
 			  <div id="home" class="tab-pane in active">
 				<form action="head/saveSys.do" name="Form" id="Form" method="post">
+				<c:if test="${pd. }"></c:if>
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="width:70px;text-align: right;padding-top: 13px;">系统名称:</td>

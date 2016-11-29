@@ -27,17 +27,17 @@ public class BgLoginHandlerInterceptor extends HandlerInterceptorAdapter {
 			// shiro管理的session
 			Subject currentUser = SecurityUtils.getSubject();
 			Session session = currentUser.getSession();
-			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER);
+			BgUser bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER_ROLE_OBJ);
 			if (bgUser != null) {
 				path = path.substring(1, path.length());
 				boolean b = Jurisdiction.hasJurisdiction(path);
 				if (!b) {
-					response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN);
+					response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN_STR);
 				}
 				return b;
 			} else {
 				// 登陆过滤
-				response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN);
+				response.sendRedirect(request.getContextPath() + Const.URL_BG_LOGIN_STR);
 				return false;
 				// return true;
 			}

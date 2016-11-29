@@ -10,10 +10,10 @@ import java.util.Set;
 import org.java_websocket.WebSocket;
 
 /**
- * 在线管理
- * @author FH QQ 123456789 2015-5-25
+ * 即时通讯
+ * @author FH QQ 123456789 2015-5-16
  */
-public class BgOnlineChatServerPool {
+public class BgInstantChatServerPool {
 
 	private static final Map<WebSocket, String> userconnections = new HashMap<WebSocket, String>();
 
@@ -23,14 +23,6 @@ public class BgOnlineChatServerPool {
 	 */
 	public static String getUserByKey(WebSocket conn) {
 		return userconnections.get(conn);
-	}
-
-	/**
-	 * 获取在线总数
-	 * @param
-	 */
-	public static int getUserCount() {
-		return userconnections.size();
 	}
 
 	/**
@@ -66,7 +58,7 @@ public class BgOnlineChatServerPool {
 		List<String> setUsers = new ArrayList<String>();
 		Collection<String> setUser = userconnections.values();
 		for (String u : setUser) {
-			setUsers.add(u);
+			setUsers.add("<a onclick=\"toUserMsg('" + u + "');\">" + u + "</a>");
 		}
 		return setUsers;
 	}
@@ -90,7 +82,7 @@ public class BgOnlineChatServerPool {
 	 * @param message
 	 */
 	public static void sendMessageToUser(WebSocket conn, String message) {
-		if (null != conn) {
+		if (null != conn && null != userconnections.get(conn)) {
 			conn.send(message);
 		}
 	}

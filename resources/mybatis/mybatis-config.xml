@@ -14,6 +14,7 @@
 		<typeAlias type="com.jx.background.entity.BgUser" alias="BgUser"/>
 		<typeAlias type="com.jx.background.entity.BgRole" alias="BgRole"/>
 		<typeAlias type="com.jx.background.entity.BgMenu" alias="BgMenu"/>
+		<typeAlias type="com.jx.background.entity.BgConfig" alias="BgConfig"/>
 		
 		<typeAlias type="com.jx.system.config.PageData" alias="pd"/>
 		

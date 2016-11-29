@@ -67,35 +67,48 @@ public class Const {
 	 */
 	public static final String URL_BG_LOGIN_STR = "/background/main/toLogin.do";
 	
-	/**
-	 * 后台 管理员用户名
-	 */
-	public static final String CONFIG_BG_USERNAME_STR = "admin";
+	
+	
 	
 	/**
-	 * 后台 系统名称
+	 * 后台 系统配置
 	 */
-	public static final String CONFIG_BG_SYSNAME_STR = "JX";
-	
-	/**
-	 * 后台 分页
-	 */
-	public static final int CONFIG_BG_PAGECOUNT_INT = 10;
+	public static final String CONFIG_BG_SYSTEM_OBJ = "configBgSystem";
 	
 	/**
 	 * 后台 邮箱服务器配置
 	 */
-	public static final String CONFIG_BG_EMAILSERVER_STR = "smtp.qq.com,fh,25,fh,it@126.com,fh,123";
+	public static final String CONFIG_BG_EMAILSERVER_OBJ = "configBgEmailServer";
 	
 	/**
-	 * 后台 短信账户配置配置1
+	 * 后台 短信账户配置配置
 	 */
-	public static final String CONFIG_BG_SMS1_STR = "username,fh,password";
+	public static final String CONFIG_BG_MESSAGE_STR = "configBgMessage";
 	
 	/**
-	 * 后台 短信账户配置配置2
+	 * 后台 文字水印配置
 	 */
-	public static final String CONFIG_BG_SMS2_STR = "username,fh,password";
+	public static final String CONFIG_BG_WORDWATERMARK_OBJ = "configBgWordWaterMark";
+	
+	/**
+	 * 后台 图片水印配置
+	 */
+	public static final String CONFIG_BG_IMAGEWATERMARK_OBJ = "configBgImageWaterMark";
+	
+	/**
+	 * 后台 微信接口配置
+	 */
+	public static final String CONFIG_BG_WEIXIN_OBJ = "configBgWeiXin";
+	
+	/**
+	 * 后台 微信接口配置
+	 */
+	public static final String CONFIG_BG_INSTANTCHAR_OBJ = "configBgInstantChat";
+	
+	/**
+	 * 后台 即时聊天服务器配置
+	 */
+	public static final String CONFIG_BG_ONLINEMANAGE_OBJ = "configBgOnlineManage";
 	
 	
 	
