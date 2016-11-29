@@ -8,9 +8,14 @@ import org.springframework.context.ApplicationContext;
 public class Const {
 	
 	/**
-	 * 后台 管理员用户名
+	 * 真
 	 */
-	public static final String ADMIN_BG_USERNAME_STR = "admin";
+	public static final String TRUE = "TRUE";
+	
+	/**
+	 * 假
+	 */
+	public static final String FALSE = "FALSE";
 	
 	
 	/**
@@ -57,20 +62,43 @@ public class Const {
 	 */
 	public static final String SESSION_BG_USERNAME_STR = "seesionBgUserName";
 	
-	
-	public static final String TRUE = "TRUE";
-	
-	public static final String FALSE = "FALSE";
-	
 	/**
 	 * 后台 登录地址
 	 */
 	public static final String URL_BG_LOGIN_STR = "/background/main/toLogin.do";
 	
 	/**
+	 * 后台 管理员用户名
+	 */
+	public static final String CONFIG_BG_USERNAME_STR = "admin";
+	
+	/**
 	 * 后台 系统名称
 	 */
-	public static final String ADMIN_BG_SYSNAME_STR = "JX";
+	public static final String CONFIG_BG_SYSNAME_STR = "JX";
+	
+	/**
+	 * 后台 分页
+	 */
+	public static final int CONFIG_BG_PAGECOUNT_INT = 10;
+	
+	/**
+	 * 后台 邮箱服务器配置
+	 */
+	public static final String CONFIG_BG_EMAILSERVER_STR = "smtp.qq.com,fh,25,fh,it@126.com,fh,123";
+	
+	/**
+	 * 后台 短信账户配置配置1
+	 */
+	public static final String CONFIG_BG_SMS1_STR = "username,fh,password";
+	
+	/**
+	 * 后台 短信账户配置配置2
+	 */
+	public static final String CONFIG_BG_SMS2_STR = "username,fh,password";
+	
+	
+	
 	
 //	public static final String SYSNAME = "admin/config/SYSNAME.txt"; // 系统名称路径
 	

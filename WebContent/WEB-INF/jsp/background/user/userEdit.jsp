@@ -28,58 +28,58 @@
 <script type="text/javascript">
 	$(top.hangge());
 	$(document).ready(function(){
-		if($("#user_id").val()!=""){
-			$("#loginname").attr("readonly","readonly");
-			$("#loginname").css("color","gray");
+		if($("#userId").val()!=""){
+			$("#userName").attr("readonly","readonly");
+			$("#userName").css("color","gray");
 		}
 	});
 	
 	//保存
 	function save(){
-		if($("#role_id").val()==""){
+		if($("#roleId").val()==""){
 			
-			$("#role_id").tips({
+			$("#roleId").tips({
 				side:3,
 	            msg:'选择角色',
 	            bg:'#AE81FF',
 	            time:2
 	        });
 			
-			$("#role_id").focus();
+			$("#roleId").focus();
 			return false;
 		}
-		if($("#loginname").val()=="" || $("#loginname").val()=="此用户名已存在!"){
+		if($("#userName").val()=="" || $("#userName").val()=="此用户名已存在!"){
 			
-			$("#loginname").tips({
+			$("#userName").tips({
 				side:3,
 	            msg:'输入用户名',
 	            bg:'#AE81FF',
 	            time:2
 	        });
 			
-			$("#loginname").focus();
-			$("#loginname").val('');
-			$("#loginname").css("background-color","white");
+			$("#userName").focus();
+			$("#userName").val('');
+			$("#userName").css("background-color","white");
 			return false;
 		}else{
-			$("#loginname").val(jQuery.trim($('#loginname').val()));
+			$("#userName").val(jQuery.trim($('#userName').val()));
 		}
 		
-		if($("#NUMBER").val()==""){
+		if($("#userNumber").val()==""){
 			
-			$("#NUMBER").tips({
+			$("#userNumber").tips({
 				side:3,
 	            msg:'输入编号',
 	            bg:'#AE81FF',
 	            time:3
 	        });
-			$("#NUMBER").focus();
+			$("#userNumber").focus();
 			return false;
 		}else{
-			$("#NUMBER").val($.trim($("#NUMBER").val()));
+			$("#userNumber").val($.trim($("#userNumber").val()));
 		}
 		
-		if($("#user_id").val()=="" && $("#password").val()==""){
+		if($("#userId").val()=="" && $("#password").val()==""){
 			
 			$("#password").tips({
 				side:3,
@@ -116,50 +116,49 @@
 		}
 		
 		var myreg = /^(((13[0-9]{1})|159)+\d{8})$/;
-		if($("#PHONE").val()==""){
+		if($("#phone").val()==""){
 			
-			$("#PHONE").tips({
+			$("#phone").tips({
 				side:3,
 	            msg:'输入手机号',
 	            bg:'#AE81FF',
 	            time:3
 	        });
-			$("#PHONE").focus();
+			$("#phone").focus();
 			return false;
-		}else if($("#PHONE").val().length != 11 && !myreg.test($("#PHONE").val())){
-			$("#PHONE").tips({
+		}else if($("#phone").val().length != 11 && !myreg.test($("#phone").val())){
+			$("#phone").tips({
 				side:3,
 	            msg:'手机号格式不正确',
 	            bg:'#AE81FF',
 	            time:3
 	        });
-			$("#PHONE").focus();
+			$("#phone").focus();
 			return false;
 		}
 		
-		if($("#EMAIL").val()==""){
-			
-			$("#EMAIL").tips({
+		if($("#email").val()==""){
+			$("#email").tips({
 				side:3,
 	            msg:'输入邮箱',
 	            bg:'#AE81FF',
 	            time:3
 	        });
-			$("#EMAIL").focus();
+			$("#email").focus();
 			return false;
-		}else if(!ismail($("#EMAIL").val())){
-			$("#EMAIL").tips({
+		}else if(!ismail($("#email").val())){
+			$("#email").tips({
 				side:3,
 	            msg:'邮箱格式不正确',
 	            bg:'#AE81FF',
 	            time:3
 	        });
-			$("#EMAIL").focus();
+			$("#email").focus();
 			return false;
 		}
 		
-		if($("#user_id").val()==""){
-			hasU();
+		if($("#userId").val()==""){
+			hasUser();
 		}else{
 			$("#userForm").submit();
 			$("#zhongxin").hide();
@@ -172,12 +171,12 @@
 		}
 	
 	//判断用户名是否存在
-	function hasU(){
-		var USERNAME = $.trim($("#loginname").val());
+	function hasUser(){
+		var userName = $.trim($("#userName").val());
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>user/hasU.do',
-	    	data: {USERNAME:USERNAME,tm:new Date().getTime()},
+			url: '<%=basePath%>background/user/hasUser.do',
+	    	data: {userName:userName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
 			success: function(data){
@@ -186,54 +185,54 @@
 					$("#zhongxin").hide();
 					$("#zhongxin2").show();
 				 }else{
-					$("#loginname").css("background-color","#D16E6C");
-					setTimeout("$('#loginname').val('此用户名已存在!')",500);
+					$("#userName").css("background-color","#D16E6C");
+					setTimeout("$('#userName').val('此用户名已存在!')",500);
 				 }
 			}
 		});
 	}
 	
 	//判断邮箱是否存在
-	function hasE(USERNAME){
-		var EMAIL = $.trim($("#EMAIL").val());
+	function hasEmail(userName){
+		var email = $.trim($("#email").val());
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>user/hasE.do',
-	    	data: {EMAIL:EMAIL,USERNAME:USERNAME,tm:new Date().getTime()},
+			url: '<%=basePath%>user/hasEmail.do',
+	    	data: {email:email,userName:userName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
 			success: function(data){
 				 if("success" != data.result){
-					 $("#EMAIL").tips({
+					 $("#email").tips({
 							side:3,
 				            msg:'邮箱已存在',
 				            bg:'#AE81FF',
 				            time:3
 				        });
-					setTimeout("$('#EMAIL').val('')",2000);
+					setTimeout("$('#email').val('')",2000);
 				 }
 			}
 		});
 	}
 	
 	//判断编码是否存在
-	function hasN(USERNAME){
-		var NUMBER = $.trim($("#NUMBER").val());
+	function hasUserNumber(userName){
+		var userNumber = $.trim($("#userNumber").val());
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>user/hasN.do',
-	    	data: {NUMBER:NUMBER,USERNAME:USERNAME,tm:new Date().getTime()},
+			url: '<%=basePath%>background/user/hasUserNumber.do',
+	    	data: {userNumber:userNumber,userName:userName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,
 			success: function(data){
 				 if("success" != data.result){
-					 $("#NUMBER").tips({
+					 $("#userNumber").tips({
 							side:3,
 				            msg:'编号已存在',
 				            bg:'#AE81FF',
 				            time:3
 				        });
-					setTimeout("$('#NUMBER').val('')",2000);
+					setTimeout("$('#userNumber').val('')",2000);
 				 }
 			}
 		});
@@ -242,56 +241,55 @@
 </script>
 	</head>
 <body>
-	<form action="user/${msg }.do" name="userForm" id="userForm" method="post">
-		<input type="hidden" name="USER_ID" id="user_id" value="${pd.USER_ID }"/>
+	<form action="background/user/${msg }.do" name="userForm" id="userForm" method="post">
+		<input type="hidden" name="userId" id="userId" value="${bgUser.userId }"/>
 		<div id="zhongxin">
 		<table>
-			
 			<c:if test="${fx != 'head'}">
-			<c:if test="${pd.ROLE_ID != '1'}">	
+			<c:if test="${bgUser.roleId != '1'}">	
 			<tr class="info">
 				<td>
-				<select class="chzn-select" name="ROLE_ID" id="role_id" data-placeholder="请选择职位" style="vertical-align:top;">
+				<select class="chzn-select" name="roleId" id="roleId" data-placeholder="请选择职位" style="vertical-align:top;">
 				<option value=""></option>
 				<c:forEach items="${roleList}" var="role">
-					<option value="${role.ROLE_ID }" <c:if test="${role.ROLE_ID == pd.ROLE_ID }">selected</c:if>>${role.ROLE_NAME }</option>
+					<option value="${role.roleId }" <c:if test="${role.roleId == bgUser.roleId }">selected</c:if>>${role.ROLE_NAME }</option>
 				</c:forEach>
 				</select>
 				</td>
 			</tr>
 			</c:if>
-			<c:if test="${pd.ROLE_ID == '1'}">
-			<input name="ROLE_ID" id="role_id" value="1" type="hidden" />
+			<c:if test="${bgUser.roleId == '1'}">
+			<input name="roleId" id="roleId" value="1" type="hidden" />
 			</c:if>
 			</c:if>
 			
 			<c:if test="${fx == 'head'}">
-				<input name="ROLE_ID" id="role_id" value="${pd.ROLE_ID }" type="hidden" />
+				<input name="roleId" id="roleId" value="${bgUser.roleId }" type="hidden" />
 			</c:if>
 			
 			<tr>
-				<td><input type="text" name="USERNAME" id="loginname" value="${pd.USERNAME }" maxlength="32" placeholder="这里输入用户名" title="用户名"/></td>
+				<td><input type="text" name="userName" id="userName" value="${bgUser.userName }" maxlength="32" placeholder="这里输入用户名" title="用户名"/></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="NUMBER" id="NUMBER" value="${pd.NUMBER }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasN('${pd.USERNAME }')"/></td>
+				<td><input type="text" name="userNumber" id="userNumber" value="${bgUser.userNumber }" maxlength="32" placeholder="这里输入编号" title="编号" onblur="hasUserNumber('${bgUser.userName }')"/></td>
 			</tr>
 			<tr>
-				<td><input type="password" name="PASSWORD" id="password"  maxlength="32" placeholder="输入密码" title="密码"/></td>
+				<td><input type="password" name="password" id="password"  maxlength="32" placeholder="输入密码" title="密码"/></td>
 			</tr>
 			<tr>
 				<td><input type="password" name="chkpwd" id="chkpwd"  maxlength="32" placeholder="确认密码" title="确认密码" /></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="NAME" id="name"  value="${pd.NAME }"  maxlength="32" placeholder="这里输入姓名" title="姓名"/></td>
+				<td><input type="text" name="name" id="name"  value="${bgUser.name }"  maxlength="32" placeholder="这里输入姓名" title="姓名"/></td>
 			</tr>
 			<tr>
-				<td><input type="number" name="PHONE" id="PHONE"  value="${pd.PHONE }"  maxlength="32" placeholder="这里输入手机号" title="手机号"/></td>
+				<td><input type="number" name="phone" id="phone"  value="${bgUser.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号"/></td>
 			</tr>
 			<tr>
-				<td><input type="email" name="EMAIL" id="EMAIL"  value="${pd.EMAIL }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasE('${pd.USERNAME }')"/></td>
+				<td><input type="email" name="email" id="email"  value="${bgUser.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasEmail('${bgUser.userName }')"/></td>
 			</tr>
 			<tr>
-				<td><input type="text" name="BZ" id="BZ"value="${pd.BZ }" placeholder="这里输入备注" maxlength="64" title="备注"/></td>
+				<td><input type="text" name="bz" id="bz"value="${bgUser.bz }" placeholder="这里输入备注" maxlength="64" title="备注"/></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;">

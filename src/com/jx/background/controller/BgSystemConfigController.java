@@ -31,71 +31,97 @@ import com.jx.system.util.Tools;
  */
 @Controller
 @RequestMapping(value = "/background/head")
-public class BgIndexHeadController extends BaseController {
+public class BgSystemConfigController extends BaseController {
 
 	@Resource(name = "bgUserService")
 	private BgUserService bgUserService;
 	@Resource(name = "appuserService")
 	private AppuserService appuserService;
 
+
+
+	
+	
 	/**
-	 * 获取头部信息
+	 * 去系统设置页面
 	 */
-	@RequestMapping(value = "/getUserInfo")
-	@ResponseBody
-	public Object getUserInfo() {
+	@RequestMapping(value = "/goEditSystem")
+	public ModelAndView goEditSystem() throws Exception {
+		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
-		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			pd = this.getPageData();
+		pd = this.getPageData();
+		pd.put("YSYNAME", Tools.readTxtFile(Const.ADMIN_BG_SYSNAME_STR)); // 读取系统名称
+		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE)); // 读取每页条数
+		String strEMAIL = Tools.readTxtFile(Const.EMAIL); // 读取邮件配置
+		String strSMS1 = Tools.readTxtFile(Const.SMS1); // 读取短信1配置
+		String strSMS2 = Tools.readTxtFile(Const.SMS2); // 读取短信2配置
+		String strFWATERM = Tools.readTxtFile(Const.FWATERM); // 读取文字水印配置
+		String strIWATERM = Tools.readTxtFile(Const.IWATERM); // 读取图片水印配置
+		pd.put("Token", Tools.readTxtFile(Const.WEIXIN)); // 读取微信配置
+		String strWEBSOCKET = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置
 
-			// shiro管理的session
-			Subject currentUser = SecurityUtils.getSubject();
-			Session session = currentUser.getSession();
-
-			BgUser bgUser = new BgUser();
-			bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER);
-
-			if (null == bgUser) {
-				String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString(); // 获取当前登录者loginname
-				pd.put("userName", userName);
-				bgUser = bgUserService.findByUserName(pd);
-				session.setAttribute(Const.SESSION_BG_USER, bgUser);
+		if (null != strEMAIL && !"".equals(strEMAIL)) {
+			String strEM[] = strEMAIL.split(",fh,");
+			if (strEM.length == 4) {
+				pd.put("SMTP", strEM[0]);
+				pd.put("PORT", strEM[1]);
+				pd.put("EMAIL", strEM[2]);
+				pd.put("PAW", strEM[3]);
 			}
-			map.put("user", bgUser);
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
-		} finally {
-			logAfter(logger);
-		}
-		return AppUtil.returnObject(pd, map);
-	}
-
-	/**
-	 * 换 皮肤
-	 */
-	@RequestMapping(value = "/changeSkin")
-	public void changeSkin(PrintWriter out) {
-		PageData pd = new PageData();
-		try {
-			pd = this.getPageData();
-
-			// shiro管理的session
-			Subject currentUser = SecurityUtils.getSubject();
-			Session session = currentUser.getSession();
-
-			String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString();// 获取当前登录者loginname
-			pd.put("userName", userName);
-			bgUserService.changeSkin(pd);
-			session.removeAttribute(Const.SESSION_BG_USERPDS);
-			session.removeAttribute(Const.SESSION_BG_USER_ROLE);
-			out.write("success");
-			out.close();
-		} catch (Exception e) {
-			logger.error(e.toString(), e);
 		}
 
+		if (null != strSMS1 && !"".equals(strSMS1)) {
+			String strS1[] = strSMS1.split(",fh,");
+			if (strS1.length == 2) {
+				pd.put("SMSU1", strS1[0]);
+				pd.put("SMSPAW1", strS1[1]);
+			}
+		}
+
+		if (null != strSMS2 && !"".equals(strSMS2)) {
+			String strS2[] = strSMS2.split(",fh,");
+			if (strS2.length == 2) {
+				pd.put("SMSU2", strS2[0]);
+				pd.put("SMSPAW2", strS2[1]);
+			}
+		}
+
+		if (null != strFWATERM && !"".equals(strFWATERM)) {
+			String strFW[] = strFWATERM.split(",fh,");
+			if (strFW.length == 5) {
+				pd.put("isCheck1", strFW[0]);
+				pd.put("fcontent", strFW[1]);
+				pd.put("fontSize", strFW[2]);
+				pd.put("fontX", strFW[3]);
+				pd.put("fontY", strFW[4]);
+			}
+		}
+
+		if (null != strIWATERM && !"".equals(strIWATERM)) {
+			String strIW[] = strIWATERM.split(",fh,");
+			if (strIW.length == 4) {
+				pd.put("isCheck2", strIW[0]);
+				pd.put("imgUrl", strIW[1]);
+				pd.put("imgX", strIW[2]);
+				pd.put("imgY", strIW[3]);
+			}
+		}
+		if (null != strWEBSOCKET && !"".equals(strWEBSOCKET)) {
+			String strIW[] = strWEBSOCKET.split(",fh,");
+			if (strIW.length == 4) {
+				pd.put("WIMIP", strIW[0]);
+				pd.put("WIMPORT", strIW[1]);
+				pd.put("OLIP", strIW[2]);
+				pd.put("OLPORT", strIW[3]);
+			}
+		}
+
+		mv.setViewName("background/head/bgSystemEdit");
+		mv.addObject("pd", pd);
+
+		return mv;
 	}
+	
 
 	/**
 	 * 去编辑邮箱页面
@@ -301,85 +327,7 @@ public class BgIndexHeadController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 
-	/**
-	 * 去系统设置页面
-	 */
-	@RequestMapping(value = "/goSystem")
-	public ModelAndView goEditEmail() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		pd.put("YSYNAME", Tools.readTxtFile(Const.SYSNAME)); // 读取系统名称
-		pd.put("COUNTPAGE", Tools.readTxtFile(Const.PAGE)); // 读取每页条数
-		String strEMAIL = Tools.readTxtFile(Const.EMAIL); // 读取邮件配置
-		String strSMS1 = Tools.readTxtFile(Const.SMS1); // 读取短信1配置
-		String strSMS2 = Tools.readTxtFile(Const.SMS2); // 读取短信2配置
-		String strFWATERM = Tools.readTxtFile(Const.FWATERM); // 读取文字水印配置
-		String strIWATERM = Tools.readTxtFile(Const.IWATERM); // 读取图片水印配置
-		pd.put("Token", Tools.readTxtFile(Const.WEIXIN)); // 读取微信配置
-		String strWEBSOCKET = Tools.readTxtFile(Const.WEBSOCKET);// 读取WEBSOCKET配置
 
-		if (null != strEMAIL && !"".equals(strEMAIL)) {
-			String strEM[] = strEMAIL.split(",fh,");
-			if (strEM.length == 4) {
-				pd.put("SMTP", strEM[0]);
-				pd.put("PORT", strEM[1]);
-				pd.put("EMAIL", strEM[2]);
-				pd.put("PAW", strEM[3]);
-			}
-		}
-
-		if (null != strSMS1 && !"".equals(strSMS1)) {
-			String strS1[] = strSMS1.split(",fh,");
-			if (strS1.length == 2) {
-				pd.put("SMSU1", strS1[0]);
-				pd.put("SMSPAW1", strS1[1]);
-			}
-		}
-
-		if (null != strSMS2 && !"".equals(strSMS2)) {
-			String strS2[] = strSMS2.split(",fh,");
-			if (strS2.length == 2) {
-				pd.put("SMSU2", strS2[0]);
-				pd.put("SMSPAW2", strS2[1]);
-			}
-		}
-
-		if (null != strFWATERM && !"".equals(strFWATERM)) {
-			String strFW[] = strFWATERM.split(",fh,");
-			if (strFW.length == 5) {
-				pd.put("isCheck1", strFW[0]);
-				pd.put("fcontent", strFW[1]);
-				pd.put("fontSize", strFW[2]);
-				pd.put("fontX", strFW[3]);
-				pd.put("fontY", strFW[4]);
-			}
-		}
-
-		if (null != strIWATERM && !"".equals(strIWATERM)) {
-			String strIW[] = strIWATERM.split(",fh,");
-			if (strIW.length == 4) {
-				pd.put("isCheck2", strIW[0]);
-				pd.put("imgUrl", strIW[1]);
-				pd.put("imgX", strIW[2]);
-				pd.put("imgY", strIW[3]);
-			}
-		}
-		if (null != strWEBSOCKET && !"".equals(strWEBSOCKET)) {
-			String strIW[] = strWEBSOCKET.split(",fh,");
-			if (strIW.length == 4) {
-				pd.put("WIMIP", strIW[0]);
-				pd.put("WIMPORT", strIW[1]);
-				pd.put("OLIP", strIW[2]);
-				pd.put("OLPORT", strIW[3]);
-			}
-		}
-
-		mv.setViewName("system/head/sys_edit");
-		mv.addObject("pd", pd);
-
-		return mv;
-	}
 
 	/**
 	 * 保存系统设置1

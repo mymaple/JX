@@ -37,7 +37,7 @@ public class BgVerificationCodeController {
 
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
-		session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE, verificationCode);
+		session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
 
 		try {
 			ServletOutputStream out = response.getOutputStream();

@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.entity.BgRole;
+import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
@@ -64,7 +65,7 @@ public class BgUserController extends BaseController {
 	 * 新增用户
 	 */
 	@RequestMapping(value = "/addUser")
-	public ModelAndView saveU(PrintWriter out) throws Exception {
+	public ModelAndView addUser(PrintWriter out) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -88,6 +89,40 @@ public class BgUserController extends BaseController {
 		}
 		mv.setViewName("bgSaveResult");
 		return mv;
+	}
+	
+	
+	
+	/**
+	 * 获取当前用户信息
+	 */
+	@RequestMapping(value = "/findUser")
+	@ResponseBody
+	public Object findUser() {
+		PageData pd = new PageData();
+		Map<String, Object> map = new HashMap<String, Object>();
+		try {
+			pd = this.getPageData();
+			// shiro管理的session
+			Subject currentUser = SecurityUtils.getSubject();
+			Session session = currentUser.getSession();
+
+			BgUser bgUser = new BgUser();
+			bgUser = (BgUser) session.getAttribute(Const.SESSION_BG_USER_OBJ);
+
+			if (null == bgUser) {
+				String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString(); // 获取当前登录者loginname
+				pd.put("userName", userName);
+				bgUser = bgUserService.findByUserName(pd);
+				session.setAttribute(Const.SESSION_BG_USER_OBJ, bgUser);
+			}
+			map.put("bgUser", bgUser);
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		} finally {
+			logAfter(logger);
+		}
+		return AppUtil.returnObject(pd, map);
 	}
 
 	/**
@@ -177,7 +212,7 @@ public class BgUserController extends BaseController {
 	 * 去修改用户页面
 	 */
 	@RequestMapping(value = "/goEditUser")
-	public ModelAndView goEditU() throws Exception {
+	public ModelAndView goEditUser() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -194,13 +229,37 @@ public class BgUserController extends BaseController {
 		}
 
 		List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
-		pd = bgUserService.findByUserId(pd); // 根据ID读取
+		BgUser bgUser = bgUserService.findByUserId(pd); // 根据ID读取
 		mv.setViewName("background/user/userEdit");
 		mv.addObject("msg", "editUser");
-		mv.addObject("pd", pd);
+		mv.addObject("bgUser", bgUser);
 		mv.addObject("roleList", roleList);
 
 		return mv;
+	}
+	
+	/**
+	 * 换 皮肤
+	 */
+	@RequestMapping(value = "/changeSkin")
+	public void changeSkin(PrintWriter out) {
+		PageData pd = new PageData();
+		try {
+			pd = this.getPageData();
+
+			// shiro管理的session
+			Subject currentUser = SecurityUtils.getSubject();
+			Session session = currentUser.getSession();
+
+			String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString();// 获取当前登录者loginname
+			pd.put("userName", userName);
+			bgUserService.changeSkin(pd);
+			out.write("success");
+			out.close();
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+
 	}
 
 	/**

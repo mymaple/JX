@@ -34,7 +34,7 @@ $(function(){
 	$("#skin-colorpicker").ace_colorpicker().on("change",function(){
 		var b=$(this).find("option:selected").data("class");
 		changeSkin(b);
-		var url = locat+'/background/head/changeSkin.do?skin='+b+'&tm='+new Date().getTime();
+		var url = locat+'/background/user/changeSkin.do?skin='+b+'&tm='+new Date().getTime();
 		$.get(url,function(data){});
 	});
 });
@@ -45,7 +45,7 @@ var userName = "xxxxxxxxxxx";	//用于即时通讯（ 当前登录用户）
 $(function(){
 	$.ajax({
 		type: "POST",
-		url: locat+'/background/head/getUserInfo.do?tm='+new Date().getTime(),
+		url: locat+'/background/user/findUser.do?tm='+new Date().getTime(),
     	data: encodeURI(""),
 		dataType:'json',
 		//beforeSend: validateData,
@@ -55,11 +55,11 @@ $(function(){
 //			 $.each(data.list, function(i, list){
 //			 });
 			 //登陆者资料
-			 $("#user_info").html('<small>Welcome</small> '+data.user.name+'');
-			 userName = data.user.userName;
-			 userId = data.user.userId;//用户ID
-			 changeSkin(data.user.skin);//皮肤
-			 if(data.user.userName != 'admin'){
+			 $("#user_info").html('<small>Welcome</small> '+data.bgUser.name+'');
+			 userName = data.bgUser.userName;
+			 userId = data.bgUser.userId;//用户ID
+			 changeSkin(data.bgUser.skin);//皮肤
+			 if(data.bgUser.userName != 'admin'){
 				 $("#adminmenu").hide();	//隐藏菜单设置
 				 $("#adminzidian").hide();	//隐藏数据字典
 				 $("#systemset").hide();	//隐藏系统设置
@@ -162,7 +162,7 @@ function changeSkin(b){
 }
 
 //修改个人资料
-function editUserH(){
+function editUser(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
@@ -177,12 +177,12 @@ function editUserH(){
 }
 
 //系统设置
-function editSys(){
+function editSystem(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="系统设置";
-	 diag.URL = locat+'/head/goSystem.do';
+	 diag.URL = locat+'/background/head/goEditSystem.do';
 	 diag.Width = 600;
 	 diag.Height = 596;
 	 diag.CancelEvent = function(){ //关闭事件
@@ -197,7 +197,7 @@ function productCode(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="代码生成器";
-	 diag.URL = locat+'/head/goProductCode.do';
+	 diag.URL = locat+'/background/head/goProductCode.do';
 	 diag.Width = 800;
 	 diag.Height = 450;
 	 diag.CancelEvent = function(){ //关闭事件
@@ -220,7 +220,6 @@ function zidian(){
 		diag.close();
 	 };
 	 diag.show();
-	 
 }
 
 //菜单
@@ -236,7 +235,6 @@ function menu(){
 		diag.close();
 	 };
 	 diag.show();
-	 
 }
 
 //切换菜单
