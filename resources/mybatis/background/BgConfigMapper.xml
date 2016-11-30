@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BgConfigMapper">
-	<sql id="configColumns">configId,type,name,url,port,account,password,isOpen</sql>
+	<sql id="configColumns">configId,configType,configName,param1,param2,param3,param4,isOpen</sql>
 	
 	<resultMap type="BgConfig" id="configResultMap">
 		<id column="configId" property="configId"/>
-		<result column="type" property="type"/>
-		<result column="name" property="name"/>
-		<result column="url" property="url"/>
-		<result column="port" property="port"/>
-		<result column="account" property="account"/>
-		<result column="password" property="password"/>
-		<result column="isOpen" javaType="boolean" property="isOpen" jdbcType="BOOLEAN"/>
+		<result column="configType" property="configType"/>
+		<result column="configName" property="configName"/>
+		<result column="param1" property="param1"/>
+		<result column="param2" property="param2"/>
+		<result column="param3" property="param3"/>
+		<result column="param4" property="param4"/>
+		<result column="isOpen" property="isOpen"/>
 	</resultMap>
 	
 	<!-- 新增配置 -->
@@ -21,12 +21,12 @@
 			<include refid="configColumns"/>
 		) values (
 			#{configId},
-			#{type},
-			#{name},
-			#{url},
-			#{port},
-			#{account},
-			#{password},
+			#{configType},
+			#{configName},
+			#{param1},
+			#{param2},
+			#{param3},
+			#{param4},
 			#{isOpen}
 		)
 	</insert>
@@ -40,12 +40,12 @@
 	<!-- 编辑配置 -->
 	<update id="editConfig" parameterType="BgConfig">
 		update bgConfig set 
-			type =#{type},
-			name  =#{name} ,
-			url =#{url},
-			port=#{port},
-			account =#{account},
-			password =#{password},
+			configType =#{configType},
+			configName  =#{configName} ,
+			param1 =#{param1},
+			param2 =#{param2},
+			param3 =#{param3},
+			param4 =#{param4},
 			isOpen =#{isOpen}
 		where 
 			configId=#{configId}
@@ -59,10 +59,10 @@
 	</select>
 	
 	<!-- 根据type获取配置 -->
-	<select id="findConfigByType" parameterType="String" resultType="BgConfig">
+	<select id="findConfigByConfigType" parameterType="String" resultType="BgConfig">
 		select  <include refid="configColumns"/> 
 		 from bgConfig 
-		 where type=#{type}
+		 where configType=#{configType}
 	</select>		
 	
 	<!-- 获取所有顶级配置 -->

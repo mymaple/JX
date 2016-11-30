@@ -188,6 +188,27 @@ public class BgUserController extends BaseController {
 		map.put("result", errInfo); // 返回结果
 		return AppUtil.returnObject(new PageData(), map);
 	}
+	
+	/**
+	 * 判断手机号是否存在
+	 */
+	@RequestMapping(value = "/hasPhone")
+	@ResponseBody
+	public Object hasPhone() {
+		Map<String, String> map = new HashMap<String, String>();
+		String errInfo = "success";
+		PageData pd = new PageData();
+		try {
+			pd = this.getPageData();
+			if (bgUserService.findByPhone(pd) != null) {
+				errInfo = "error";
+			}
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		map.put("result", errInfo); // 返回结果
+		return AppUtil.returnObject(new PageData(), map);
+	}
 
 	/**
 	 * 修改用户

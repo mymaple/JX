@@ -96,11 +96,11 @@ public class BgMainController extends BaseController {
 		Session session = currentUser.getSession();
 		BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
 		if (bgConfigSystem == null) {
-			bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+			bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 			session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
 		}
 		
-		pd.put("systemName", bgConfigSystem.getUrl()); // 读取系统名称
+		pd.put("systemName", bgConfigSystem.getParam1()); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		return mv;
@@ -140,11 +140,11 @@ public class BgMainController extends BaseController {
 		
 		BgConfig bgConfigSystem = null;
 		try {
-			bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+			bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		pd.put("systemName", bgConfigSystem==null?"":bgConfigSystem.getUrl()); // 读取系统名称
+		pd.put("systemName", bgConfigSystem==null?"":bgConfigSystem.getParam1()); // 读取系统名称
 		mv.addObject("pd", pd);
 		mv.setViewName("background/main/bgLogin");
 		
@@ -307,20 +307,20 @@ public class BgMainController extends BaseController {
 				// 读取websocket配置
 				BgConfig bgConfigOnlineManage = (BgConfig) session.getAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
 				if (bgConfigOnlineManage == null) {
-					bgConfigOnlineManage = bgConfigService.findConfigByType(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
+					bgConfigOnlineManage = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
 					session.setAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ,bgConfigOnlineManage);
 				}
 				
 				BgConfig bgConfigInstantChat = (BgConfig) session.getAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ);
 				if (bgConfigInstantChat == null) {
-					bgConfigInstantChat = bgConfigService.findConfigByType(Const.CONFIG_BG_INSTANTCHAT_OBJ);
+					bgConfigInstantChat = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ);
 					session.setAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ,bgConfigInstantChat);
 				}
 				
-				pd.put("onlineManageIp", bgConfigOnlineManage.getUrl());
-				pd.put("onlineManagePort", bgConfigOnlineManage.getPort());
-				pd.put("instantChatIp", bgConfigInstantChat.getUrl());
-				pd.put("instantChatPort", bgConfigInstantChat.getPort());
+				pd.put("onlineManageIp", bgConfigOnlineManage.getParam1());
+				pd.put("onlineManagePort", bgConfigOnlineManage.getParam2());
+				pd.put("instantChatIp", bgConfigInstantChat.getParam1());
+				pd.put("instantChatPort", bgConfigInstantChat.getParam2());
 				// 读取websocket配置
 				mv.addObject("bgUser", bgUser);
 				mv.addObject("bgMenuInCurrentList", bgMenuInCurrentList);
@@ -331,10 +331,10 @@ public class BgMainController extends BaseController {
 			
 			BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
 			if (bgConfigSystem == null) {
-				bgConfigSystem = bgConfigService.findConfigByType(Const.CONFIG_BG_SYSTEM_OBJ);
+				bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 				session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
 			}
-			pd.put("systemName", bgConfigSystem.getUrl()); // 读取系统名称
+			pd.put("systemName", bgConfigSystem.getParam1()); // 读取系统名称
 
 		} catch (Exception e) {
 			mv.setViewName("background/main/bgLogin");

@@ -238,6 +238,30 @@
 		});
 	}
 	
+	//判断编码是否存在
+	function hasPhone(userName){
+		var phone = $.trim($("#phone").val());
+		$.ajax({
+			type: "POST",
+			url: '<%=basePath%>background/user/hasPhone.do',
+	    	data: {phone:phone,userName:userName,tm:new Date().getTime()},
+			dataType:'json',
+			cache: false,
+			success: function(data){
+				 if("success" != data.result){
+					 $("#phone").tips({
+							side:3,
+				            msg:'手机号已存在',
+				            bg:'#AE81FF',
+				            time:3
+				        });
+					setTimeout("$('#phone').val('')",2000);
+				 }
+			}
+		});
+	}
+	
+	
 </script>
 	</head>
 <body>
@@ -252,7 +276,7 @@
 				<select class="chzn-select" name="roleId" id="roleId" data-placeholder="请选择职位" style="vertical-align:top;">
 				<option value=""></option>
 				<c:forEach items="${roleList}" var="role">
-					<option value="${role.roleId }" <c:if test="${role.roleId == bgUser.roleId }">selected</c:if>>${role.ROLE_NAME }</option>
+					<option value="${role.roleId }" <c:if test="${role.roleId == bgUser.roleId }">selected</c:if>>${role.roleName }</option>
 				</c:forEach>
 				</select>
 				</td>
@@ -283,7 +307,7 @@
 				<td><input type="text" name="name" id="name"  value="${bgUser.name }"  maxlength="32" placeholder="这里输入姓名" title="姓名"/></td>
 			</tr>
 			<tr>
-				<td><input type="number" name="phone" id="phone"  value="${bgUser.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号"/></td>
+				<td><input type="number" name="phone" id="phone"  value="${bgUser.phone }"  maxlength="32" placeholder="这里输入手机号" title="手机号" onblur="hasPhone('${bgUser.userName }')"/></td>
 			</tr>
 			<tr>
 				<td><input type="email" name="email" id="email"  value="${bgUser.email }" maxlength="32" placeholder="这里输入邮箱" title="邮箱" onblur="hasEmail('${bgUser.userName }')"/></td>
@@ -320,7 +344,7 @@
 			$(".chzn-select-deselect").chosen({allow_single_deselect:true}); 
 			
 			//日期框
-			$('.date-picker').datepicker();
+			//$('.date-picker').datepicker();
 			
 		});
 		

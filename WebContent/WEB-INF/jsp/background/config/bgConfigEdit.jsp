@@ -53,52 +53,73 @@
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgSystem.name }
+							${pd.configBgSystem.configName }
+							<input type="hidden" name="configId" id="configIdSystem" value="${pd.configBgSystem.configId }" />
+							<input type="hidden" name="configType" id="configTypeSystem" value="${pd.configBgSystem.configType }" />
+							<input type="hidden" name="configName" id="configNameSystem" value="${pd.configBgSystem.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenSystem" value="${pd.configBgSystem.isOpen }" />
+							<input type="hidden" name="param3" id="param3System" value="${pd.configBgSystem.param3 }" />
+							<input type="hidden" name="param4" id="param4System" value="${pd.configBgSystem.param4 }" />
 						</td>
 					</tr>
 					<tr>
 						<td style="width:70px;text-align: right;padding-top: 13px;">系统名称:</td>
-						<td><input type="text" name="YSYNAME" id="YSYNAME" value="${pd.configBgSystem.url }" placeholder="这里输入系统名称" style="width:90%" title="系统名称"/></td>
+						<td><input type="text" name="param1" id="param1System" value="${pd.configBgSystem.param1 }" placeholder="这里输入系统名称" style="width:90%" title="系统名称"/></td>
 					
 						<td style="width:70px;text-align: right;padding-top: 13px;">每页条数:</td>
-						<td><input type="number" name="COUNTPAGE" id="COUNTPAGE" value="${pd.configBgSystem.port }" placeholder="这里输入每页条数" style="width:90%" title="每页条数"/></td>
+						<td><input type="number" name="param2" id="param2System" value="${pd.configBgSystem.param2 }" placeholder="这里输入每页条数" style="width:90%" title="每页条数"/></td>
 					</tr>
 				</table>
 				
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgEmailServer.name }
+							${pd.configBgEmailServer.configName }
+							<input type="hidden" name="configId" id="configIdEmail" value="${pd.configBgEmailServer.configId }" />
+							<input type="hidden" name="configType" id="configTypeEmail" value="${pd.configBgEmailServer.configType }" />
+							<input type="hidden" name="configName" id="configNameEmail" value="${pd.configBgEmailServer.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenEmail" value="${pd.configBgEmailServer.isOpen }" />
+							
 						</td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 13px;">SMTP:</td>
-						<td><input type="text" name="SMTP" id="SMTP" value="${pd.configBgEmailServer.url }" placeholder="例如:smtp.qq.com" style="width:90%" title="SMTP"/></td>
+						<td><input type="text" name="param1" id="param1Email" value="${pd.configBgEmailServer.param1 }" placeholder="例如:smtp.qq.com" style="width:90%" title="SMTP"/></td>
 					
 						<td style="width:50px;text-align: right;padding-top: 13px;">端口:</td>
-						<td><input type="number" name="PORT" id="PORT" value="${pd.configBgEmailServer.port }" placeholder="一般为：25" style="width:90%" title="端口"/></td>
+						<td><input type="number" name="param2" id="param2Email" value="${pd.configBgEmailServer.param2 }" placeholder="一般为：25" style="width:90%" title="端口"/></td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 13px;">邮箱:</td>
-						<td><input type="email" name="EMAIL" id="EMAIL" value="${pd.configBgEmailServer.account }" placeholder="请输入邮件服务器邮箱" style="width:90%" title="邮箱"/></td>
+						<td><input type="email" name="param3" id="param3Email" value="${pd.configBgEmailServer.param3 }" placeholder="请输入邮件服务器邮箱" style="width:90%" title="邮箱"/></td>
 					
 						<td style="width:50px;text-align: right;padding-top: 13px;">密码:</td>
-						<td><input type="password" name="PAW" id="PAW" value="${pd.configBgEmailServer.password }" placeholder="请输入邮箱密码" style="width:90%" title="密码"/></td>
+						<td><input type="text" name="param4" id="param4Email" value="${pd.configBgEmailServer.param4 }" placeholder="请输入邮箱密码" style="width:90%" title="密码"/></td>
 					</tr>
 				</table>
 				
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgMessage.name }&nbsp;(短信商&nbsp;<a href="${pd.configBgMessage.url }" target="_blank">官网</a>)
+							${pd.configBgMessage.configName }&nbsp;(短信商&nbsp;<a href="${pd.configBgMessage.param1 }" target="_blank">官网</a>)
+							<input type="hidden" name="configId" id="configIdMessage" value="${pd.configBgMessage.configId }" />
+							<input type="hidden" name="configType" id="configTypeMessage" value="${pd.configBgMessage.configType }" />
+							<input type="hidden" name="configName" id="configNameMessage" value="${pd.configBgMessage.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenMessage" value="${pd.configBgMessage.isOpen }" />
+							<input type="hidden" name="param2" id="param2Message" value="${pd.configBgMessage.param2 }" />
 						</td>
 					</tr>
 					<tr>
+						<td style="width:50px;text-align: right;padding-top: 13px;">官网:</td>
+						<td colspan="3"><input type="text" name="param1" id="param1Message" value="${pd.configBgMessage.param1 }" placeholder="官网" style="width:90%" title="网站"/></td>
+					
+					</tr>
+					<tr>
 						<td style="width:50px;text-align: right;padding-top: 13px;">账号:</td>
-						<td><input type="email" name="SMSU1" id="SMSU1" value="${pd.configBgMessage.account }" placeholder="请输入账号" style="width:90%" title="邮箱"/></td>
+						<td><input type="text" name="param3" id="param3Message" value="${pd.configBgMessage.param3 }" placeholder="请输入账号" style="width:90%" title="邮箱"/></td>
 					
 						<td style="width:50px;text-align: right;padding-top: 13px;">密码:</td>
-						<td><input type="password" name="SMSPAW1" id="SMSPAW1" value="${pd.configBgMessage.password } placeholder="请输入密码" style="width:90%" title="密码"/></td>
+						<td><input type="text" name="param4" id="param4Message" value="${pd.configBgMessage.param4 }" placeholder="请输入密码" style="width:90%" title="密码"/></td>
 					</tr>
 				</table>
 		
@@ -117,42 +138,52 @@
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgWordWaterMark.name }
+							${pd.configBgWordWaterMark.configName }
+							<input type="hidden" name="configId" id="configIdWord" value="${pd.configBgWordWaterMark.configId }" />
+							<input type="hidden" name="configType" id="configTypeWord" value="${pd.configBgWordWaterMark.configType }" />
+							<input type="hidden" name="configName" id="configNameWord" value="${pd.configBgWordWaterMark.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenWord" value="${pd.configBgWordWaterMark.isOpen }" />
 							<label style="float:left;padding-left: 15px;"><input name="fcheckbox" class="ace-checkbox-2" type="checkbox" id="check1" onclick="openThis1();" /><span class="lbl">开启</span></label>
 						</td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 12px;">内容:</td>
-						<td><input type="text" name="fcontent" id="fcontent" value="${pd.configBgWordWaterMark.url }"  style="width:90%" title="水印文字内容"/></td>
+						<td><input type="text" name="param1" id="param1Word" value="${pd.configBgWordWaterMark.param1 }"  style="width:90%" title="水印文字内容"/></td>
 						<td style="width:50px;text-align: right;padding-top: 12px;">字号:</td>
-						<td><input type="number" name="fontSize" id="fontSize" value="${pd.configBgWordWaterMark.port }"  style="width:90%" title="字号"/></td>
+						<td><input type="number" name="param2" id="param2Word" value="${pd.configBgWordWaterMark.param2 }"  style="width:90%" title="字号"/></td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 12px;">X坐标:</td>
-						<td><input type="number" name="fontX" id="fontX" value="${pd.configBgWordWaterMark.account }"  style="width:90%" title="X坐标"/></td>
+						<td><input type="number" name="param3" id="param3Word" value="${pd.configBgWordWaterMark.param3 }"  style="width:90%" title="X坐标"/></td>
 						<td style="width:50px;text-align: right;padding-top: 12px;">Y坐标:</td>
-						<td><input type="number" name="fontY" id="fontY" value="${pd.configBgWordWaterMark.password }"  style="width:90%" title="Y坐标"/></td>
+						<td><input type="number" name="param4" id="param4Word" value="${pd.configBgWordWaterMark.param4 }"  style="width:90%" title="Y坐标"/></td>
 					</tr>
 				</table>
 				
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgImageWaterMark.name }
+							${pd.configBgImageWaterMark.configName }
+							<input type="hidden" name="configId" id="configIdImage" value="${pd.configBgImageWaterMark.configId }" />
+							<input type="hidden" name="configType" id="configTypeImage" value="${pd.configBgImageWaterMark.configType }" />
+							<input type="hidden" name="configName" id="configNameImage" value="${pd.configBgImageWaterMark.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenImage" value="${pd.configBgImageWaterMark.isOpen }" />
+							<input type="hidden" name="param2" id="param2Image" value="${pd.configBgImageWaterMark.param2 }" />
+							
 							<label style="float:left;padding-left: 15px;"><input name="fcheckbox" class="ace-checkbox-2" type="checkbox" id="check2" onclick="openThis2();" /><span class="lbl">开启</span></label>
 						</td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 12px;">X坐标:</td>
-						<td><input type="number" name="imgX" id="imgX" value="${pd.configBgImageWaterMark.account }" style="width:90%" title="X坐标"/></td>
+						<td><input type="number" name="param3" id="param3Image" value="${pd.configBgImageWaterMark.param3 }" style="width:90%" title="X坐标"/></td>
 						<td style="width:50px;text-align: right;padding-top: 12px;">Y坐标:</td>
-						<td><input type="number" name="imgY" id="imgY" value="${pd.configBgImageWaterMark.account }"  style="width:90%" title="Y坐标"/></td>
+						<td><input type="number" name="param4" id="param4Image" value="${pd.configBgImageWaterMark.param4 }"  style="width:90%" title="Y坐标"/></td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 12px;">水印:</td>
 						<td colspan="10">
-						<div style="float:left;"><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.configBgImageWaterMark.url }"  width="100"/></div>
-						<div style="float:right;"><input type="file" name="TP_URL" id="uploadify1" keepDefaultStyle = "true"/></div>
+						<div style="float:left;"><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.configBgImageWaterMark.param1 }"  width="100"/></div>
+						<div style="float:right;"><input type="file" name="param1" id="param1Image" keepDefaultStyle = "true"/></div>
 						</td>
 					</tr>
 				</table>
@@ -165,8 +196,6 @@
 						</td>
 					</tr>
 				</table>
-				<input type="hidden" name="isCheck1" id="isCheck1" value="${pd.isCheck1 }"/>
-				<input type="hidden" name="isCheck2" id="isCheck2" value="${pd.isCheck2 }"/>
 				<input type="hidden" name="imgUrl" id="imgUrl" value="${pd.imgUrl }"/>
 				<input type="hidden" value="no" id="hasTp1" />
 				</form>
@@ -178,46 +207,67 @@
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgWeiXin.name }
+							${pd.configBgWeiXin.configName }
+							<input type="hidden" name="configId" id="configIdWeiXin" value="${pd.configBgWeiXin.configId }" />
+							<input type="hidden" name="configType" id="configTypeWeiXin" value="${pd.configBgWeiXin.configType }" />
+							<input type="hidden" name="configName" id="configNameWeiXin" value="${pd.configBgWeiXin.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenWeiXin" value="${pd.configBgWeiXin.isOpen }" />
+							<input type="hidden" name="param2" id="param2WeiXin" value="${pd.configBgWeiXin.param2 }" />
+							<input type="hidden" name="param4" id="param4WeiXin" value="${pd.configBgWeiXin.param4 }" />
+							
 						</td>
 					</tr>
 					<tr>
 						<td style="width:120px;text-align: right;padding-top: 12px;">URL(服务器地址):</td>
-						<td><input type="text" name="WXURL" id="WXURL" value="<%=basePath%>${pd.configBgWeiXin.url }" disabled="disabled"  style="width:90%" title="URL(服务器地址)必须是域名，ip地址验证通不过"/></td>
+						<td><input type="text" name="param1" id="param1WeiXin" value="<%=basePath%>${pd.configBgWeiXin.param1 }" style="width:90%" title="URL(服务器地址)必须是域名，ip地址验证通不过"/></td>
 					</tr>
 					<tr>
 						<td style="width:120px;text-align: right;padding-top: 12px;">Token(令牌):</td>
-						<td><input type="text" name="Token" id="Token" value="${pd.configBgWeiXin.account }"  style="width:90%" title="URL(服务器地址)"/></td>
+						<td><input type="text" name="param3" id="param3WeiXin" value="${pd.configBgWeiXin.param3 }"  style="width:90%" title="URL(服务器地址)"/></td>
 					</tr>
 				</table>
 				
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgInstantChat.name }
+							${pd.configBgInstantChat.configName }
+							<input type="hidden" name="configId" id="configIdChat" value="${pd.configBgInstantChat.configId }" />
+							<input type="hidden" name="configType" id="configTypeChat" value="${pd.configBgInstantChat.configType }" />
+							<input type="hidden" name="configName" id="configNameChat" value="${pd.configBgInstantChat.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenChat" value="${pd.configBgInstantChat.isOpen }" />
+							<input type="hidden" name="param3" id="param3Chat" value="${pd.configBgInstantChat.param3 }" />
+							<input type="hidden" name="param4" id="param4Chat" value="${pd.configBgInstantChat.param4 }" />
+							
 						</td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 13px;">地址:</td>
-						<td><input type="text" name="WIMIP" id="WIMIP" value="${pd.configBgInstantChat.url }" placeholder="请输入服务器地址" style="width:90%" title="服务器地址"/></td>
+						<td><input type="text" name="param1" id="param1Chat" value="${pd.configBgInstantChat.param1 }" placeholder="请输入服务器地址" style="width:90%" title="服务器地址"/></td>
 					
 						<td style="width:50px;text-align: right;padding-top: 13px;">端口:</td>
-						<td><input type="number" name="WIMPORT" id="WIMPORT" value="${pd.configBgInstantChat.port }" placeholder="端口" style="width:90%" title="端口"/></td>
+						<td><input type="number" name="param2" id="param2Chat" value="${pd.configBgInstantChat.param2 }" placeholder="端口" style="width:90%" title="端口"/></td>
 					</tr>
 				</table>
 				
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
-							${pd.configBgOnlineManage.name }
+							${pd.configBgOnlineManage.configName }
+							<input type="hidden" name="configId" id="configIdManage" value="${pd.configBgOnlineManage.configId }" />
+							<input type="hidden" name="configType" id="configTypeManage" value="${pd.configBgOnlineManage.configType }" />
+							<input type="hidden" name="configName" id="configNameManage" value="${pd.configBgOnlineManage.configName }" />
+							<input type="hidden" name="isOpen" id="isOpenManage" value="${pd.configBgOnlineManage.isOpen }" />
+							<input type="hidden" name="param3" id="param3Manage" value="${pd.configBgOnlineManage.param3 }" />
+							<input type="hidden" name="param4" id="param4Manage" value="${pd.configBgOnlineManage.param4 }" />
+							
 						</td>
 					</tr>
 					<tr>
 						<td style="width:50px;text-align: right;padding-top: 13px;">地址:</td>
-						<td><input type="text" name="OLIP" id="OLIP" value="${pd.configBgOnlineManage.url }" placeholder="请输入服务器地址" style="width:90%" title="服务器地址"/></td>
+						<td><input type="text" name="param1" id="param1Manage" value="${pd.configBgOnlineManage.param1 }" placeholder="请输入服务器地址" style="width:90%" title="服务器地址"/></td>
 					
 						<td style="width:50px;text-align: right;padding-top: 13px;">端口:</td>
-						<td><input type="number" name="OLPORT" id="OLPORT" value="${pd.configBgOnlineManage.port }" placeholder="端口" style="width:90%" title="端口"/></td>
+						<td><input type="number" name="param2" id="param2Manage" value="${pd.configBgOnlineManage.param2 }" placeholder="端口" style="width:90%" title="端口"/></td>
 					</tr>
 				</table>
 				

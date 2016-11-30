@@ -57,7 +57,7 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		BgInstantChatServer s;
 		try {
 			String port =  (bgConfigService.
-					findConfigByType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getPort();
+					findConfigByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getParam2();
 			if(port != null && !"".equals(port)){
 				s = new BgInstantChatServer(Integer.parseInt(port));
 				s.start();
@@ -76,7 +76,7 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		BgOnlineManageServer s;
 		try {
 			String port =  (bgConfigService.
-					findConfigByType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getPort();
+					findConfigByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getParam2();
 			if(port != null && !"".equals(port)){
 				s = new BgOnlineManageServer(Integer.parseInt(port));
 				s.start();

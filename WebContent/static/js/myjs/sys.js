@@ -133,16 +133,16 @@ function save2(){
 
 function openThis1(){
 	if($("#check1").attr("checked") == 'checked'){
-		$("#isCheck1").val('yes');
+		$("#isOpenWord").val('1');
 	}else{
-		$("#isCheck1").val('no');
+		$("#isOpenWord").val('0');
 	}
 }
 function openThis2(){
 	if($("#check2").attr("checked") == 'checked'){
-		$("#isCheck2").val('yes');
+		$("#isOpenImage").val('1');
 	}else{
-		$("#isCheck2").val('no');
+		$("#isOpenImage").val('0');
 	}
 }
 
@@ -150,7 +150,7 @@ function openThis2(){
 //=======================================配置NO1
 //保存
 function save(){
-	
+	/*
 	if($("#YSYNAME").val()==""){
 		$("#YSYNAME").tips({
 			side:3,
@@ -225,7 +225,7 @@ function save(){
         });
 		$("#PAW").focus();
 		return false;
-	}
+	}*/
 	
 	$("#Form").submit();
 	$("#zhongxin").hide();

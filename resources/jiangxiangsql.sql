@@ -112,11 +112,11 @@ DROP TABLE IF EXISTS `bgConfig`;
 CREATE TABLE `bgConfig` (
   `configId` varchar(100) NOT NULL,
   `configType` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL,
-  `port` varchar(255) DEFAULT NULL,
-  `account` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `configName` varchar(255) DEFAULT NULL,
+  `param1` varchar(255) DEFAULT NULL,
+  `param2` varchar(255) DEFAULT NULL,
+  `param3` varchar(255) DEFAULT NULL,
+  `param4` varchar(255) DEFAULT NULL,
   `isOpen` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`configId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -124,11 +124,11 @@ CREATE TABLE `bgConfig` (
 -- ----------------------------
 -- Table structure for bgConfig
 -- ----------------------------
-INSERT INTO `bgConfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX', '10', 'jxadmin', '', true);
+INSERT INTO `bgConfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX', '10', 'admin', '', true);
 INSERT INTO `bgConfig` VALUES ('2', 'configBgEmailServer', '邮箱服务器配置', 'smtp.qq.com', '25', 'it@126.com', '123', true);
-INSERT INTO `bgConfig` VALUES ('3', 'configBgMessage', '短信账户配置配置', 'http://www.dxton.com/', '', 'username', 'ppp', true);
+INSERT INTO `bgConfig` VALUES ('3', 'configBgMessage', '短信账户配置', 'http://www.dxton.com/', '', 'username', 'ppp', true);
 INSERT INTO `bgConfig` VALUES ('4', 'configBgWordWaterMark', '文字水印配置', 'JX', '20', '1', '1', true);
 INSERT INTO `bgConfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配置', 'watermark.png', '', '1', '1', true);
 INSERT INTO `bgConfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', 'http://localhost:8080/FHMYSQL/weixin/index ', '', 'token', '', true);
-INSERT INTO `bgConfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.1', '8887', 'jxadmin', '', true);
-INSERT INTO `bgConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.1', '8889', 'jxadmin', '', true);
+INSERT INTO `bgConfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.1', '3020', '', '', true);
+INSERT INTO `bgConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.1', '3021', '', '', true);

@@ -3,14 +3,13 @@ package com.jx.background.entity;
 public class BgConfig {
 	
 	private String configId;
-	private String type;
-	private String name;
-	private String url;
-	private String port;
-	private String account;
-	private String password;
-	private boolean isOpen;
-	
+	private String configType;
+	private String configName;
+	private String param1;
+	private String param2;
+	private String param3;
+	private String param4;
+	private String isOpen;
 	
 	
 	public String getConfigId() {
@@ -19,48 +18,52 @@ public class BgConfig {
 	public void setConfigId(String configId) {
 		this.configId = configId;
 	}
-	public String getType() {
-		return type;
+	public String getConfigType() {
+		return configType;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setConfigType(String configType) {
+		this.configType = configType;
 	}
-	public String getName() {
-		return name;
+	public String getConfigName() {
+		return configName;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setConfigName(String configName) {
+		this.configName = configName;
 	}
-	public String getUrl() {
-		return url;
+	public String getParam1() {
+		return param1;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setParam1(String param1) {
+		this.param1 = param1;
 	}
-	public String getPort() {
-		return port;
+	public String getParam2() {
+		return param2;
 	}
-	public void setPort(String port) {
-		this.port = port;
+	public void setParam2(String param2) {
+		this.param2 = param2;
 	}
-	public String getAccount() {
-		return account;
+	public String getParam3() {
+		return param3;
 	}
-	public void setAccount(String account) {
-		this.account = account;
+	public void setParam3(String param3) {
+		this.param3 = param3;
 	}
-	public String getPassword() {
-		return password;
+	public String getParam4() {
+		return param4;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setParam4(String param4) {
+		this.param4 = param4;
 	}
-	public boolean isOpen() {
+	public String getIsOpen() {
 		return isOpen;
 	}
-	public void setOpen(boolean isOpen) {
+	public void setIsOpen(String isOpen) {
 		this.isOpen = isOpen;
 	}
+	
+	
+	
+
 	
 	
 }

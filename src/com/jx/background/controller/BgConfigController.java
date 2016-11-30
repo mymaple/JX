@@ -52,7 +52,7 @@ public class BgConfigController extends BaseController {
 		
 		for(int i=0;i<bgConfigList.size();i++){
 			BgConfig bgConfig = bgConfigList.get(i);
-			pd.put(bgConfig.getType(), bgConfig);
+			pd.put(bgConfig.getConfigType(), bgConfig);
 		}
 
 		mv.setViewName("background/config/bgConfigEdit");
@@ -271,16 +271,11 @@ public class BgConfigController extends BaseController {
 	/**
 	 * 保存系统设置1
 	 */
-	@RequestMapping(value = "/saveSys")
-	public ModelAndView saveSys() throws Exception {
+	@RequestMapping(value = "/editConfig")
+	public ModelAndView saveConfig() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		Tools.writeFile(Const.SYSNAME, pd.getString("YSYNAME")); // 写入系统名称
-		Tools.writeFile(Const.PAGE, pd.getString("COUNTPAGE")); // 写入每页条数
-		Tools.writeFile(Const.EMAIL, pd.getString("SMTP") + ",fh," + pd.getString("PORT") + ",fh," + pd.getString("EMAIL") + ",fh," + pd.getString("PAW")); // 写入邮件服务器配置
-		Tools.writeFile(Const.SMS1, pd.getString("SMSU1") + ",fh," + pd.getString("SMSPAW1")); // 写入短信1配置
-		Tools.writeFile(Const.SMS2, pd.getString("SMSU2") + ",fh," + pd.getString("SMSPAW2")); // 写入短信2配置
 		mv.addObject("msg", "OK");
 		mv.setViewName("save_result");
 		return mv;

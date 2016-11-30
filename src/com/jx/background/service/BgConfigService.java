@@ -19,12 +19,12 @@ public class BgConfigService {
 	// ==================================================================
 	
 	/**
-	 * 根据type 获取配置
+	 * 根据congifType 获取配置
 	 * @return
 	 * @throws Exception
 	 */
-	public BgConfig findConfigByType(String type) throws Exception {
-		return (BgConfig) dao.findForObject("BgConfigMapper.findConfigByType", type);
+	public BgConfig findConfigByConfigType(String congifType) throws Exception {
+		return (BgConfig) dao.findForObject("BgConfigMapper.findConfigByConfigType", congifType);
 	}
 	
 	/**

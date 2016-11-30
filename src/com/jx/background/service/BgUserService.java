@@ -104,6 +104,13 @@ public class BgUserService {
 		return (BgUser) dao.findForObject("BgUserMapper.findByUserNumber", pd);
 	}
 	
+	/**
+	 * 通过phone获取数据
+	 */
+	public BgUser findByPhone(PageData pd) throws Exception {
+		return (BgUser) dao.findForObject("BgUserMapper.findByPhone", pd);
+	}
+	
 
 	/**
 	 * 用户列表(用户组)

@@ -194,6 +194,19 @@
 		</if>
 	</select>
 	
+	<!-- 通过phone获取数据 -->
+	<select id="findByPhone" parameterType="pd" resultType="BgUser" useCache="false">
+		select 
+			<include refid="userColumns"/>
+		from 
+			bgUser
+		where 
+			phone = #{phone}
+		<if test="userName != null and userName != ''">
+			and userName != #{userName} 
+		</if>
+	</select>
+	
 	<!-- 用户列表(用户组) -->
 	<select id="listUser" parameterType="bgPage" resultMap="userRoleResultMap" useCache="false">
 		select  

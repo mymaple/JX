@@ -50,15 +50,15 @@ public class BgInstantChatServer extends WebSocketServer {
 	@Override
 	public void onMessage(WebSocket conn, String message) {
 		message = message.toString();
-		if (null != message && message.startsWith("FHadminqq123456789")) {
-			this.userjoin(message.replaceFirst("FHadminqq123456789", ""), conn);
+		if (null != message && message.startsWith("[InstantChatJoin]")) {
+			this.userJoin(message.replaceFirst("\\[InstantChatJoin\\]", ""), conn);
 		}
-		if (null != message && message.startsWith("LeaveFHadminqq123456789")) {
+		if (null != message && message.startsWith("[InstantChatLeave]")) {
 			this.userLeave(conn);
 		}
-		if (null != message && message.contains("fhadmin886")) {
-			String toUser = message.substring(message.indexOf("fhadmin886") + 10, message.indexOf("fhfhadmin888"));
-			message = message.substring(0, message.indexOf("fhadmin886")) + "[私信]  " + message.substring(message.indexOf("fhfhadmin888") + 12, message.length());
+		if (null != message && message.contains("[InstantChatContent]")) {
+			String toUser = message.substring(message.indexOf("[InstantChatContent]") + 10, message.indexOf("[InstantChatContent]"));
+			message = message.substring(0, message.indexOf("[InstantChatContent]")) + "[私信]  " + message.substring(message.indexOf("[InstantChatContent]") + 12, message.length());
 			BgInstantChatServerPool.sendMessageToUser(BgInstantChatServerPool.getWebSocketByUser(toUser), message);// 向所某用户发送消息
 			BgInstantChatServerPool.sendMessageToUser(conn, message);// 同时向本人发送消息
 		} else {
@@ -84,7 +84,7 @@ public class BgInstantChatServer extends WebSocketServer {
 	 * 用户加入处理
 	 * @param user
 	 */
-	public void userjoin(String user, WebSocket conn) {
+	public void userJoin(String user, WebSocket conn) {
 		JSONObject result = new JSONObject();
 		result.element("type", "user_join");
 		result.element("user", "<a onclick=\"toUserMsg('" + user + "');\">" + user + "</a>");
