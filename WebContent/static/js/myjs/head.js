@@ -98,7 +98,7 @@ function online(){
 				$("body").html("");
 				goOut("您被系统管理员强制下线");
 			}else if(message.type == 'changeMenu'){
-				window.location.href=locat+'background/main/yes';
+				window.location.href=locat+'/background/main/yes';
 			}else if(message.type == 'userlist'){
 				userlist = message.list;
 			}
@@ -121,7 +121,7 @@ function getUserlist(){
 //强制下线
 function goOut(msg){
 	alert(msg);
-	window.location.href=locat+"/logout";
+	window.location.href=locat+"/background/main/logout";
 }
 //强制某用户下线
 function goOutUser(theuser){
@@ -182,7 +182,7 @@ function editSystem(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="系统设置";
-	 diag.URL = locat+'/background/config/goEditSystem.do';
+	 diag.URL = locat+'/background/config/goEditConfig.do';
 	 diag.Width = 600;
 	 diag.Height = 596;
 	 diag.CancelEvent = function(){ //关闭事件

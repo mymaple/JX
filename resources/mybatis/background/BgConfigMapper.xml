@@ -12,6 +12,7 @@
 		<result column="port" property="port"/>
 		<result column="account" property="account"/>
 		<result column="password" property="password"/>
+		<result column="isOpen" javaType="boolean" property="isOpen" jdbcType="BOOLEAN"/>
 	</resultMap>
 	
 	<!-- 新增配置 -->
@@ -58,7 +59,7 @@
 	</select>
 	
 	<!-- 根据type获取配置 -->
-	<select id="findConfigByType" parameterType="String" resultMap="configResultMap">
+	<select id="findConfigByType" parameterType="String" resultType="BgConfig">
 		select  <include refid="configColumns"/> 
 		 from bgConfig 
 		 where type=#{type}

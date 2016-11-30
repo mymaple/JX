@@ -30,28 +30,28 @@ public class Jurisdiction {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		Boolean b = true;
-		List<BgMenu> menuList = (List) session.getAttribute(Const.SESSION_BG_ALLMENUINRANKLIST); // 获取菜单列表
+		List<BgMenu> menuList = (List) session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST); // 获取菜单列表
 
 		for (int i = 0; i < menuList.size(); i++) {
-			for (int j = 0; j < menuList.get(i).getSubMenu().size(); j++) {
-				if (menuList.get(i).getSubMenu().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
-					if (!menuList.get(i).getSubMenu().get(j).isHasMenu()) { // 判断有无此菜单权限
+			for (int j = 0; j < menuList.get(i).getSubBgMenuList().size(); j++) {
+				if (menuList.get(i).getSubBgMenuList().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
+					if (!menuList.get(i).getSubBgMenuList().get(j).isHasMenu()) { // 判断有无此菜单权限
 						return false;
 					} else { // 按钮判断
-						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX);// 按钮权限
+						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX_STR);// 按钮权限
 						map.remove("add");
 						map.remove("del");
 						map.remove("edit");
 						map.remove("cha");
-						String menuId = menuList.get(i).getSubMenu().get(j).getMenuId();
-						String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString(); // 获取当前登录者loginname
+						String menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
+						String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString(); // 获取当前登录者loginname
 						Boolean isAdmin = "admin".equals(userName);
 						map.put("add", (RightsHelper.testRights(map.get("adds"), menuId)) || isAdmin ? "1" : "0");
 						map.put("del", RightsHelper.testRights(map.get("dels"), menuId) || isAdmin ? "1" : "0");
 						map.put("edit", RightsHelper.testRights(map.get("edits"), menuId) || isAdmin ? "1" : "0");
 						map.put("cha", RightsHelper.testRights(map.get("chas"), menuId) || isAdmin ? "1" : "0");
-						session.removeAttribute(Const.SESSION_BG_QX);
-						session.setAttribute(Const.SESSION_BG_QX, map); // 重新分配按钮权限
+						session.removeAttribute(Const.SESSION_BG_QX_STR);
+						session.setAttribute(Const.SESSION_BG_QX_STR, map); // 重新分配按钮权限
 					}
 				}
 			}
@@ -74,17 +74,17 @@ public class Jurisdiction {
 		Subject currentUser = SecurityUtils.getSubject();
 		Session session = currentUser.getSession();
 		Boolean b = true;
-		List<BgMenu> menuList = (List) session.getAttribute(Const.SESSION_BG_ALLMENUINRANKLIST); // 获取菜单列表
+		List<BgMenu> menuList = (List) session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST); // 获取菜单列表
 
 		for (int i = 0; i < menuList.size(); i++) {
-			for (int j = 0; j < menuList.get(i).getSubMenu().size(); j++) {
-				if (menuList.get(i).getSubMenu().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
-					if (!menuList.get(i).getSubMenu().get(j).isHasMenu()) { // 判断有无此菜单权限
+			for (int j = 0; j < menuList.get(i).getSubBgMenuList().size(); j++) {
+				if (menuList.get(i).getSubBgMenuList().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
+					if (!menuList.get(i).getSubBgMenuList().get(j).isHasMenu()) { // 判断有无此菜单权限
 						return false;
 					} else { // 按钮判断
-						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX);// 按钮权限
-						String menuId = menuList.get(i).getSubMenu().get(j).getMenuId();
-						String userName = session.getAttribute(Const.SESSION_BG_USERNAME).toString(); // 获取当前登录者loginname
+						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX_STR);// 按钮权限
+						String menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
+						String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString(); // 获取当前登录者loginname
 						Boolean isAdmin = "admin".equals(userName);
 						if ("add".equals(type)) {
 							return ((RightsHelper.testRights(map.get("adds"), menuId)) || isAdmin);

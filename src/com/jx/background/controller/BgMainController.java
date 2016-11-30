@@ -1,12 +1,16 @@
 package com.jx.background.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -33,6 +37,7 @@ import com.jx.system.config.Const;
 import com.jx.system.config.PageData;
 import com.jx.system.util.AppUtil;
 import com.jx.system.util.DateUtil;
+import com.jx.system.util.DrawImageUtil;
 import com.jx.system.util.RightsHelper;
 import com.jx.system.util.Tools;
 
@@ -52,7 +57,30 @@ public class BgMainController extends BaseController {
 	@Resource(name = "bgConfigService")
 	private BgConfigService bgConfigService;
 
+	
+	
+	/**
+	 * 获取验证码
+	 * @return
+	 */
+	@RequestMapping(value = "/getVerificationCode")
+	public void getVerificationCode(HttpServletResponse response) {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		String verificationCode = DrawImageUtil.drawImg(output);
 
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
+
+		try {
+			ServletOutputStream out = response.getOutputStream();
+			output.writeTo(out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
 	/**
 	 * 访问登录页
 	 * @return
@@ -277,19 +305,22 @@ public class BgMainController extends BaseController {
 				// FusionCharts 报表
 
 				// 读取websocket配置
-				
-				
-				
-				String strWebscoket = Const.WEBSOCKET;
-				if (null != strWebscoket && !"".equals(strWebscoket)) {
-					String strIW[] = strWebscoket.split(",jx,");
-					if (strIW.length == 4) {
-						pd.put("WIMIP", strIW[0]);
-						pd.put("WIMPORT", strIW[1]);
-						pd.put("OLIP", strIW[2]);
-						pd.put("OLPORT", strIW[3]);
-					}
+				BgConfig bgConfigOnlineManage = (BgConfig) session.getAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
+				if (bgConfigOnlineManage == null) {
+					bgConfigOnlineManage = bgConfigService.findConfigByType(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
+					session.setAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ,bgConfigOnlineManage);
 				}
+				
+				BgConfig bgConfigInstantChat = (BgConfig) session.getAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ);
+				if (bgConfigInstantChat == null) {
+					bgConfigInstantChat = bgConfigService.findConfigByType(Const.CONFIG_BG_INSTANTCHAT_OBJ);
+					session.setAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ,bgConfigInstantChat);
+				}
+				
+				pd.put("onlineManageIp", bgConfigOnlineManage.getUrl());
+				pd.put("onlineManagePort", bgConfigOnlineManage.getPort());
+				pd.put("instantChatIp", bgConfigInstantChat.getUrl());
+				pd.put("instantChatPort", bgConfigInstantChat.getPort());
 				// 读取websocket配置
 				mv.addObject("bgUser", bgUser);
 				mv.addObject("bgMenuInCurrentList", bgMenuInCurrentList);

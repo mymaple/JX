@@ -24,7 +24,7 @@ public class BgConfigService {
 	 * @throws Exception
 	 */
 	public BgConfig findConfigByType(String type) throws Exception {
-		return (BgConfig) dao.findForList("BgConfigMapper.findConfigByType", type);
+		return (BgConfig) dao.findForObject("BgConfigMapper.findConfigByType", type);
 	}
 	
 	/**

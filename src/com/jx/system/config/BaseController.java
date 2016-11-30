@@ -1,6 +1,7 @@
 package com.jx.system.config;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,10 +30,20 @@ public class BaseController {
 	}
 
 	/**
+	 * 得到response对象
+	 */
+	/*public HttpServletResponse getResponse() {
+		HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getResponse();
+		return response;
+	}*/
+	
+	/**
 	 * 得到request对象
 	 */
 	public HttpServletRequest getRequest() {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+				.getRequestAttributes()).getRequest();
 
 		return request;
 	}

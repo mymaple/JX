@@ -52,7 +52,7 @@ public class BgConfigController extends BaseController {
 		
 		for(int i=0;i<bgConfigList.size();i++){
 			BgConfig bgConfig = bgConfigList.get(i);
-			pd.put(bgConfig.getConfigType(), bgConfig);
+			pd.put(bgConfig.getType(), bgConfig);
 		}
 
 		mv.setViewName("background/config/bgConfigEdit");

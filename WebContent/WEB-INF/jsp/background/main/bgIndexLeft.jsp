@@ -40,7 +40,7 @@
 
 
 
-			<c:forEach items="${bgMenuList}" var="menu">
+			<c:forEach items="${bgMenuInCurrentList}" var="menu">
 				<c:if test="${menu.hasMenu}">
 				<li id="lm${menu.menuId }">
 					  <a style="cursor:pointer;" class="dropdown-toggle" >
@@ -49,7 +49,7 @@
 						<b class="arrow icon-angle-down"></b>
 					  </a>
 					  <ul class="submenu">
-							<c:forEach items="${menu.subMenu}" var="sub">
+							<c:forEach items="${menu.subBgMenuList}" var="sub">
 								<c:if test="${sub.hasMenu}">
 								<c:choose>
 									<c:when test="${not empty sub.menuUrl}">

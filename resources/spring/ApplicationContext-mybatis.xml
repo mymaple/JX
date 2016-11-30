@@ -125,7 +125,7 @@
 				/static/js/myjs/** 			= authc
 				/static/js/** 				= anon
 				/uploadFiles/uploadImgs/** 	= anon
-	           	/background/verificationCode.do 					= anon
+	           	/background/main/getVerificationCode.do 					= anon
 	           	/background/main/login	 			= anon
 	           	/app**/** 					= anon
 	           	/weixin/** 					= anon

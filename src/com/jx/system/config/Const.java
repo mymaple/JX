@@ -101,12 +101,12 @@ public class Const {
 	public static final String CONFIG_BG_WEIXIN_OBJ = "configBgWeiXin";
 	
 	/**
-	 * 后台 微信接口配置
+	 * 后台 即时聊天服务器配置
 	 */
-	public static final String CONFIG_BG_INSTANTCHAR_OBJ = "configBgInstantChat";
+	public static final String CONFIG_BG_INSTANTCHAT_OBJ = "configBgInstantChat";
 	
 	/**
-	 * 后台 即时聊天服务器配置
+	 * 后台 在线管理服务器配置
 	 */
 	public static final String CONFIG_BG_ONLINEMANAGE_OBJ = "configBgOnlineManage";
 	

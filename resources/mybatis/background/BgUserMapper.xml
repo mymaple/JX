@@ -155,7 +155,7 @@
 		from 
 			bgUser
 		where 
-			userName = #{userName}
+			userId = #{userId}
 	</select>
 	
 	<!-- 通过userName获取数据 -->

@@ -204,7 +204,7 @@ public class BgUserController extends BaseController {
 			bgUserService.editUser(pd);
 		}
 		mv.addObject("msg", "success");
-		mv.setViewName("bgSaveResult");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 

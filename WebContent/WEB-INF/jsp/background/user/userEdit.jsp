@@ -197,7 +197,7 @@
 		var email = $.trim($("#email").val());
 		$.ajax({
 			type: "POST",
-			url: '<%=basePath%>user/hasEmail.do',
+			url: '<%=basePath%>background/user/hasEmail.do',
 	    	data: {email:email,userName:userName,tm:new Date().getTime()},
 			dataType:'json',
 			cache: false,

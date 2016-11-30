@@ -12,7 +12,7 @@ String basePath = request.getScheme() + "://"
 
 <head>
 <base href="<%=basePath%>">
-<title>${pd.SYSNAME}</title>
+<title>${pd.systemName}</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
@@ -93,7 +93,7 @@ String basePath = request.getScheme() + "://"
 			<div class="controls">
 				<div class="main_input_box">
 					<font color="white"><span id="nameerr">Copyright ©
-							${pd.SYSNAME} 2016</span></font>
+							${pd.systemName} 2016</span></font>
 				</div>
 			</div>
 		</div>
@@ -136,7 +136,7 @@ String basePath = request.getScheme() + "://"
 		function changeCode() {
 			var time = new Date();
 			$("#codeImg").attr("src",
-					"background/verificationCode.do?t=" + time.getTime());
+					"background/main/getVerificationCode.do?t=" + time.getTime());
 		}
 
 		//服务器校验

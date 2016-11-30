@@ -9,16 +9,17 @@ import java.util.TimerTask;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.java_websocket.WebSocketImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
-import com.jx.background.entity.BgConfig;
-import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgConfigService;
-import com.jx.background.service.BgUserService;
 import com.jx.system.config.BaseController;
 import com.jx.system.config.Const;
 import com.jx.system.config.chat.BgInstantChatServer;
@@ -29,14 +30,19 @@ import com.jx.system.config.chat.BgOnlineManageServer;
  * @version
  */
 public class BgWebsocketFilter extends BaseController implements Filter {
-
-	private BgConfigService bgConfigService = new BgConfigService();
-	private BgUserService bgUserService = new BgUserService();
+	@Autowired
+	private BgConfigService bgConfigService ;
 	
 	/**
 	 * 初始化
 	 */
 	public void init(FilterConfig fc) throws ServletException {
+		
+		ServletContext sc = fc.getServletContext();
+		XmlWebApplicationContext cxt = (XmlWebApplicationContext)WebApplicationContextUtils.getWebApplicationContext(sc);                
+		if(cxt != null && cxt.getBean("bgConfigService") != null && bgConfigService == null)            
+			bgConfigService = (BgConfigService) cxt.getBean("bgConfigService");  
+		
 		this.startWebsocketInstantChat();
 		this.startWebsocketOnlineManage();
 	}
@@ -45,16 +51,14 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 	 * 启动即时聊天服务
 	 */
 	public void startWebsocketInstantChat() {
+		
+		         
 		WebSocketImpl.DEBUG = false;
 		BgInstantChatServer s;
 		try {
-			BgUser bgUser = bgUserService.getUserRoleById("1");
-			
-			BgConfig bgConfig = bgConfigService.
-					findConfigByType(Const.CONFIG_BG_INSTANTCHAR_OBJ);
-			
-			String port =  bgConfig.getPort();
-			if(port != null && "".equals(port)){
+			String port =  (bgConfigService.
+					findConfigByType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getPort();
+			if(port != null && !"".equals(port)){
 				s = new BgInstantChatServer(Integer.parseInt(port));
 				s.start();
 			}
@@ -72,8 +76,8 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		BgOnlineManageServer s;
 		try {
 			String port =  (bgConfigService.
-					findConfigByType(Const.CONFIG_BG_INSTANTCHAR_OBJ)).getPort();
-			if(port != null && "".equals(port)){
+					findConfigByType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getPort();
+			if(port != null && !"".equals(port)){
 				s = new BgOnlineManageServer(Integer.parseInt(port));
 				s.start();
 			}

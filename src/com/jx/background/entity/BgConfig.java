@@ -3,7 +3,7 @@ package com.jx.background.entity;
 public class BgConfig {
 	
 	private String configId;
-	private String configType;
+	private String type;
 	private String name;
 	private String url;
 	private String port;
@@ -19,11 +19,11 @@ public class BgConfig {
 	public void setConfigId(String configId) {
 		this.configId = configId;
 	}
-	public String getConfigType() {
-		return configType;
+	public String getType() {
+		return type;
 	}
-	public void setConfigType(String configType) {
-		this.configType = configType;
+	public void setType(String type) {
+		this.type = type;
 	}
 	public String getName() {
 		return name;
