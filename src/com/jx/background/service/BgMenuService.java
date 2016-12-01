@@ -33,7 +33,7 @@ public class BgMenuService {
 	 * @throws Exception
 	 */
 	public void deleteMenuAndSubMenuById(String menuId) throws Exception {
-		dao.add("BgMenuMapper.deleteMenuAndSubMenuById", menuId);
+		dao.delete("BgMenuMapper.deleteMenuAndSubMenuById", menuId);
 	}
 	
 	/**
@@ -116,8 +116,8 @@ public class BgMenuService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageData getMaxMenuId(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("BgMenuMapper.getMaxMenuId", pd);
+	public int getMaxMenuId(PageData pd) throws Exception {
+		return (int) dao.findForObject("BgMenuMapper.getMaxMenuId", pd);
 	}
 
 }

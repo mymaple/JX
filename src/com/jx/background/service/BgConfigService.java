@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.jx.background.entity.BgConfig;
 import com.jx.system.config.DaoSupport;
+import com.jx.system.config.PageData;
 
 @Service("bgConfigService")
 public class BgConfigService {
@@ -17,6 +18,18 @@ public class BgConfigService {
 	
 	
 	// ==================================================================
+	
+	
+	/**
+	 * 编辑菜单
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public void editConfig(BgConfig bgConfig) throws Exception {
+		dao.edit("BgConfigMapper.editConfig", bgConfig);
+	}
+	
 	
 	/**
 	 * 根据congifType 获取配置

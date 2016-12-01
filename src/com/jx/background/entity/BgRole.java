@@ -1,11 +1,19 @@
 package com.jx.background.entity;
 
+import java.io.Serializable;
+
 /**
  * 类名称：Role.java 类描述：
  * @author FH 作者单位： 联系方式： 创建时间：2014年3月10日
  * @version 1.0
  */
-public class BgRole {
+public class BgRole implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	
 	private String roleId;
 	private String roleName;

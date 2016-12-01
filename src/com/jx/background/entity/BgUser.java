@@ -1,5 +1,7 @@
 package com.jx.background.entity;
 
+import java.io.Serializable;
+
 import com.jx.system.config.BgPage;
 
 /**
@@ -7,7 +9,12 @@ import com.jx.system.config.BgPage;
  * @author FH 作者单位： 联系方式： 创建时间：2014年6月28日
  * @version 1.0
  */
-public class BgUser {
+public class BgUser implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String userId; // 用户id
 	private String userName; // 用户名

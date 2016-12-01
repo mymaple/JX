@@ -74,6 +74,39 @@ public class BgConfigController extends BaseController {
 		mv.addObject("pd", pd);
 		return mv;
 	}
+	
+	/**
+	 * 保存系统设置1
+	 */
+	@RequestMapping(value = "/editConfig")
+	public ModelAndView editConfig() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		
+		String[] configIds = (String[])this.getRequest().getParameterValues("configId");
+		String[] configTypes = (String[])this.getRequest().getParameterValues("configType");
+		String[] configNames = (String[])this.getRequest().getParameterValues("configName");
+		String[] param1s = (String[])this.getRequest().getParameterValues("param1");
+		String[] param2s = (String[])this.getRequest().getParameterValues("param2");
+		String[] param3s = (String[])this.getRequest().getParameterValues("param3");
+		String[] param4s = (String[])this.getRequest().getParameterValues("param4");
+		String[] isOpens = (String[])this.getRequest().getParameterValues("isOpen");
+		
+		for(int i = 0; i < configIds.length; i++){
+			BgConfig bgConfig = new BgConfig();
+			bgConfig.setConfigId(configIds[i]);
+			bgConfig.setConfigType(configTypes[i]);
+			bgConfig.setConfigName(configNames[i]);
+			bgConfig.setParam1(param1s[i]);
+			bgConfig.setParam2(param2s[i]);
+			bgConfig.setParam3(param3s[i]);
+			bgConfig.setParam4(param4s[i]);
+			bgConfig.setIsOpen(isOpens[i]);
+			bgConfigService.editConfig(bgConfig);
+		}
+		mv.addObject("msg", "OK");
+		mv.setViewName("background/bgSaveResult");
+		return mv;
+	}
 
 	/**
 	 * 去发送短信页面
@@ -268,18 +301,7 @@ public class BgConfigController extends BaseController {
 
 
 
-	/**
-	 * 保存系统设置1
-	 */
-	@RequestMapping(value = "/editConfig")
-	public ModelAndView saveConfig() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		mv.addObject("msg", "OK");
-		mv.setViewName("save_result");
-		return mv;
-	}
+
 
 	/**
 	 * 保存系统设置2

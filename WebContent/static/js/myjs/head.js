@@ -228,7 +228,7 @@ function menu(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="菜单编辑";
-	 diag.URL = locat+'/menu.do';
+	 diag.URL = locat+'/background/menu/menuList.do';
 	 diag.Width = 720;
 	 diag.Height = 390;
 	 diag.CancelEvent = function(){ //关闭事件

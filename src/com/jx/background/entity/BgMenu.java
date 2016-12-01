@@ -1,5 +1,6 @@
 package com.jx.background.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,12 @@ import java.util.List;
  * @author FH 作者单位： 联系方式： 创建时间：2014年6月28日
  * @version 1.0
  */
-public class BgMenu {
+public class BgMenu implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String menuId;
 	private String menuName;

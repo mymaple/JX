@@ -1,7 +1,9 @@
 package com.jx.background.controller;
 
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -9,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.entity.BgMenu;
 import com.jx.background.service.BgMenuService;
 import com.jx.system.config.BaseController;
 import com.jx.system.config.PageData;
+import com.jx.system.util.AppUtil;
 
 import net.sf.json.JSONArray;
 
@@ -34,13 +38,13 @@ public class BgMenuController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping
-	public ModelAndView list() throws Exception {
+	@RequestMapping(value = "/menuList")
+	public ModelAndView menuList() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
 			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
-			mv.setViewName("system/menu/menu_list");
+			mv.setViewName("background/menu/bgMenuList");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -52,13 +56,13 @@ public class BgMenuController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/toAdd")
-	public ModelAndView toAdd() throws Exception {
+	@RequestMapping(value = "/toAddMenu")
+	public ModelAndView toAddMenu() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		try {
 			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
-			mv.setViewName("system/menu/menu_add");
+			mv.setViewName("background/menu/bgMenuAdd");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -71,13 +75,13 @@ public class BgMenuController extends BaseController {
 	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value = "/add")
-	public ModelAndView add(BgMenu menu) throws Exception {
+	@RequestMapping(value = "/addMenu")
+	public ModelAndView addMenu(BgMenu menu) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			menu.setMenuId(String.valueOf(Integer.parseInt(bgMenuService.getMaxMenuId(pd).get("MID").toString()) + 1));
+			menu.setMenuId(String.valueOf(bgMenuService.getMaxMenuId(pd) + 1));
 
 			String parentId = menu.getParentId();
 			if (!"0".equals(parentId)) {
@@ -94,9 +98,8 @@ public class BgMenuController extends BaseController {
 			mv.addObject("msg", "failed");
 		}
 
-		mv.setViewName("save_result");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
-
 	}
 
 	/**
@@ -104,8 +107,8 @@ public class BgMenuController extends BaseController {
 	 * @param
 	 * @return
 	 */
-	@RequestMapping(value = "/toEdit")
-	public ModelAndView toEdit(String menuId) throws Exception {
+	@RequestMapping(value = "/toEditMenu")
+	public ModelAndView toEditMenu(String menuId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
@@ -115,27 +118,27 @@ public class BgMenuController extends BaseController {
 			List<BgMenu> menuList = bgMenuService.listAllTopMenu();
 			mv.addObject("menuList", menuList);
 			mv.addObject("pd", pd);
-			mv.setViewName("system/menu/menu_edit");
+			mv.setViewName("background/menu/bgMenuEdit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
 		return mv;
 	}
-
+	
 	/**
 	 * 请求编辑菜单图标页面
 	 * @param
 	 * @return
 	 */
-	@RequestMapping(value = "/toEditicon")
-	public ModelAndView toEditicon(String menuId) throws Exception {
+	@RequestMapping(value = "/toChangeMenuIcon")
+	public ModelAndView toChangeMenuIcon(String menuId) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
 			pd.put("menuId", menuId);
 			mv.addObject("pd", pd);
-			mv.setViewName("system/menu/menu_icon");
+			mv.setViewName("background/menu/bgMenuIconChange");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
@@ -147,8 +150,8 @@ public class BgMenuController extends BaseController {
 	 * @param
 	 * @return
 	 */
-	@RequestMapping(value = "/editicon")
-	public ModelAndView editicon() throws Exception {
+	@RequestMapping(value = "/changeMenuIcon")
+	public ModelAndView changeMenuIcon() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
@@ -159,7 +162,7 @@ public class BgMenuController extends BaseController {
 			logger.error(e.toString(), e);
 			mv.addObject("msg", "failed");
 		}
-		mv.setViewName("save_result");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 
@@ -168,8 +171,8 @@ public class BgMenuController extends BaseController {
 	 * @param
 	 * @return
 	 */
-	@RequestMapping(value = "/edit")
-	public ModelAndView edit() throws Exception {
+	@RequestMapping(value = "/editMenu")
+	public ModelAndView editMenu() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try {
@@ -193,8 +196,29 @@ public class BgMenuController extends BaseController {
 			logger.error(e.toString(), e);
 			mv.addObject("msg", "failed");
 		}
-		mv.setViewName("save_result");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
+	}
+	
+	/**
+	 * 获取当前菜单的所有子菜单
+	 * @param menuId 
+	 * @return
+	 */
+	@RequestMapping(value = "/submenuList")
+	@ResponseBody
+	public Object submenuList() {
+		Map<String, List<BgMenu>> map = new HashMap<String, List<BgMenu>>();
+		PageData pd = new PageData();
+		try {
+			pd = this.getPageData();
+			List<BgMenu> subMenuList = bgMenuService.listSubMenuByParentId(pd.getString("menuId"));
+			map.put("subMenuList", subMenuList); // 返回结果
+		} catch (Exception e) {
+			logger.error(e.toString(), e);
+		}
+		return AppUtil.returnObject(new PageData(), map);
+		
 	}
 
 	/**
@@ -202,11 +226,11 @@ public class BgMenuController extends BaseController {
 	 * @param menuId
 	 * @param response
 	 */
-	@RequestMapping(value = "/sub")
-	public void getSub(@RequestParam String menuId, HttpServletResponse response) throws Exception {
+/*	@RequestMapping(value = "/submenuList")
+	public void submenuList(@RequestParam String menuId, HttpServletResponse response) throws Exception {
 		try {
-			List<BgMenu> subMenu = bgMenuService.listSubMenuByParentId(menuId);
-			JSONArray arr = JSONArray.fromObject(subMenu);
+			List<BgMenu> subMenuList = bgMenuService.listSubMenuByParentId(menuId);
+			JSONArray arr = JSONArray.fromObject(subMenuList);
 			PrintWriter out;
 
 			response.setCharacterEncoding("utf-8");
@@ -218,15 +242,15 @@ public class BgMenuController extends BaseController {
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
-	}
+	}*/
 
 	/**
 	 * 删除菜单
 	 * @param menuId
 	 * @param out
 	 */
-	@RequestMapping(value = "/del")
-	public void delete(@RequestParam String menuId, PrintWriter out) throws Exception {
+	@RequestMapping(value = "/deleteMenu")
+	public void deleteMenu(@RequestParam String menuId, PrintWriter out) throws Exception {
 
 		try {
 			bgMenuService.deleteMenuAndSubMenuById(menuId);

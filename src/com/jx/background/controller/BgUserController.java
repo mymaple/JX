@@ -87,7 +87,7 @@ public class BgUserController extends BaseController {
 		} else {
 			mv.addObject("msg", "failed");
 		}
-		mv.setViewName("bgSaveResult");
+		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
 	

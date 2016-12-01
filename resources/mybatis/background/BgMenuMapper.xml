@@ -44,7 +44,7 @@
 	</insert>
 	
 	<!-- 根据menuId删除菜单和二级子菜单 -->
-	<delete id="deleteMenuById" parameterType="String">
+	<delete id="deleteMenuAndSubMenuById" parameterType="String">
 		delete from bgMenu 
 		where menuId=#{menuId} 
 		or parentId=#{menuId}
@@ -78,7 +78,7 @@
 	</update>
 
 	<!-- 根据menuId获取菜单 -->
-	<select id="findByMenuId" parameterType="pd" resultType="BgMenu">
+	<select id="findByMenuId" parameterType="pd" resultType="pd">
 		select  menuId,
 		 		menuName,
 		 		menuUrl,
@@ -102,7 +102,7 @@
 	</select>
 	
 	<!-- 获取maxMenuId -->
-	<select id="getMaxMenuId" parameterType="pd" resultType="BgMenu">
+	<select id="getMaxMenuId" parameterType="pd" resultType="int">
 		select MAX(menuId) maxMenuId FROM bgMenu
 	</select>
 	

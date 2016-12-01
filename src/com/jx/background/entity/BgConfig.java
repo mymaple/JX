@@ -1,6 +1,13 @@
 package com.jx.background.entity;
 
-public class BgConfig {
+import java.io.Serializable;
+
+public class BgConfig implements Serializable {
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	private String configId;
 	private String configType;

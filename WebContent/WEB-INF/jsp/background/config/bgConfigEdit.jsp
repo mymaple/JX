@@ -30,7 +30,7 @@
 		var jsessionid = "<%=session.getId()%>";  //勿删，uploadify兼容火狐用到
 		</script>
 		<!--引入属于此页面的js -->
-		<script type="text/javascript" src="static/js/myjs/sys.js"></script>	
+		<script type="text/javascript" src="static/js/myjs/config.js"></script>	
 		
 		<!--提示框-->
 		<script type="text/javascript" src="static/js/jquery.tips.js"></script>
@@ -134,7 +134,7 @@
 				</form>
 			  </div>
 			  <div id="profile" class="tab-pane">
-			  	<form action="head/saveSys2.do" name="Form2" id="Form2" method="post">
+			  	<form action="background/config/editConfig.do" name="Form2" id="Form2" method="post">
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
@@ -183,7 +183,9 @@
 						<td style="width:50px;text-align: right;padding-top: 12px;">水印:</td>
 						<td colspan="10">
 						<div style="float:left;"><img src="<%=basePath%>uploadFiles/uploadImgs/${pd.configBgImageWaterMark.param1 }"  width="100"/></div>
-						<div style="float:right;"><input type="file" name="param1" id="param1Image" keepDefaultStyle = "true"/></div>
+						<div style="float:right;"><input type="file" name="TP_URL" id="uploadify1" keepDefaultStyle = "true"/></div>
+						<input type="hidden" value="no" id="hasTp1" />
+						<input type="hidden" name="param1" id="param1Image" value="${pd.configBgImageWaterMark.param1 }"/>
 						</td>
 					</tr>
 				</table>
@@ -196,14 +198,14 @@
 						</td>
 					</tr>
 				</table>
-				<input type="hidden" name="imgUrl" id="imgUrl" value="${pd.imgUrl }"/>
-				<input type="hidden" value="no" id="hasTp1" />
+				
+				
 				</form>
 			  </div>
 			  
 			  
 			  <div id="profile3" class="tab-pane">
-			  	<form action="head/saveSys3.do" name="Form3" id="Form3" method="post">
+			  	<form action="background/config/editConfig.do" name="Form3" id="Form3" method="post">
 				<table id="table_report" class="table table-striped table-bordered table-hover">
 					<tr>
 						<td style="text-align: center;" colspan="100">
@@ -300,12 +302,12 @@
 		<script src="static/js/ace.min.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
-			if("${pd.isCheck1 }" == "yes"){
+			if($("#isOpenWord").val() == "1"){
 				$("#check1").attr("checked",true);
 			}else{
 				$("#check1").attr("checked",false);
 			}
-			if("${pd.isCheck2 }" == "yes"){
+			if($("#isOpenImage").val() == "1"){
 				$("#check2").attr("checked",true);
 			}else{
 				$("#check2").attr("checked",false);
