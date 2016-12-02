@@ -2,7 +2,7 @@ package com.jx.background.entity;
 
 import java.io.Serializable;
 
-import com.jx.system.config.BgPage;
+import com.jx.common.config.BgPage;
 
 /**
  * 类名称：User.java 类描述：

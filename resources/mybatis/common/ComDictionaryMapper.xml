@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComDictionaryMapper">
+	<sql id="dictionaryColumns">dictionaryId,name,encode,orderBy,parentId,jb,pbm</sql>
+	
+	<resultMap type="comDictionary" id="configResultMap">
+		<id column="dictionaryId" property="dictionaryId" />
+		<result column="name" property="name"/>
+		<result column="encode" property="encode"/>
+		<result column="orderBy" property="orderBy"/>
+		<result column="parentId" property="parentId"/>
+		<result column="jb" property="jb"/>
+		<result column="pbm" property="pbm"/>
+	</resultMap>
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="dictionaryId" parameterType="comDictionary">
+		insert into comDictionary ( 
+			<include refid="dictionaryColumns"/>
+		) values (
+			#{name},
+			#{encode},
+			#{orderBy},
+			#{parentId},
+			#{jb},
+			#{pbm}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="dictionaryId" parameterType="pd">
+		insert into comDictionary ( 
+			<include refid="dictionaryColumns"/>
+		) values (
+			#{name},
+			#{encode},
+			#{orderBy},
+			#{parentId},
+			#{jb},
+			#{pbm}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comDictionary">
+		update  comDictionary
+			set name    = #{name},
+				orderBy = #{orderBy},
+				encode  = #{encode},
+				pbm	  = #{pbm}
+			where 
+				dictionaryId = #{dictionaryId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  comDictionary
+			set name    = #{name},
+				orderBy = #{orderBy},
+				encode  = #{encode},
+				pbm	  = #{pbm}
+			where 
+				dictionaryId = #{dictionaryId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from comDictionary 
+		where 
+			dictionaryId = #{dictionaryId}
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="comDictionary">
+		select 
+			<include refid="dictionaryColumns"/>
+		from 
+			comDictionary
+		where 
+			dictionaryId = #{dictionaryId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="dictionaryColumns"/>
+		from 
+			comDictionary
+		where 
+			dictionaryId = #{dictionaryId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAll" resultMap="configResultMap">
+		select 
+			<include refid="dictionaryColumns"/>
+		from 
+			comDictionary
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="dictionaryColumns"/>
+		from 
+			comDictionary
+	</select>
+	
+	<!-- ****************************common * end*********************************** -->
+	
+	<!-- ****************************custom * start********************************** -->
+	
+	<!-- 列表 -->
+	<select id="dictlistPage" parameterType="bgPage" resultType="pd">
+		select  z1.dictionaryId,
+				z1.name,
+				z1.encode,
+				z1.orderBy,
+				z1.parentId,
+				z1.jb,
+				z1.pbm,
+				z2.name pname
+		from comDictionary z1
+		left join
+			comDictionary z2 
+		on  z1.parentId = z2.dictionaryId 
+		where 
+		    z1.parentId = #{pd.parentId}
+		<if test="pd.name != null and pd.name != ''">
+			and z1.name LIKE CONCAT(CONCAT('%', #{pd.name}),'%') 
+		</if>
+		order by z1.orderBy
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="findCount" parameterType="pd" resultType="pd">
+		select 
+			count(dictionaryId) ZS
+		from 
+			comDictionary
+		where 
+			parentId = #{dictionaryId}
+	</select>
+	
+	<!-- 查询某编码 -->
+	<select id="findBmCount" parameterType="pd" resultType="pd">
+		select 
+			dictionaryId
+		from 
+			comDictionary
+		where 
+			encode = #{encode}
+		<if test="dictionaryId != null and dictionaryId != ''">
+			and dictionaryId != #{dictionaryId} 
+		</if>
+	</select>
+	
+	<!-- ****************************custom * end********************************** -->
+	
+	
+</mapper>

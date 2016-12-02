@@ -32,14 +32,14 @@ import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
-import com.jx.system.config.BaseController;
-import com.jx.system.config.Const;
-import com.jx.system.config.PageData;
-import com.jx.system.util.AppUtil;
-import com.jx.system.util.DateUtil;
-import com.jx.system.util.DrawImageUtil;
-import com.jx.system.util.RightsHelper;
-import com.jx.system.util.Tools;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
+import com.jx.common.util.DateUtil;
+import com.jx.common.util.DrawImageUtil;
+import com.jx.common.util.RightsHelper;
+import com.jx.common.util.Tools;
 
 /*
  * 总入口

@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.jx.background.entity.BgMenu;
 import com.jx.background.service.BgMenuService;
-import com.jx.system.config.BaseController;
-import com.jx.system.config.PageData;
-import com.jx.system.util.AppUtil;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
 
 import net.sf.json.JSONArray;
 

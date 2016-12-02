@@ -6,9 +6,9 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jx.system.config.BgPage;
-import com.jx.system.config.DaoSupport;
-import com.jx.system.config.PageData;
+import com.jx.common.config.BgPage;
+import com.jx.common.config.DaoSupport;
+import com.jx.common.config.PageData;
 
 @Service("appuserService")
 public class AppuserService {

@@ -7,8 +7,8 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.entity.BgConfig;
-import com.jx.system.config.DaoSupport;
-import com.jx.system.config.PageData;
+import com.jx.common.config.DaoSupport;
+import com.jx.common.config.PageData;
 
 @Service("bgConfigService")
 public class BgConfigService {

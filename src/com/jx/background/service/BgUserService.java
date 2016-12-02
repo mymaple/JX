@@ -7,9 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.entity.BgUser;
-import com.jx.system.config.BgPage;
-import com.jx.system.config.DaoSupport;
-import com.jx.system.config.PageData;
+import com.jx.common.config.BgPage;
+import com.jx.common.config.DaoSupport;
+import com.jx.common.config.PageData;
 
 @Service("bgUserService")
 public class BgUserService {
@@ -115,8 +115,8 @@ public class BgUserService {
 	/**
 	 * 用户列表(用户组)
 	 */
-	public List<BgUser> listUser(BgPage bgPage) throws Exception {
-		return (List<BgUser>) dao.findForList("BgUserMapper.listUser", bgPage);
+	public List<PageData> listUser(BgPage bgPage) throws Exception {
+		return (List<PageData>) dao.findForList("BgUserMapper.listUser", bgPage);
 	}
 
 	/**

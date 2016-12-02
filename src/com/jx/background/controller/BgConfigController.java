@@ -16,11 +16,11 @@ import com.jx.background.entity.BgConfig;
 import com.jx.background.service.AppuserService;
 import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgUserService;
-import com.jx.system.config.BaseController;
-import com.jx.system.config.Const;
-import com.jx.system.config.PageData;
-import com.jx.system.util.AppUtil;
-import com.jx.system.util.Tools;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
+import com.jx.common.util.Tools;
 
 /**
  * 类名称：HeadController 创建人：FH 创建时间：2014年8月16日

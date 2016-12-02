@@ -208,12 +208,12 @@ function productCode(){
 }
 
 //数据字典
-function zidian(){
+function toDictionaryList(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="数据字典";
-	 diag.URL = locat+'/dictionaries.do?PARENT_ID=0';
+	 diag.URL = locat+'/background/dictionary/list.do?parentId=0';
 	 diag.Width = 799;
 	 diag.Height = 460;
 	 diag.CancelEvent = function(){ //关闭事件

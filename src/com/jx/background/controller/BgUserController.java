@@ -31,19 +31,19 @@ import com.jx.background.entity.BgUser;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.background.service.BgUserService;
-import com.jx.system.config.BaseController;
-import com.jx.system.config.BgPage;
-import com.jx.system.config.Const;
-import com.jx.system.config.PageData;
-import com.jx.system.util.AppUtil;
-import com.jx.system.util.FileDownload;
-import com.jx.system.util.FileUpload;
-import com.jx.system.util.GetPinyin;
-import com.jx.system.util.Jurisdiction;
-import com.jx.system.util.ObjectExcelRead;
-import com.jx.system.util.ObjectExcelView;
-import com.jx.system.util.PathUtil;
-import com.jx.system.util.Tools;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.BgPage;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
+import com.jx.common.util.FileDownload;
+import com.jx.common.util.FileUpload;
+import com.jx.common.util.GetPinyin;
+import com.jx.common.util.Jurisdiction;
+import com.jx.common.util.ObjectExcelRead;
+import com.jx.common.util.ObjectExcelView;
+import com.jx.common.util.PathUtil;
+import com.jx.common.util.Tools;
 
 /**
  * 类名称：UserController 创建人：FH 创建时间：2014年6月28日
@@ -306,8 +306,8 @@ public class BgUserController extends BaseController {
 	/**
 	 * 显示用户列表(用户组)
 	 */
-	@RequestMapping(value = "/listUsers")
-	public ModelAndView listUsers(BgPage bgPage) throws Exception {
+	@RequestMapping(value = "/userList")
+	public ModelAndView userList(BgPage bgPage) throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -335,11 +335,12 @@ public class BgUserController extends BaseController {
 		List<PageData> userList = bgUserService.listUser(bgPage); // 列出用户列表
 		List<BgRole> roleList = bgRoleService.listAllSecondRoles(); // 列出所有二级角色
 
-		mv.setViewName("system/user/user_list");
 		mv.addObject("userList", userList);
 		mv.addObject("roleList", roleList);
 		mv.addObject("pd", pd);
-		mv.addObject(Const.SESSION_BG_QX, this.getHC()); // 按钮权限
+		mv.addObject(Const.SESSION_BG_QX_STR, this.getHC()); // 按钮权限
+		mv.setViewName("background/user/bgUserList");
+		
 		return mv;
 	}
 
@@ -355,7 +356,7 @@ public class BgUserController extends BaseController {
 		mv.setViewName("system/user/user_tb_list");
 		mv.addObject("userList", userList);
 		mv.addObject("pd", pd);
-		mv.addObject(Const.SESSION_BG_QX, this.getHC()); // 按钮权限
+		mv.addObject(Const.SESSION_BG_QX_STR, this.getHC()); // 按钮权限
 		return mv;
 	}
 
@@ -576,7 +577,7 @@ public class BgUserController extends BaseController {
 	public Map<String, String> getHC() {
 		Subject currentUser = SecurityUtils.getSubject(); // shiro管理的session
 		Session session = currentUser.getSession();
-		return (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX);
+		return (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX_STR);
 	}
 	/* ===============================权限================================== */
 }

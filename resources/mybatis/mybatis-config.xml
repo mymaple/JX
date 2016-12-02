@@ -10,7 +10,6 @@
     </settings>
 
 	<typeAliases>
-	
 		<typeAlias type="com.jx.background.entity.BgUser" alias="BgUser"/>
 		<typeAlias type="com.jx.background.entity.BgRole" alias="BgRole"/>
 		<typeAlias type="com.jx.background.entity.BgMenu" alias="BgMenu"/>
@@ -19,7 +18,9 @@
 		<typeAlias type="com.jx.system.config.PageData" alias="pd"/>
 		
 		<!-- 分页 -->
-		<typeAlias type="com.jx.system.config.BgPage" alias="BgPage"/>
+		<typeAlias type="com.jx.system.config.BgPage" alias="bgPage"/>
+		
+		<package name="com.jx.*.entity"/>
 	</typeAliases>
 <!-- 	
 	<plugins>

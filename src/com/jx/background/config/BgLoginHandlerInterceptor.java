@@ -9,8 +9,8 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.jx.background.entity.BgUser;
-import com.jx.system.config.Const;
-import com.jx.system.util.Jurisdiction;
+import com.jx.common.config.Const;
+import com.jx.common.util.Jurisdiction;
 
 /**
  * 类名称：LoginHandlerInterceptor.java 类描述：
