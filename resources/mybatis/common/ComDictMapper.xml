@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ComDictionaryMapper">
-	<sql id="dictionaryColumns">dictionaryId,name,encode,orderBy,parentId,jb,pbm</sql>
+<mapper namespace="ComDictMapper">
+
+	<sql id="dictAddColumns">name,encode,orderBy,parentId,jb,pbm</sql>
+	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,jb,pbm</sql>
 	
-	<resultMap type="comDictionary" id="configResultMap">
-		<id column="dictionaryId" property="dictionaryId" />
+	<resultMap type="comdict" id="configResultMap">
+		<id column="dictId" property="dictId" />
 		<result column="name" property="name"/>
 		<result column="encode" property="encode"/>
 		<result column="orderBy" property="orderBy"/>
@@ -16,9 +18,9 @@
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="dictionaryId" parameterType="comDictionary">
-		insert into comDictionary ( 
-			<include refid="dictionaryColumns"/>
+	<insert id="add" useGeneratedKeys="true" keyProperty="dictId" parameterType="comDict">
+		insert into comDict ( 
+			<include refid="dictAddColumns"/>
 		) values (
 			#{name},
 			#{encode},
@@ -30,9 +32,9 @@
 	</insert>
 	
 	<!-- 新增 -->
-	<insert id="addByPd" useGeneratedKeys="true" keyProperty="dictionaryId" parameterType="pd">
-		insert into comDictionary ( 
-			<include refid="dictionaryColumns"/>
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="dictId" parameterType="pd">
+		insert into comDict ( 
+			<include refid="dictAddColumns"/>
 		) values (
 			#{name},
 			#{encode},
@@ -44,68 +46,68 @@
 	</insert>
 	
 	<!-- 修改 -->
-	<update id="edit" parameterType="comDictionary">
-		update  comDictionary
+	<update id="edit" parameterType="comDict">
+		update  comDict
 			set name    = #{name},
 				orderBy = #{orderBy},
 				encode  = #{encode},
 				pbm	  = #{pbm}
 			where 
-				dictionaryId = #{dictionaryId}
+				dictId = #{dictId}
 	</update>
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  comDictionary
+		update  comDict
 			set name    = #{name},
 				orderBy = #{orderBy},
 				encode  = #{encode},
 				pbm	  = #{pbm}
 			where 
-				dictionaryId = #{dictionaryId}
+				dictId = #{dictId}
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="int">
-		delete from comDictionary 
+	<delete id="deleteById" parameterType="String">
+		delete from comDict 
 		where 
-			dictionaryId = #{dictionaryId}
+			dictId = #{dictId}
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="comDictionary">
+	<select id="findById" parameterType="String" resultType="comDict">
 		select 
-			<include refid="dictionaryColumns"/>
+			<include refid="dictColumns"/>
 		from 
-			comDictionary
+			comDict
 		where 
-			dictionaryId = #{dictionaryId}
+			dictId = #{dictId}
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="int" resultType="pd">
+	<select id="findPdById" parameterType="String" resultType="pd">
 		select 
-			<include refid="dictionaryColumns"/>
+			<include refid="dictColumns"/>
 		from 
-			comDictionary
+			comDict
 		where 
-			dictionaryId = #{dictionaryId}
+			dictId = #{dictId}
 	</select>
 	
 	<!-- 获取(类)List数据  -->
 	<select id="listAll" resultMap="configResultMap">
 		select 
-			<include refid="dictionaryColumns"/>
+			<include refid="dictColumns"/>
 		from 
-			comDictionary
+			comDict
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
 	<select id="listAllPd" parameterType="bgPage" resultType="pd">
 		select 
-			<include refid="dictionaryColumns"/>
+			<include refid="dictColumns"/>
 		from 
-			comDictionary
+			comDict
 	</select>
 	
 	<!-- ****************************common * end*********************************** -->
@@ -114,7 +116,7 @@
 	
 	<!-- 列表 -->
 	<select id="dictlistPage" parameterType="bgPage" resultType="pd">
-		select  z1.dictionaryId,
+		select  z1.dictId,
 				z1.name,
 				z1.encode,
 				z1.orderBy,
@@ -122,10 +124,10 @@
 				z1.jb,
 				z1.pbm,
 				z2.name pname
-		from comDictionary z1
+		from comDict z1
 		left join
-			comDictionary z2 
-		on  z1.parentId = z2.dictionaryId 
+			comDict z2 
+		on  z1.parentId = z2.dictId 
 		where 
 		    z1.parentId = #{pd.parentId}
 		<if test="pd.name != null and pd.name != ''">
@@ -137,23 +139,23 @@
 	<!-- 查询总数 -->
 	<select id="findCount" parameterType="pd" resultType="pd">
 		select 
-			count(dictionaryId) ZS
+			count(dictId) ZS
 		from 
-			comDictionary
+			comDict
 		where 
-			parentId = #{dictionaryId}
+			parentId = #{dictId}
 	</select>
 	
 	<!-- 查询某编码 -->
 	<select id="findBmCount" parameterType="pd" resultType="pd">
 		select 
-			dictionaryId
+			dictId
 		from 
-			comDictionary
+			comDict
 		where 
 			encode = #{encode}
-		<if test="dictionaryId != null and dictionaryId != ''">
-			and dictionaryId != #{dictionaryId} 
+		<if test="dictId != null and dictId != ''">
+			and dictId != #{dictId} 
 		</if>
 	</select>
 	

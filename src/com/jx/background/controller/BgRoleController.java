@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jx.background.config.BgPage;
 import com.jx.background.entity.BgMenu;
 import com.jx.background.entity.BgRole;
 import com.jx.background.service.BgMenuService;
 import com.jx.background.service.BgRoleService;
 import com.jx.common.config.BaseController;
-import com.jx.common.config.BgPage;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
 import com.jx.common.util.AppUtil;

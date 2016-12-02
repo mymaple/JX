@@ -17,7 +17,7 @@ import com.jx.common.util.Jurisdiction;
  * @author FH 作者单位： 联系方式： 创建时间：2015年1月1日
  * @version 1.6
  */
-public class BgLoginHandlerInterceptor extends HandlerInterceptorAdapter {
+public class BgHandlerInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

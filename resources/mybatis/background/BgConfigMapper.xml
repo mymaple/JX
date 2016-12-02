@@ -4,7 +4,7 @@
 <mapper namespace="BgConfigMapper">
 	<sql id="configColumns">configId,configType,configName,param1,param2,param3,param4,isOpen</sql>
 	
-	<resultMap type="BgConfig" id="configResultMap">
+	<resultMap type="bgConfig" id="configResultMap">
 		<id column="configId" property="configId"/>
 		<result column="configType" property="configType"/>
 		<result column="configName" property="configName"/>
@@ -16,7 +16,7 @@
 	</resultMap>
 	
 	<!-- 新增配置 -->
-	<insert id="addConfig" parameterType="BgConfig">
+	<insert id="addConfig" parameterType="bgConfig">
 		insert into bgConfig ( 
 			<include refid="configColumns"/>
 		) values (
@@ -38,7 +38,7 @@
 	</delete>
 
 	<!-- 编辑配置 -->
-	<update id="editConfig" parameterType="BgConfig">
+	<update id="editConfig" parameterType="bgConfig">
 		update bgConfig set 
 			configType =#{configType},
 			configName  =#{configName} ,
@@ -52,14 +52,14 @@
 	</update>
 	
 	<!-- 根据configId获取配置 -->
-	<select id="findByConfigId" parameterType="pd" resultType="BgConfig">
+	<select id="findByConfigId" parameterType="pd" resultType="bgConfig">
 		select  <include refid="configColumns"/>
 		 from bgConfig 
 		 where configId=#{configId}
 	</select>
 	
 	<!-- 根据type获取配置 -->
-	<select id="findConfigByConfigType" parameterType="String" resultType="BgConfig">
+	<select id="findConfigByConfigType" parameterType="String" resultType="bgConfig">
 		select  <include refid="configColumns"/> 
 		 from bgConfig 
 		 where configType=#{configType}

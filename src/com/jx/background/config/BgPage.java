@@ -1,9 +1,18 @@
-package com.jx.common.config;
+package com.jx.background.config;
 
-import com.jx.common.util.Tools;
+import javax.annotation.Resource;
+
+import com.jx.background.entity.BgConfig;
+import com.jx.background.service.BgConfigService;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
 
 public class BgPage {
 
+	@Resource(name = "bgConfigService")
+	private BgConfigService bgConfigService;
+	
+	
 	private int showCount; // 每页显示记录数
 	private int totalPage; // 总页数
 	private int totalResult; // 总记录数
@@ -15,7 +24,8 @@ public class BgPage {
 
 	public BgPage() {
 		try {
-			this.showCount = Integer.parseInt(Tools.readTxtFile(Const.PAGE));
+			BgConfig bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+			this.showCount = Integer.parseInt(bgConfigSystem.getParam2());
 		} catch (Exception e) {
 			this.showCount = 15;
 		}

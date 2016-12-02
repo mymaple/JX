@@ -7,6 +7,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jx.background.config.BgPage;
 import com.jx.common.util.UuidUtil;
 
 public class BaseController {

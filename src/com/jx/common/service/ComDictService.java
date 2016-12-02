@@ -6,13 +6,13 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jx.common.config.BgPage;
+import com.jx.background.config.BgPage;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComDictionary;
+import com.jx.common.entity.ComDict;
 
-@Service("bgDictionaryService")
-public class ComDictionaryService {
+@Service("comDictService")
+public class ComDictService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -21,12 +21,12 @@ public class ComDictionaryService {
 	
 	/**
 	 * 新增 
-	 * @param comDictionary
+	 * @param comDict
 	 * @return
 	 * @throws Exception
 	 */
-	public int add(ComDictionary comDictionary) throws Exception {
-		return (int)dao.add("ComDictionaryMapper.add", comDictionary);
+	public int add(ComDict comDict) throws Exception {
+		return (int)dao.add("ComDictMapper.add", comDict);
 	}
 	
 	/**
@@ -36,16 +36,16 @@ public class ComDictionaryService {
 	 * @throws Exception
 	 */
 	public int addByPd(PageData pd) throws Exception {
-		return (int)dao.add("ComDictionaryMapper.addByPd", pd);
+		return (int)dao.add("ComDictMapper.addByPd", pd);
 	}
 	
 	/**
 	 * 修改 
-	 * @param comDictionary
+	 * @param comDict
 	 * @throws Exception
 	 */
-	public void edit(ComDictionary comDictionary) throws Exception {
-		dao.edit("ComDictionaryMapper.edit", comDictionary);
+	public void edit(ComDict comDict) throws Exception {
+		dao.edit("ComDictMapper.edit", comDict);
 	}
 
 	/**
@@ -54,7 +54,7 @@ public class ComDictionaryService {
 	 * @throws Exception
 	 */
 	public void editByPd(PageData pd) throws Exception {
-		dao.edit("ComDictionaryMapper.editByPd", pd);
+		dao.edit("ComDictMapper.editByPd", pd);
 	}
 	
 	/**
@@ -62,8 +62,8 @@ public class ComDictionaryService {
 	 * @param id
 	 * @throws Exception
 	 */
-	public void deleteById(int id) throws Exception {
-		dao.delete("ComDictionaryMapper.deleteById", id);
+	public void deleteById(String id) throws Exception {
+		dao.delete("ComDictMapper.deleteById", id);
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class ComDictionaryService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ComDictionary findById(int id) throws Exception {
-		return (ComDictionary) dao.findForObject("ComDictionaryMapper.findById", id);
+	public ComDict findById(String id) throws Exception {
+		return (ComDict) dao.findForObject("ComDictMapper.findById", id);
 	}
 	
 	/**
@@ -82,8 +82,8 @@ public class ComDictionaryService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageData findPdById(int id) throws Exception {
-		return (PageData) dao.findForObject("ComDictionaryMapper.findPdById", id);
+	public PageData findPdById(String id) throws Exception {
+		return (PageData) dao.findForObject("ComDictMapper.findPdById", id);
 	}
 	
 	/**
@@ -91,8 +91,8 @@ public class ComDictionaryService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComDictionary> listAll() throws Exception {
-		return (List<ComDictionary>) dao.findForList("ComDictionaryMapper.listAll", null);
+	public List<ComDict> listAll() throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.listAll", null);
 	}
 	
 	/**
@@ -102,7 +102,7 @@ public class ComDictionaryService {
 	 * @throws Exception
 	 */
 	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("ComDictionaryMapper.listAllPd", bgPage);
+		return (List<PageData>) dao.findForList("ComDictMapper.listAllPd", bgPage);
 	}
 	
 	/****************************common * end***********************************/
@@ -111,17 +111,17 @@ public class ComDictionaryService {
 
 	// 查询总数
 	public PageData findCount(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictionaryMapper.findCount", pd);
+		return (PageData) dao.findForObject("ComDictMapper.findCount", pd);
 	}
 
 	// 查询某编码
 	public PageData findBmCount(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictionaryMapper.findBmCount", pd);
+		return (PageData) dao.findForObject("ComDictMapper.findBmCount", pd);
 	}
 
 	// 列出同一父类id下的数据
 	public List<PageData> dictlistPage(BgPage page) throws Exception {
-		return (List<PageData>) dao.findForList("ComDictionaryMapper.dictlistPage", page);
+		return (List<PageData>) dao.findForList("ComDictMapper.dictlistPage", page);
 
 	}
 	

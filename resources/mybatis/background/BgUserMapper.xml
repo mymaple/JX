@@ -16,7 +16,7 @@
 		,r.roleId,r.roleName,r.permissions as rolePermissions 
 		</sql>
 	
-	<resultMap type="BgUser" id="userResultMap">
+	<resultMap type="bgUser" id="userResultMap">
 		<id column="userId" property="userId"/>
 		<result column="userName" property="userName"/>
 		<result column="password" property="password"/>
@@ -33,7 +33,7 @@
 		<result column="phone" property="phone"/>
 	</resultMap>
 	
-	<resultMap type="BgUser" id="userRoleResultMap">
+	<resultMap type="bgUser" id="userRoleResultMap">
 		<id column="userId" property="userId"/>
 		<result column="userName" property="userName"/>
 		<result column="password" property="password"/>
@@ -123,7 +123,7 @@
 	</update>
 	
 	<!-- 存入IP -->
-	<update id="changeLoginIpInfo" parameterType="BgUser" flushCache="false">
+	<update id="changeLoginIpInfo" parameterType="bgUser" flushCache="false">
 		update bgUser 
 			set 
 				lastLogin = #{lastLogin},
@@ -149,7 +149,7 @@
 	</update>
 	
 	<!-- 通过userId获取数据 -->
-	<select id="findByUserId" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="findByUserId" parameterType="pd" resultType="bgUser" useCache="false">
 		select 
 			<include refid="userColumns"/>
 		from 
@@ -159,7 +159,7 @@
 	</select>
 	
 	<!-- 通过userName获取数据 -->
-	<select id="findByUserName" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="findByUserName" parameterType="pd" resultType="bgUser" useCache="false">
 		select 
 			<include refid="userColumns"/>
 		from 
@@ -169,7 +169,7 @@
 	</select>
 			
 	<!-- 通过email获取数据 -->
-	<select id="findByEmail" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="findByEmail" parameterType="pd" resultType="bgUser" useCache="false">
 		select 
 			<include refid="userColumns"/>
 		from 
@@ -182,7 +182,7 @@
 	</select>
 	
 	<!-- 通过userNumber获取数据 -->
-	<select id="findByUserNumber" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="findByUserNumber" parameterType="pd" resultType="bgUser" useCache="false">
 		select 
 			<include refid="userColumns"/>
 		from 
@@ -195,7 +195,7 @@
 	</select>
 	
 	<!-- 通过phone获取数据 -->
-	<select id="findByPhone" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="findByPhone" parameterType="pd" resultType="bgUser" useCache="false">
 		select 
 			<include refid="userColumns"/>
 		from 
@@ -277,7 +277,7 @@
 	
 	
 	<!-- 判断用户名和密码 -->
-	<select id="checkUserByNameAndPwd" parameterType="pd" resultType="BgUser" useCache="false">
+	<select id="checkUserByNameAndPwd" parameterType="pd" resultType="bgUser" useCache="false">
 	<!-- insert update delete (flushCache="true/false") -->
 		select * from bgUser 
 		where 1=1

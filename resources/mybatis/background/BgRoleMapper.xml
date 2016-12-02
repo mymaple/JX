@@ -8,7 +8,7 @@
 		editPermission,findPermission,permissionId
 	</sql>
 	
-	<resultMap type="BgRole" id="roleResultMap">
+	<resultMap type="bgRole" id="roleResultMap">
 		<id column="roleId" property="roleId"/>
 		<result column="roleName" property="roleName"/>
 		<result column="permissions" property="permissions"/>
@@ -351,7 +351,7 @@
 	</select>
 	
 	
-	<update id="updateRoleRights" parameterType="BgRole">
+	<update id="updateRoleRights" parameterType="bgRole">
 		update bgRole 
 		set permissions=#{permissions} 
 		where roleId=#{roleId}

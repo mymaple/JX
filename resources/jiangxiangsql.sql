@@ -135,30 +135,30 @@ INSERT INTO `bgConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务�
 
 
 -- ----------------------------
--- Table structure for comDictionary
+-- Table structure for comDict
 -- ----------------------------
-DROP TABLE IF EXISTS `comDictionary`;
-CREATE TABLE `comDictionary` (
-  `dictionaryId` int(11) NOT NULL,
+DROP TABLE IF EXISTS `comDict`;
+CREATE TABLE `comDict` (
+  `dictId` int(11) NOT NULL,
   `name` varchar(100) DEFAULT NULL,
   `encode` varchar(100) DEFAULT NULL,
   `orderBy` int(10) DEFAULT NULL,
   `parentId` int(11) DEFAULT NULL,
   `jb` int(10) DEFAULT NULL,
   `pbm` varchar(1000) DEFAULT NULL,
-  PRIMARY KEY (`dictionaryId`)
+  PRIMARY KEY (`dictId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of comDictionary
+-- Records of comDict
 -- ----------------------------
-INSERT INTO `comDictionary` VALUES (1, '人事部', '001', '1', 8, '2', 'BM_001');
-INSERT INTO `comDictionary` VALUES (2, '行政部', '002', '2', 8, '2', 'BM_002');
-INSERT INTO `comDictionary` VALUES (4, '北京', 'dq001', '1', 9, '2', 'DQ_dq001');
-INSERT INTO `comDictionary` VALUES (5, '研发部', '004', '4', 8, '2', 'BM_004');
-INSERT INTO `comDictionary` VALUES (6, '财务部', '003', '3', 8, '2', 'BM_003');
-INSERT INTO `comDictionary` VALUES (7, '科技不', 'kj', '7', 8, '2', 'BM_kj');
-INSERT INTO `comDictionary` VALUES (8, '部门', 'BM', '1', 0, '1', 'BM');
-INSERT INTO `comDictionary` VALUES (9, '地区', 'DQ', '2',0, '1', 'DQ');
-INSERT INTO `comDictionary` VALUES (10, '上海', 'SH', '2',9, '2', 'DQ_SH');
-INSERT INTO `comDictionary` VALUES (11, '客服部', '006', '6', 2, '2', 'BM_006');
+INSERT INTO `comDict` VALUES (1, '人事部', '001', '1', 8, '2', 'BM_001');
+INSERT INTO `comDict` VALUES (2, '行政部', '002', '2', 8, '2', 'BM_002');
+INSERT INTO `comDict` VALUES (4, '北京', 'dq001', '1', 9, '2', 'DQ_dq001');
+INSERT INTO `comDict` VALUES (5, '研发部', '004', '4', 8, '2', 'BM_004');
+INSERT INTO `comDict` VALUES (6, '财务部', '003', '3', 8, '2', 'BM_003');
+INSERT INTO `comDict` VALUES (7, '科技不', 'kj', '7', 8, '2', 'BM_kj');
+INSERT INTO `comDict` VALUES (8, '部门', 'BM', '1', 0, '1', 'BM');
+INSERT INTO `comDict` VALUES (9, '地区', 'DQ', '2',0, '1', 'DQ');
+INSERT INTO `comDict` VALUES (10, '上海', 'SH', '2',9, '2', 'DQ_SH');
+INSERT INTO `comDict` VALUES (11, '客服部', '006', '6', 2, '2', 'BM_006');

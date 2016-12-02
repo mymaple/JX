@@ -1,19 +1,19 @@
 package com.jx.common.entity;
 
-public class ComDictionary {
+public class ComDict {
 	
-	private int dictionaryId;
+	private String dicId;
 	private String name;
 	private String encode;
 	private String orderBy;
 	private String parentId;
 	private String jb;
 	private String pbm;
-	public int getDictionaryId() {
-		return dictionaryId;
+	public String getDicId() {
+		return dicId;
 	}
-	public void setDictionaryId(int dictionaryId) {
-		this.dictionaryId = dictionaryId;
+	public void setDicId(String dicId) {
+		this.dicId = dicId;
 	}
 	public String getName() {
 		return name;

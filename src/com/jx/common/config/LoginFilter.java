@@ -1,4 +1,4 @@
-package com.jx.common.config.filter;
+package com.jx.common.config;
 
 import java.io.IOException;
 
@@ -11,7 +11,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.jx.common.config.BaseController;
 import com.jx.common.util.FileUtil;
 
 /**

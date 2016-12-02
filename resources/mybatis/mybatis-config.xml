@@ -10,24 +10,25 @@
     </settings>
 
 	<typeAliases>
-		<typeAlias type="com.jx.background.entity.BgUser" alias="BgUser"/>
+		<!-- <typeAlias type="com.jx.background.entity.BgUser" alias="BgUser"/>
 		<typeAlias type="com.jx.background.entity.BgRole" alias="BgRole"/>
 		<typeAlias type="com.jx.background.entity.BgMenu" alias="BgMenu"/>
 		<typeAlias type="com.jx.background.entity.BgConfig" alias="BgConfig"/>
-		
-		<typeAlias type="com.jx.system.config.PageData" alias="pd"/>
+		 -->
+		<typeAlias type="com.jx.common.config.PageData" alias="pd"/>
 		
 		<!-- 分页 -->
-		<typeAlias type="com.jx.system.config.BgPage" alias="bgPage"/>
+		<typeAlias type="com.jx.background.config.BgPage" alias="bgPage"/>
 		
-		<package name="com.jx.*.entity"/>
+		<package name="com.jx.background.entity" />
+		<package name="com.jx.common.entity" />
 	</typeAliases>
-<!-- 	
+	
 	<plugins>
-		<plugin interceptor="com.fh.plugin.PagePlugin">
+		<plugin interceptor="com.jx.background.config.BgPagePlugin">
 			<property name="dialect" value="mysql"/>
 			<property name="pageSqlId" value=".*listPage.*"/>
 		</plugin>
 	</plugins>
-	 -->
+	
 </configuration>

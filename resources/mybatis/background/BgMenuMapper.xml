@@ -4,7 +4,7 @@
 <mapper namespace="BgMenuMapper">
 	<sql id="menuColumns">menuId,menuName,menuUrl,parentId,menuOrder,menuIcon,menuType</sql>
 	
-	<resultMap type="BgMenu" id="menuResultMap">
+	<resultMap type="bgMenu" id="menuResultMap">
 		<id column="menuId" property="menuId"/>
 		<result column="menuName" property="menuName"/>
 		<result column="menuUrl" property="menuUrl"/>
@@ -16,7 +16,7 @@
 	
 	
 	<!-- ztree -->
-	<resultMap type="BgMenu" id="menuZtreeResultMap">
+	<resultMap type="bgMenu" id="menuZtreeResultMap">
 		<id column="menuId" property="menuId"/>
 		<result column="menuName" property="menuName"/>
 		<result column="menuUrl" property="menuUrl"/>
@@ -29,7 +29,7 @@
 
 	
 	<!-- 新增菜单 -->
-	<insert id="addMenu" parameterType="BgMenu">
+	<insert id="addMenu" parameterType="bgMenu">
 		insert into bgMenu ( 
 			<include refid="menuColumns"/>
 		) values (
@@ -51,7 +51,7 @@
 	</delete>
 
 	<!-- 编辑菜单 -->
-	<update id="editMenu" parameterType="BgMenu">
+	<update id="editMenu" parameterType="bgMenu">
 		update bgMenu set 
 			menuName =#{menuName},
 			menuUrl  =#{menuUrl} ,
@@ -64,14 +64,14 @@
 	</update>
 	
 	<!-- 修改菜单图标menuIcon (顶部菜单) -->
-	<update id="changeMenuIcon" parameterType="BgMenu">
+	<update id="changeMenuIcon" parameterType="bgMenu">
 		update bgMenu set 
 			menuIcon=#{menuIcon}
 		where menuId=#{menuId}
 	</update>
 	
 	<!-- 更新子菜单类型菜单 menuType -->
-	<update id="changeMenuType" parameterType="BgMenu">
+	<update id="changeMenuType" parameterType="bgMenu">
 		update bgMenu set 
 			menuType=#{menuType}
 		where parentId=#{menuId}

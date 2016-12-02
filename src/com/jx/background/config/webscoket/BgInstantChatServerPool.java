@@ -1,4 +1,4 @@
-package com.jx.common.config.chat;
+package com.jx.background.config.webscoket;
 
 import java.util.ArrayList;
 import java.util.Collection;

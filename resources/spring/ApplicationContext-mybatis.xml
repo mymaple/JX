@@ -107,7 +107,7 @@
 		</bean>
 		
 		<!-- 項目自定义的Realm -->
-	    <bean id="ShiroRealm" class="com.jx.system.config.ShiroRealm" ></bean>
+	    <bean id="ShiroRealm" class="com.jx.common.config.ShiroRealm" ></bean>
 		
 		<!-- Shiro Filter -->
 		<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">

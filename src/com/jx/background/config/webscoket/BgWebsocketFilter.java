@@ -1,4 +1,4 @@
-package com.jx.common.config.filter;
+package com.jx.background.config.webscoket;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -22,8 +22,6 @@ import org.springframework.web.context.support.XmlWebApplicationContext;
 import com.jx.background.service.BgConfigService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
-import com.jx.common.config.chat.BgInstantChatServer;
-import com.jx.common.config.chat.BgOnlineManageServer;
 
 /**
  * 创建人：FH 创建时间：2014年2月17日
