@@ -28,7 +28,16 @@
 </head>
 
 <script type="text/javascript">
+
 	$(top.hangge());
+	
+	$(document).ready(function(){
+		var msg = '${msg}';
+		if(msg == 'no'){
+			$("#encode").attr("readonly",true);
+		}
+	});
+	
 	//保存
 	function save(){
 		if($("#name").val()==""){
@@ -88,15 +97,15 @@
 			return false;
 		}
 		
-		has();
+		hasEncode();
 		
 	}
 	
 	//判断编码是否存在
-	function has(){
+	function hasEncode(){
 		var dictId = $("#dictId").val();
 		var encode = $("#encode").val();
-		var url = "background/dict/has.do?encode="+encode+"&dictId="+dictId+"&tm="+new Date().getTime();
+		var url = "background/dict/hasEncode.do?encode="+encode+"&dictId="+dictId+"&tm="+new Date().getTime();
 		$.get(url,function(data){
 			if(data=="error"){
 				$("#encode").css("background-color","#D16E6C");
@@ -140,11 +149,4 @@
 		<div id="zhongxin2" class="center" style="display:none"><br/><br/><br/><img src="static/images/jzx.gif" style="width: 50px;" /><br/><h4 class="lighter block green"></h4></div>
 	</form>
 </body>
-<script type="text/javascript">
-	var msg = '${msg}';
-	if(msg == 'no'){
-		$("#encode").attr("readonly",true);
-	}
-
-</script>
 </html>

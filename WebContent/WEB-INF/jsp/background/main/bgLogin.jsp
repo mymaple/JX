@@ -214,8 +214,8 @@ String basePath = request.getScheme() + "://"
 				$("#password").focus();
 				return false;
 			}
-			
-			if ($("#code").val() == "") {
+			//开发跳过
+			/* if ($("#code").val() == "") {
 				$("#code").tips({
 					side : 1,
 					msg : '验证码不得为空',
@@ -224,7 +224,7 @@ String basePath = request.getScheme() + "://"
 				});
 				$("#code").focus();
 				return false;
-			}
+			} */
 			
 			$("#loginbox").tips({
 				side : 1,

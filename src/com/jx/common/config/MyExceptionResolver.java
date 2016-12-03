@@ -17,7 +17,7 @@ public class MyExceptionResolver implements HandlerExceptionResolver {
 		// TODO Auto-generated method stub
 		System.out.println("==============异常开始=============");
 		ex.printStackTrace();
-		System.out.println("==============异常结束=============");
+		System.out.println("\n==============异常结束=============");
 		ModelAndView mv = new ModelAndView("error");
 		mv.addObject("exception", ex.toString().replaceAll("\n", "<br/>"));
 		return mv;

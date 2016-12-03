@@ -62,8 +62,20 @@ public class PageData extends HashMap implements Map {
 	public String getString(Object key) {
 		return (String) get(key);
 	}
+	
+	public int getInt(Object key) {
+		return (int) get(key);
+	}
+	
+	
+	public int getStringToInt(Object key) {
+		String num = (String) get(key);
+		if(num != null && !"".equals(num) && num.matches(Const.REG_COM_FFZS_STR)){
+			return Integer.parseInt(num);
+		}
+		return 0;
+	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object put(Object key, Object value) {
 		return map.put(key, value);
@@ -79,43 +91,34 @@ public class PageData extends HashMap implements Map {
 	}
 
 	public boolean containsKey(Object key) {
-		// TODO Auto-generated method stub
 		return map.containsKey(key);
 	}
 
 	public boolean containsValue(Object value) {
-		// TODO Auto-generated method stub
 		return map.containsValue(value);
 	}
 
 	public Set entrySet() {
-		// TODO Auto-generated method stub
 		return map.entrySet();
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
 		return map.isEmpty();
 	}
 
 	public Set keySet() {
-		// TODO Auto-generated method stub
 		return map.keySet();
 	}
 
-	@SuppressWarnings("unchecked")
 	public void putAll(Map t) {
-		// TODO Auto-generated method stub
 		map.putAll(t);
 	}
 
 	public int size() {
-		// TODO Auto-generated method stub
 		return map.size();
 	}
 
 	public Collection values() {
-		// TODO Auto-generated method stub
 		return map.values();
 	}
 

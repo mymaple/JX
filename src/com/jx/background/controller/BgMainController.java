@@ -170,6 +170,11 @@ public class BgMainController extends BaseController {
 			String sessionBgVerificationCode = (String) session.getAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR); // 获取session中的验证码
 
 			String bgVerificationCode = keyData[2];
+			
+			//开发跳过、、登录
+			bgVerificationCode = sessionBgVerificationCode;
+			
+			
 			if (null == bgVerificationCode || "".equals(bgVerificationCode)) {
 				errInfo = "nullcode"; // 验证码为空
 			} else {

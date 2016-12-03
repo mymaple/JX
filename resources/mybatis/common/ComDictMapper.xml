@@ -7,7 +7,7 @@
 	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,jb,pbm</sql>
 	
 	<resultMap type="comdict" id="configResultMap">
-		<id column="dictId" property="dictId" />
+		<id column="dictId" property="dictId"/>
 		<result column="name" property="name"/>
 		<result column="encode" property="encode"/>
 		<result column="orderBy" property="orderBy"/>
@@ -68,14 +68,21 @@
 	</update>
 	
 	<!-- 删除 -->
-	<delete id="deleteById" parameterType="String">
+	<delete id="deleteById" parameterType="int">
+		delete from comDict 
+		where 
+			dictId = #{dictId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
 		delete from comDict 
 		where 
 			dictId = #{dictId}
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="String" resultType="comDict">
+	<select id="findById" parameterType="int" resultType="comDict">
 		select 
 			<include refid="dictColumns"/>
 		from 
@@ -85,7 +92,17 @@
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="findPdById" parameterType="String" resultType="pd">
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			dictId = #{dictId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
 		select 
 			<include refid="dictColumns"/>
 		from 
@@ -139,7 +156,7 @@
 	<!-- 查询总数 -->
 	<select id="findCount" parameterType="pd" resultType="pd">
 		select 
-			count(dictId) ZS
+			count(dictId) count
 		from 
 			comDict
 		where 
@@ -147,7 +164,7 @@
 	</select>
 	
 	<!-- 查询某编码 -->
-	<select id="findBmCount" parameterType="pd" resultType="pd">
+	<select id="hasEncodeByPd" parameterType="pd" resultType="pd">
 		select 
 			dictId
 		from 

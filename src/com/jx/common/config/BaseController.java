@@ -17,7 +17,7 @@ public class BaseController {
 	private static final long serialVersionUID = 6357869213649815390L;
 
 	/**
-	 * 得到PageData
+	 * 得到PageData<String,Sting>
 	 */
 	public PageData getPageData() {
 		return new PageData(this.getRequest());

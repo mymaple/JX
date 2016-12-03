@@ -43,7 +43,7 @@
 			 		top.jzts();
 			 		location.href = location.href;
 			 	}else{
-			 		nextPage(${bgPage.currentPage});
+			 		nextPage('${bgPage.currentPage}');
 			 	}
 			}
 			 diag.close();
@@ -62,7 +62,7 @@
 		 diag.Height = 175;
 		 diag.CancelEvent = function(){ //关闭事件
 			 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-				 nextPage(${bgPage.currentPage});
+				 nextPage('${bgPage.currentPage}');
 			}
 			 diag.close();
 		 };
@@ -81,7 +81,7 @@
 			$.get(url,function(data){
 				if("success" == data.result){
 					top.jzts();
-					nextPage(${bgPage.currentPage});
+					nextPage('${bgPage.currentPage}');
 				}else{
 					top.hangge();
 					alert("删除失败，请先删除其下级数据!"); 
@@ -107,9 +107,9 @@
 			<td style="vertical-align:top;"><button class="btn btn-mini btn-light" onclick="search();"><i id="nav-search-icon" class="icon-search"></i></button></td>
 			<c:if test="${pd.parentId != '0'}">
 				<c:choose>
-				<c:when test="${not empty varsList}">
+				<c:when test="${not empty navDictList}">
 				<td style="vertical-align:top;"><a href="<%=basePath%>/background/dict/list.do?parentId=0" class="btn btn-mini btn-purple" title="查看">顶级<i class="icon-arrow-right  icon-on-right"></i></a></td>
-				<c:forEach items="${varsList}" var="var" varStatus="vsd">
+				<c:forEach items="${navDictList}" var="var" varStatus="vsd">
 				<td style="vertical-align:top;"><a href="<%=basePath%>/background/dict/list.do?parentId=${var.dictId }" class="btn btn-mini btn-purple" title="查看">${var.name }<i class="icon-arrow-right  icon-on-right"></i></a></td>
 				</c:forEach>
 				</c:when>
@@ -133,8 +133,8 @@
 		</tr>
 		</thead>
 		<c:choose>
-			<c:when test="${not empty varList}">
-				<c:forEach items="${varList}" var="var" varStatus="vs">
+			<c:when test="${not empty childrenDictList}">
+				<c:forEach items="${childrenDictList}" var="var" varStatus="vs">
 				<tr>
 				<td class="center">${var.orderBy }</td>
 				<td class='center'><a href="<%=basePath%>/background/dict/list.do?parentId=${var.dictId }" title="查看下级"><i class="icon-arrow-right  icon-on-right"></i>&nbsp;${var.name }</a></td>
@@ -159,7 +159,7 @@
 			<tr>
 				<td style="vertical-align:top;width:50px;"><a class="btn btn-small btn-success" onclick="add('${pd.parentId}');">新增</a></td>
 				<c:if test="${pd.parentId != '0'}">
-					<td style="vertical-align:top;" class="left"><a class="btn btn-small btn-info" onclick="location.href='<%=basePath%>/background/dict/list.do?parentId=${pdp.parentId }';">返回</a></td>
+					<td style="vertical-align:top;" class="left"><a class="btn btn-small btn-info" onclick="location.href='<%=basePath%>/background/dict/list.do?parentId=${backId }';">返回</a></td>
 				</c:if>
 				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${bgPage.pageStr}</div></td>
 			</tr>

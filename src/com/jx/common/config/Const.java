@@ -130,6 +130,12 @@ public class Const {
 	public static final String NO_INTERCEPTOR_PATH = ".*/((login)|(logout)|(code)|(app)|(weixin)|(static)|(main)|(websocket)).*"; // 不对匹配该值的访问路径拦截（正则）
 	public static final String INTERCEPTOR_PATH = "^/background/(?!((verificationCode)|(main))).*";
 	
+	/**
+	 * 正则 非负整数
+	 */
+	public static final String REG_COM_FFZS_STR = "^[1-9]\\d*|0$";
+	
+	
 	public static ApplicationContext WEB_APP_CONTEXT = null; // 该值会在web容器启动时由WebAppContextListener初始化
 
 	/**

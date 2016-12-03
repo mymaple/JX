@@ -2,6 +2,10 @@ package com.jx.background.config;
 
 import javax.annotation.Resource;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
 import com.jx.background.entity.BgConfig;
 import com.jx.background.service.BgConfigService;
 import com.jx.common.config.Const;
@@ -24,7 +28,14 @@ public class BgPage {
 
 	public BgPage() {
 		try {
-			BgConfig bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+			// shiro管理的session
+			Subject currentUser = SecurityUtils.getSubject();
+			Session session = currentUser.getSession();
+			BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
+			if (bgConfigSystem == null) {
+				bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+				session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
+			}
 			this.showCount = Integer.parseInt(bgConfigSystem.getParam2());
 		} catch (Exception e) {
 			this.showCount = 15;

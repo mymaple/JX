@@ -62,8 +62,17 @@ public class ComDictService {
 	 * @param id
 	 * @throws Exception
 	 */
-	public void deleteById(String id) throws Exception {
+	public void deleteById(int id) throws Exception {
 		dao.delete("ComDictMapper.deleteById", id);
+	}
+	
+	/**
+	 * 删除 
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteByPd(PageData pd) throws Exception {
+		dao.delete("ComDictMapper.deleteByPd", pd);
 	}
 
 	/**
@@ -72,7 +81,7 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public ComDict findById(String id) throws Exception {
+	public ComDict findById(int id) throws Exception {
 		return (ComDict) dao.findForObject("ComDictMapper.findById", id);
 	}
 	
@@ -82,8 +91,18 @@ public class ComDictService {
 	 * @return
 	 * @throws Exception
 	 */
-	public PageData findPdById(String id) throws Exception {
+	public PageData findPdById(int id) throws Exception {
 		return (PageData) dao.findForObject("ComDictMapper.findPdById", id);
+	}
+	
+	/**
+	 * 通过pd获取(PageData)数据 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData findPdByPd(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("ComDictMapper.findPdByPd", pd);
 	}
 	
 	/**
@@ -115,8 +134,8 @@ public class ComDictService {
 	}
 
 	// 查询某编码
-	public PageData findBmCount(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComDictMapper.findBmCount", pd);
+	public PageData hasEncodeByPd(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("ComDictMapper.hasEncodeByPd", pd);
 	}
 
 	// 列出同一父类id下的数据

@@ -2,18 +2,21 @@ package com.jx.common.entity;
 
 public class ComDict {
 	
-	private String dicId;
+	private int dictId;
 	private String name;
 	private String encode;
-	private String orderBy;
-	private String parentId;
-	private String jb;
+	private int orderBy;
+	private int parentId;
+	private int jb;
 	private String pbm;
-	public String getDicId() {
-		return dicId;
+	
+	
+	
+	public int getDictId() {
+		return dictId;
 	}
-	public void setDicId(String dicId) {
-		this.dicId = dicId;
+	public void setDictId(int dictId) {
+		this.dictId = dictId;
 	}
 	public String getName() {
 		return name;
@@ -27,22 +30,22 @@ public class ComDict {
 	public void setEncode(String encode) {
 		this.encode = encode;
 	}
-	public String getOrderBy() {
+	public int getOrderBy() {
 		return orderBy;
 	}
-	public void setOrderBy(String orderBy) {
+	public void setOrderBy(int orderBy) {
 		this.orderBy = orderBy;
 	}
-	public String getParentId() {
+	public int getParentId() {
 		return parentId;
 	}
-	public void setParentId(String parentId) {
+	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public String getJb() {
+	public int getJb() {
 		return jb;
 	}
-	public void setJb(String jb) {
+	public void setJb(int jb) {
 		this.jb = jb;
 	}
 	public String getPbm() {
@@ -51,6 +54,8 @@ public class ComDict {
 	public void setPbm(String pbm) {
 		this.pbm = pbm;
 	}
+	
+	
 	
 	
 	

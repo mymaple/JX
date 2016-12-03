@@ -18,8 +18,10 @@ import com.jx.background.config.BgPage;
 import com.jx.background.service.BgMenuService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.PageData;
+import com.jx.common.entity.ComDict;
 import com.jx.common.service.ComDictService;
 import com.jx.common.util.AppUtil;
+import com.jx.common.util.JudgeUtil;
 
 /**
  * 类名称：DicttionariesController 创建人：FH 创建时间：2014年9月2日
@@ -33,12 +35,55 @@ public class BgDictController extends BaseController {
 	private BgMenuService bgMenuService;
 	@Resource(name = "comDictService")
 	private ComDictService comDictService;
+	
+	
+	/**
+	 * 列表
+	 */
+	List<ComDict> navDictList ;
+	@RequestMapping(value = "/list")
+	public ModelAndView list(BgPage bgPage) throws Exception {
+
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		String parentId = pd.getString("parentId");
+		
+		if (JudgeUtil.stringCanToZZS(parentId)) {
+			// 头部导航
+			navDictList = new ArrayList<ComDict>();
+			this.getDictFamilyTree(Integer.parseInt(parentId)); // 逆序
+			Collections.reverse(navDictList);
+			
+			// 返回按钮用
+			mv.addObject("backId", navDictList.get(navDictList.size()-1).getParentId());
+		}else{
+			pd.put("parentId", "0");
+		}
+
+		String name = pd.getString("name");
+		if (null != name && !"".equals(name)) {
+			name = name.trim();
+			pd.put("name", name);
+		}
+		bgPage.setShowCount(3); // 设置每页显示条数
+		bgPage.setPd(pd);
+		List<PageData> childrenDictList = comDictService.dictlistPage(bgPage);
+
+		mv.addObject("childrenDictList", childrenDictList);
+		mv.addObject("navDictList", navDictList);
+		mv.addObject("pd", pd);
+
+		mv.setViewName("background/dict/bgDictList");
+		return mv;
+	}
+
 
 	/**
 	 * 保存
 	 */
 	@RequestMapping(value = "/save")
-	public ModelAndView save(PrintWriter out) throws Exception {
+	public ModelAndView save() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
@@ -53,14 +98,14 @@ public class BgDictController extends BaseController {
 				pd.put("jb", 1);
 				pd.put("pbm", pd.getString("encode"));
 			} else {
-				pdp = comDictService.findPdById(parentId);
+				pdp = comDictService.findPdById(Integer.parseInt(parentId));
 				pd.put("jb", Integer.parseInt(pdp.get("jb").toString()) + 1);
 				pd.put("pbm", pdp.getString("encode") + "_" + pd.getString("encode"));
 			}
 //			pd.put("dictId", this.get32UUID()); // ID
 			comDictService.addByPd(pd);
 		} else {
-			pdp = comDictService.findPdById(parentId);
+			pdp = comDictService.findPdById(Integer.parseInt(parentId));
 			if (null != parentId && "0".equals(parentId)) {
 				pd.put("pbm", pd.getString("encode"));
 			} else {
@@ -68,72 +113,24 @@ public class BgDictController extends BaseController {
 			}
 			comDictService.editByPd(pd);
 		}
-
 		mv.addObject("msg", "success");
+		
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 
 	}
 
-	/**
-	 * 列表
-	 */
-	
-	@RequestMapping(value = "list")
-	public ModelAndView list(BgPage bgPage) throws Exception {
-
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		String parentId = pd.getString("parentId");
-		List<PageData> szdList = new ArrayList<PageData>();
-
-		if (null != parentId && !"".equals(parentId) && !"0".equals(parentId)) {
-
-			// 返回按钮用
-			PageData pdp = new PageData();
-			pdp = this.getPageData();
-
-			pdp.put("dictId", parentId);
-			pdp = comDictService.findPdById(parentId);
-			mv.addObject("pdp", pdp);
-
-			// 头部导航
-			szdList = new ArrayList<PageData>();
-			this.getZDname(parentId); // 逆序
-			Collections.reverse(szdList);
-
-		}
-
-		String name = pd.getString("name");
-		if (null != name && !"".equals(name)) {
-			name = name.trim();
-			pd.put("name", name);
-		}
-		bgPage.setShowCount(5); // 设置每页显示条数
-		bgPage.setPd(pd);
-		List<PageData> varList = comDictService.dictlistPage(bgPage);
-
-		mv.addObject("varList", varList);
-		mv.addObject("varsList", szdList);
-		mv.addObject("pd", pd);
-		mv.setViewName("background/dict/bgDictList");
-
-		return mv;
-	}
 
 	// 递归
-	public void getZDname(String parentId) {
+	public void getDictFamilyTree(int parentId) {
 		logBefore(logger, "递归");
-		List<PageData> szdList = new ArrayList<PageData>();
 		try {
-			PageData pdps = new PageData();
-			pdps.put("dictId", parentId);
-			pdps = comDictService.findPdById(parentId);
-			if (pdps != null) {
-				szdList.add(pdps);
-				String parentIds = pdps.getString("parentId");
-				this.getZDname(parentIds);
+			ComDict comDict = new ComDict();
+			comDict = comDictService.findById(parentId);
+			if (comDict != null) {
+				navDictList.add(comDict);
+				int parentIds = comDict.getParentId();
+				this.getDictFamilyTree(parentIds);
 			}
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
@@ -150,11 +147,11 @@ public class BgDictController extends BaseController {
 		try {
 			pd = this.getPageData();
 			mv.addObject("pd", pd);
-			mv.setViewName("background/dict/bgDictEdit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}
 
+		mv.setViewName("background/dict/bgDictEdit");
 		return mv;
 	}
 
@@ -162,30 +159,31 @@ public class BgDictController extends BaseController {
 	 * 去编辑页面
 	 */
 	@RequestMapping(value = "/toEdit")
-	public ModelAndView toEdit(String roleId) throws Exception {
+	public ModelAndView toEdit() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		pd = comDictService.findById(pd);
-		if (Integer.parseInt(comDictService.findCount(pd).get("ZS").toString()) != 0) {
+		pd = comDictService.findPdByPd(pd);
+		if (Integer.parseInt(comDictService.findCount(pd).get("count").toString()) > 0) {
 			mv.addObject("msg", "no");
 		} else {
 			mv.addObject("msg", "ok");
 		}
-		mv.setViewName("background/dict/bgDictEdit");
 		mv.addObject("pd", pd);
+		
+		mv.setViewName("background/dict/bgDictEdit");
 		return mv;
 	}
 
 	/**
 	 * 判断编码是否存在
 	 */
-	@RequestMapping(value = "/has")
-	public void has(PrintWriter out) {
+	@RequestMapping(value = "/hasEncode")
+	public void hasEncode(PrintWriter out) {
 		PageData pd = new PageData();
 		try {
 			pd = this.getPageData();
-			if (comDictService.findBmCount(pd) != null) {
+			if (comDictService.hasEncodeByPd(pd) != null) {
 				out.write("error");
 			} else {
 				out.write("success");
@@ -212,7 +210,7 @@ public class BgDictController extends BaseController {
 			if (Integer.parseInt(comDictService.findCount(pd).get("ZS").toString()) != 0) {
 				errInfo = "false";
 			} else {
-				comDictService.deleteById(pd);
+				comDictService.deleteByPd(pd);
 				errInfo = "success";
 			}
 		} catch (Exception e) {
