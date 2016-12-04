@@ -41,27 +41,23 @@
 	//保存
 	function save(){
 		if($("#name").val()==""){
-			
 			$("#name").tips({
 				side:3,
 	            msg:'请输入名称',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
 			$("#name").focus();
 			return false;
 		}
 		
 		if($("#encode").val()=="" || $("#encode").val()=="此编码已存在!"){
-			
 			$("#encode").tips({
 				side:3,
 	            msg:'请输入编码',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
 			$("#encode").focus();
 			$("#encode").val('');
 			$("#encode").css("background-color","white");
@@ -69,29 +65,23 @@
 		}
 		
 		if($("#orderBy").val()==""){
-			
 			$("#orderBy").tips({
 				side:1,
 	            msg:'请输入序号',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
-			
 			$("#orderBy").focus();
 			return false;
 		}
 		
 		if(isNaN(Number($("#orderBy").val()))){
-			
 			$("#orderBy").tips({
 				side:1,
 	            msg:'请输入数字',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			
-			
 			$("#orderBy").focus();
 			$("#orderBy").val(1);
 			return false;
@@ -109,9 +99,7 @@
 		$.get(url,function(data){
 			if(data=="error"){
 				$("#encode").css("background-color","#D16E6C");
-				
 				setTimeout("$('#encode').val('此编码已存在!')",500);
-				
 			}else{
 				$("#form").submit();
 				$("#zhongxin").hide();

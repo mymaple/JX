@@ -197,7 +197,7 @@ function productCode(){
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="代码生成器";
-	 diag.URL = locat+'/background/config/goProductCode.do';
+	 diag.URL = locat+'/background/config/toCreateCode.do';
 	 diag.Width = 800;
 	 diag.Height = 450;
 	 diag.CancelEvent = function(){ //关闭事件

@@ -66,7 +66,7 @@ public class BgDictController extends BaseController {
 			name = name.trim();
 			pd.put("name", name);
 		}
-		bgPage.setShowCount(3); // 设置每页显示条数
+		bgPage.setShowCount(5); // 设置每页显示条数
 		bgPage.setPd(pd);
 		List<PageData> childrenDictList = comDictService.dictlistPage(bgPage);
 
@@ -87,29 +87,27 @@ public class BgDictController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		PageData pdp = new PageData();
-		pdp = this.getPageData();
-
+		
 		String parentId = pd.getString("parentId");
-		pdp.put("dictId", parentId);
+		ComDict comdic = new ComDict();
 
 		if (null == pd.getString("dictId") || "".equals(pd.getString("dictId"))) {
 			if (null != parentId && "0".equals(parentId)) {
 				pd.put("jb", 1);
 				pd.put("pbm", pd.getString("encode"));
 			} else {
-				pdp = comDictService.findPdById(Integer.parseInt(parentId));
-				pd.put("jb", Integer.parseInt(pdp.get("jb").toString()) + 1);
-				pd.put("pbm", pdp.getString("encode") + "_" + pd.getString("encode"));
+				comdic = comDictService.findById(Integer.parseInt(parentId));
+				pd.put("jb", comdic.getJb() + 1);
+				pd.put("pbm", comdic.getEncode() + "_" + pd.getString("encode"));
 			}
 //			pd.put("dictId", this.get32UUID()); // ID
 			comDictService.addByPd(pd);
 		} else {
-			pdp = comDictService.findPdById(Integer.parseInt(parentId));
 			if (null != parentId && "0".equals(parentId)) {
 				pd.put("pbm", pd.getString("encode"));
 			} else {
-				pd.put("pbm", pdp.getString("encode") + "_" + pd.getString("encode"));
+				comdic = comDictService.findById(Integer.parseInt(parentId));
+				pd.put("pbm", comdic.getEncode() + "_" + pd.getString("encode"));
 			}
 			comDictService.editByPd(pd);
 		}
@@ -207,7 +205,7 @@ public class BgDictController extends BaseController {
 		try {
 			pd = this.getPageData();
 
-			if (Integer.parseInt(comDictService.findCount(pd).get("ZS").toString()) != 0) {
+			if (Integer.parseInt(comDictService.findCount(pd).get("count").toString()) != 0) {
 				errInfo = "false";
 			} else {
 				comDictService.deleteByPd(pd);
