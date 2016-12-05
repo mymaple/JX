@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -41,7 +42,7 @@
 		
 	</head>
 <body>
-		
+	<param:select name="" id="" type="" />
 	<!-- 添加属性  -->
 	<input type="hidden" name="hcdname" id="hcdname" value="" />
 	<input type="hidden" name="msgIndex" id="msgIndex" value="" />

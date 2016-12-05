@@ -1,0 +1,85 @@
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <description>maple_param 统一自定义标签</description>
+    <display-name>maple_param_tld</display-name>
+    <tlib-version>1.1</tlib-version>
+    <short-name>param</short-name>
+    <uri>http://www.maple_param_tld.com</uri> 
+
+    <tag>
+        <!--定义属性的名称。每个标签的是属性名称必须是唯一的。-->
+        <name>select</name>
+        <tag-class>com.jx.common.tag.ParameterSelectTag</tag-class>
+        <body-content>empty</body-content>
+        <!--id-->
+        <attribute>
+            <name>id</name>
+            <!--指定属性是否是必须的或者可选的,如果设置为false为可选。-->
+            <required>true</required>
+            <!--声明在运行表达式时，标签属性是否有效。-->
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--select 的name值-->
+        <attribute>
+            <name>name</name>
+            <!--指定属性是否是必须的或者可选的,如果设置为false为可选。-->
+            <required>true</required>
+            <!--声明在运行表达式时，标签属性是否有效。-->
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <!--额外的一些显示层的参数-->
+        <!--样式类-->
+        <attribute>
+            <name>cssClass</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--内联样式-->
+        <attribute>
+            <name>styleClass</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <!--type-->
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <!--选中任意一项时触发的方法-->
+        <attribute>
+            <name>onChange</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--选择方式 单选/多选-->
+        <attribute>
+            <name>multiple</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        
+        <!--value 选中的值-->
+        <attribute>
+            <name>value</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <!--select 未选择时显示内容 如："请选择"或者"所有"等-->
+        <attribute>
+            <name>nullStr</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    
+
+        
+        
+    </tag>
+</taglib>
