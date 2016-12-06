@@ -141,7 +141,11 @@ public class ComDictService {
 	// 列出同一父类id下的数据
 	public List<PageData> dictlistPage(BgPage page) throws Exception {
 		return (List<PageData>) dao.findForList("ComDictMapper.dictlistPage", page);
-
+	}
+	
+	//获取字典参数列表
+	public List<ComDict> listParamByEncode(String encode) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.listParamByEncode", encode);
 	}
 	
 	/****************************custom * end**********************************/

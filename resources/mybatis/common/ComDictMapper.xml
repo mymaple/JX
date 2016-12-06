@@ -176,6 +176,24 @@
 		</if>
 	</select>
 	
+	
+	<!-- 获取字典参数列表 -->
+	<select id="listParamByEncode" parameterType="String" resultType="comDict">
+		select  z1.dictId,
+				z1.name,
+				z1.encode,
+				z1.orderBy,
+				z1.parentId,
+				z1.jb,
+				z1.pbm
+		from comDict z1
+		left join
+			comDict z2 
+		on  z1.parentId = z2.dictId 
+		where 
+		    z2.encode = #{encode}
+		order by z1.orderBy
+	</select>
 	<!-- ****************************custom * end********************************** -->
 	
 	

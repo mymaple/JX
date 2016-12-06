@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="param" uri="http://www.maple_param_tld.com"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -117,7 +118,7 @@
 				</c:otherwise>
 				</c:choose>
 			</c:if>
-			
+			<param:select name="bm" id="bm" type="BM"/>
 		</tr>
 	</table>
 	<!-- 检索  -->

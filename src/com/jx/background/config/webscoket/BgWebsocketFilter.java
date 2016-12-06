@@ -9,19 +9,17 @@ import java.util.TimerTask;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.java_websocket.WebSocketImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-import org.springframework.web.context.support.XmlWebApplicationContext;
 
 import com.jx.background.service.BgConfigService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
+import com.jx.common.util.ServletContextUtil;
 
 /**
  * 创建人：FH 创建时间：2014年2月17日
@@ -36,11 +34,9 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 	 */
 	public void init(FilterConfig fc) throws ServletException {
 		
-		ServletContext sc = fc.getServletContext();
-		XmlWebApplicationContext cxt = (XmlWebApplicationContext)WebApplicationContextUtils.getWebApplicationContext(sc);                
-		if(cxt != null && cxt.getBean("bgConfigService") != null && bgConfigService == null)            
-			bgConfigService = (BgConfigService) cxt.getBean("bgConfigService");  
-		
+		if(bgConfigService == null){
+			bgConfigService = (BgConfigService) ServletContextUtil.getBean("bgConfigService");  
+    	}
 		this.startWebsocketInstantChat();
 		this.startWebsocketOnlineManage();
 	}

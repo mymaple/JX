@@ -1,15 +1,25 @@
 package com.jx.common.tag;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.ContextLoader;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
+import com.jx.background.service.BgConfigService;
+import com.jx.common.entity.ComDict;
 import com.jx.common.service.ComDictService;
-import com.jx.common.util.SpringContextUtil;
+import com.jx.common.util.ServletContextUtil;
 
 public class ParameterSelectTag extends TagSupport {
 
@@ -17,6 +27,10 @@ public class ParameterSelectTag extends TagSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
+	@Autowired
+	private ComDictService comDictService;
 	
 	private String id;
 	private String name;
@@ -31,8 +45,15 @@ public class ParameterSelectTag extends TagSupport {
     
     public int doEndTag() throws JspException{
     	
-    	ComDictService comDictService = (ComDictService)SpringContextUtil.getBean("dictTagService");
-    	
+    	if(comDictService == null){
+    		comDictService = (ComDictService) ServletContextUtil.getBean("comDictService");  
+    	}
+    	List<ComDict> comDictList = new ArrayList<ComDict>();
+		try {
+			comDictList = comDictService.listParamByEncode(this.getType());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
     	 StringBuffer sb = new StringBuffer();
          JspWriter out = pageContext.getOut();
 
@@ -58,23 +79,24 @@ public class ParameterSelectTag extends TagSupport {
          }
          sb.append(">");
 
-         if(!StringUtils.isEmpty(this.getNullStr())){
-             sb.append("<option value=\"\">--"+this.getNullStr()+"--</option>");
+         if(StringUtils.isEmpty(this.getNullStr())){
+        	 sb.append("<option value=\"\">--请选择--</option>");
+         }else{
+        	 sb.append("<option value=\"\">--"+this.getNullStr()+"--</option>");
          }
 
-         for(BaseParameter dc:list){
-             if (dc.getDictValue().equals(this.getValue())){
-                 sb.append("<option value=\""+dc.getDictValue()+"\" selected>");
+         for(ComDict comDict:comDictList){
+             if (comDict.getEncode().equals(this.getValue())){
+                 sb.append("<option value=\""+comDict.getEncode()+"\" selected>");
              }else {
-                 sb.append("<option value=\""+dc.getDictValue()+"\">");
+                 sb.append("<option value=\""+comDict.getEncode()+"\">");
              }
-             sb.append(dc.getDictName()+"</option>");
+             sb.append(comDict.getName()+"</option>");
          }
          sb.append("</select>");
          try {
              out.write(sb.toString());
          } catch (IOException e) {
-             // TODO Auto-generated catch block
              throw new JspException(e);
          }
 
