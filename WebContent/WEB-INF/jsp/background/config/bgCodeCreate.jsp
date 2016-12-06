@@ -42,7 +42,6 @@
 		
 	</head>
 <body>
-	<param:select name="" id="" type="" />
 	<!-- 添加属性  -->
 	<input type="hidden" name="hcdname" id="hcdname" value="" />
 	<input type="hidden" name="msgIndex" id="msgIndex" value="" />
@@ -56,28 +55,32 @@
 		        	<br/>
 		        	<table>
 		        		<tr>
-		        			<td style="padding-left: 16px;text-align: right;">属性名：</td><td><input name="dname" id="dname" type="text" value="" placeholder="首字母必须为字母或下划线" title="属性名" /></td>
-		        			<td style="padding-left: 16px;text-align: right;">属性类型：</td>
-		        			<td style="padding-bottom: 6px;">
-		        				<label style="float:left;padding-left: 20px;"><input name="form-field-radiot" id="form-field-radio1" onclick="setType('String');" type="radio" value="icon-edit" checked="checked"><span class="lbl">String</span></label>
-								<label style="float:left;padding-left: 20px;"><input name="form-field-radiot" id="form-field-radio2" onclick="setType('Integer');" type="radio" value="icon-edit"><span class="lbl">Integer</span></label>
-								<label style="float:left;padding-left: 20px;"><input name="form-field-radiot" id="form-field-radio3" onclick="setType('Date');" type="radio" value="icon-edit"><span class="lbl">Date</span></label>
-							</td>
+		        			<td style="padding-left: 16px;text-align: right;">属性名：</td>
+		        			<td><input name="propName" id="propertyName" type="text" value="" placeholder="首字母必须为字母或下划线" title="属性名" /></td>
+		        			<td style="padding-left: 16px;text-align: right;">注释：</td>
+		        			<td style="padding-bottom: 6px;"><input name=propComment id="propComment " type="text" value="" placeholder="例如 name的注释为 '姓名'" title="注释"/></td>
 		        		</tr>
 		        		<tr>
-		        			<td style="padding-left: 16px;text-align: right;">其备注：</td><td><input name="dbz" id="dbz" type="text" value="" placeholder="例如 name的备注为 '姓名'" title="备注"/></td>
-		        			<td style="padding-left: 16px;text-align: right;">前台录入：</td>
+		        			<td style="padding-left: 16px;text-align: right;">属性类型：</td>
+		        			<td><param:select name="propType" id="propType" type="propType" /></td>
+		        			<td style="padding-left: 16px;text-align: right;">属性长度：</td>
+		        			<td style="padding-bottom: 6px;">
+		        				<param:select name="propLength" id="propLength" type="propLength" />
+							</td>
+		        		</tr>
+		        		
+		        		<tr>
+		        			<td style="padding-left: 16px;text-align: right;">默认值：</td>
+		        			<td><input name="propDefault" id="propDefault" type="text" value="" title="默认值"/></td>
+		        			<td style="padding-left: 16px;text-align: right;">是否可为空：</td>
 		        			<td style="padding-bottom: 6px;">
 		        				<label style="float:left;padding-left: 20px;"><input name="form-field-radioq" id="form-field-radio4" onclick="isQian('是');" type="radio" value="icon-edit" checked="checked"><span class="lbl">是</span></label>
 								<label style="float:left;padding-left: 20px;"><input name="form-field-radioq" id="form-field-radio5" onclick="isQian('否');" type="radio" value="icon-edit"><span class="lbl">否</span></label>
 							</td>
 		        		</tr>
 		        		<tr>
-		        			<td style="padding-left: 16px;text-align: right;">默认值：</td><td><input name="ddefault" id="ddefault" type="text" value="" disabled="disabled" placeholder="后台附加值时生效" title="默认值"/></td>
-		        			<td style="padding-left: 16px;text-align: right;"></td>
 		        			<td>
 		        			<div class="commitbox_cen">
-				                <div class="left" id="cityname"></div>
 				                <div class="right"><span class="save" onClick="saveD()">保存</span>&nbsp;&nbsp;<span class="quxiao" onClick="cancel_pl()">取消</span></div>
 				            </div>
 		        			</td>
@@ -97,7 +100,7 @@
 	  	</div>
 	</div>
 
-	<form action="createCode/proCode.do" name="Form" id="Form" method="post">
+	<form action="background/config/codeCreate.do" name="Form" id="Form" method="post">
 		<input type="hidden" name="zindex" id="zindex" value="0">
 		<div id="zhongxin">
 		<table style="margin-top: 10px;" border="0">
@@ -157,7 +160,7 @@
 		<script src="static/js/bootstrap.min.js"></script>
 		<script src="static/js/ace-elements.min.js"></script>
 		<script src="static/js/ace.min.js"></script>
-		<script src="static/js/myjs/productCode.js"></script>
+		<script src="static/js/myjs/codeCreate.js"></script>
 		<script type="text/javascript">
 		$(top.hangge());
 		</script>

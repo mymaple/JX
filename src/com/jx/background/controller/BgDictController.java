@@ -93,21 +93,21 @@ public class BgDictController extends BaseController {
 
 		if (null == pd.getString("dictId") || "".equals(pd.getString("dictId"))) {
 			if (null != parentId && "0".equals(parentId)) {
-				pd.put("jb", 1);
-				pd.put("pbm", pd.getString("encode"));
+				pd.put("level", 1);
+				pd.put("allEncode", pd.getString("encode"));
 			} else {
 				comdic = comDictService.findById(Integer.parseInt(parentId));
-				pd.put("jb", comdic.getJb() + 1);
-				pd.put("pbm", comdic.getEncode() + "_" + pd.getString("encode"));
+				pd.put("level", comdic.getLevel() + 1);
+				pd.put("allEncode", comdic.getEncode() + "_" + pd.getString("encode"));
 			}
 //			pd.put("dictId", this.get32UUID()); // ID
 			comDictService.addByPd(pd);
 		} else {
 			if (null != parentId && "0".equals(parentId)) {
-				pd.put("pbm", pd.getString("encode"));
+				pd.put("allEncode", pd.getString("encode"));
 			} else {
 				comdic = comDictService.findById(Integer.parseInt(parentId));
-				pd.put("pbm", comdic.getEncode() + "_" + pd.getString("encode"));
+				pd.put("allEncode", comdic.getEncode() + "_" + pd.getString("encode"));
 			}
 			comDictService.editByPd(pd);
 		}

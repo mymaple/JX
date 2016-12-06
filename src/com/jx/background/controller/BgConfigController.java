@@ -347,14 +347,14 @@ public class BgConfigController extends BaseController {
 	@RequestMapping(value = "/toCreateCode")
 	public ModelAndView toCreateCode() throws Exception {
 		ModelAndView mv = this.getModelAndView();
-		mv.setViewName("system/head/bgCodeCreate");
+		mv.setViewName("background/config/bgCodeCreate");
 		return mv;
 	}
 	
 	/**
 	 * 生成代码
 	 */
-	@RequestMapping(value = "/CodeCreate")
+	@RequestMapping(value = "/codeCreate")
 	public void proCode(HttpServletResponse response) throws Exception {
 		PageData pd = new PageData();
 		pd = this.getPageData();

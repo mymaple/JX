@@ -7,10 +7,8 @@ public class ComDict {
 	private String encode;
 	private int orderBy;
 	private int parentId;
-	private int jb;
-	private String pbm;
-	
-	
+	private int level;
+	private String allEncode;
 	
 	public int getDictId() {
 		return dictId;
@@ -42,18 +40,19 @@ public class ComDict {
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public int getJb() {
-		return jb;
+	public int getLevel() {
+		return level;
 	}
-	public void setJb(int jb) {
-		this.jb = jb;
+	public void setLevel(int level) {
+		this.level = level;
 	}
-	public String getPbm() {
-		return pbm;
+	public String getAllEncode() {
+		return allEncode;
 	}
-	public void setPbm(String pbm) {
-		this.pbm = pbm;
+	public void setAllEncode(String allEncode) {
+		this.allEncode = allEncode;
 	}
+
 	
 	
 	

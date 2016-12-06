@@ -3,8 +3,8 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ComDictMapper">
 
-	<sql id="dictAddColumns">name,encode,orderBy,parentId,jb,pbm</sql>
-	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,jb,pbm</sql>
+	<sql id="dictAddColumns">name,encode,orderBy,parentId,level,allEncode</sql>
+	<sql id="dictColumns">dictId,name,encode,orderBy,parentId,level,allEncode</sql>
 	
 	<resultMap type="comdict" id="configResultMap">
 		<id column="dictId" property="dictId"/>
@@ -12,8 +12,8 @@
 		<result column="encode" property="encode"/>
 		<result column="orderBy" property="orderBy"/>
 		<result column="parentId" property="parentId"/>
-		<result column="jb" property="jb"/>
-		<result column="pbm" property="pbm"/>
+		<result column="level" property="level"/>
+		<result column="allEncode" property="allEncode"/>
 	</resultMap>
 	
 	<!-- ****************************common * satrt*********************************** -->
@@ -26,8 +26,8 @@
 			#{encode},
 			#{orderBy},
 			#{parentId},
-			#{jb},
-			#{pbm}
+			#{level},
+			#{allEncode}
 		)
 	</insert>
 	
@@ -40,8 +40,8 @@
 			#{encode},
 			#{orderBy},
 			#{parentId},
-			#{jb},
-			#{pbm}
+			#{level},
+			#{allEncode}
 		)
 	</insert>
 	
@@ -51,7 +51,7 @@
 			set name    = #{name},
 				orderBy = #{orderBy},
 				encode  = #{encode},
-				pbm	  = #{pbm}
+				allEncode	  = #{allEncode}
 			where 
 				dictId = #{dictId}
 	</update>
@@ -62,7 +62,7 @@
 			set name    = #{name},
 				orderBy = #{orderBy},
 				encode  = #{encode},
-				pbm	  = #{pbm}
+				allEncode	  = #{allEncode}
 			where 
 				dictId = #{dictId}
 	</update>
@@ -138,8 +138,8 @@
 				z1.encode,
 				z1.orderBy,
 				z1.parentId,
-				z1.jb,
-				z1.pbm,
+				z1.level,
+				z1.allEncode,
 				z2.name pname
 		from comDict z1
 		left join
@@ -178,20 +178,20 @@
 	
 	
 	<!-- 获取字典参数列表 -->
-	<select id="listParamByEncode" parameterType="String" resultType="comDict">
+	<select id="listParamByAllEncode" parameterType="String" resultType="comDict">
 		select  z1.dictId,
 				z1.name,
 				z1.encode,
 				z1.orderBy,
 				z1.parentId,
-				z1.jb,
-				z1.pbm
+				z1.level,
+				z1.allEncode
 		from comDict z1
 		left join
 			comDict z2 
 		on  z1.parentId = z2.dictId 
 		where 
-		    z2.encode = #{encode}
+		    z2.allEncode = #{allEncode}
 		order by z1.orderBy
 	</select>
 	<!-- ****************************custom * end********************************** -->

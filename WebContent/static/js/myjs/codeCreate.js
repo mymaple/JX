@@ -1,6 +1,4 @@
-/**
- * @FH
- */	
+
 	//生成
 	function save(){
 		

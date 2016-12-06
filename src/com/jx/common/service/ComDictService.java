@@ -144,8 +144,8 @@ public class ComDictService {
 	}
 	
 	//获取字典参数列表
-	public List<ComDict> listParamByEncode(String encode) throws Exception {
-		return (List<ComDict>) dao.findForList("ComDictMapper.listParamByEncode", encode);
+	public List<ComDict> listParamByAllEncode(String allEncode) throws Exception {
+		return (List<ComDict>) dao.findForList("ComDictMapper.listParamByAllEncode", allEncode);
 	}
 	
 	/****************************custom * end**********************************/

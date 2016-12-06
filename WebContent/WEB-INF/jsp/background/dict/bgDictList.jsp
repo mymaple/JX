@@ -118,7 +118,6 @@
 				</c:otherwise>
 				</c:choose>
 			</c:if>
-			<param:select name="bm" id="bm" type="BM"/>
 		</tr>
 	</table>
 	<!-- 检索  -->
@@ -139,8 +138,8 @@
 				<tr>
 				<td class="center">${var.orderBy }</td>
 				<td class='center'><a href="<%=basePath%>/background/dict/list.do?parentId=${var.dictId }" title="查看下级"><i class="icon-arrow-right  icon-on-right"></i>&nbsp;${var.name }</a></td>
-				<td class='center'>${var.pbm }</td>
-				<td class='center' style="width:35px;"><b class="green">${var.jb }</b></td>
+				<td class='center'>${var.allEncode }</td>
+				<td class='center' style="width:35px;"><b class="green">${var.level }</b></td>
 				<td style="width: 68px;">
 				<a class='btn btn-mini btn-info' title="编辑" onclick="edit('${var.dictId }')" ><i class='icon-edit'></i></a>
 				<a class='btn btn-mini btn-danger' title="删除"  onclick="del('${var.dictId }')"><i class='icon-trash'></i></a>
