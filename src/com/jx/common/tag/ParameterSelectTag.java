@@ -71,9 +71,7 @@ public class ParameterSelectTag extends TagSupport {
 		}
 		sb.append(">");
 
-		if (StringUtils.isEmpty(this.getNullStr())) {
-			sb.append("<option value=\"\">--请选择--</option>");
-		} else {
+		if (!StringUtils.isEmpty(this.getNullStr())) {
 			sb.append("<option value=\"\">--" + this.getNullStr() + "--</option>");
 		}
 

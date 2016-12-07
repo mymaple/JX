@@ -1,4 +1,140 @@
+	var arrayField = new Array();
+	var index = 0;
 
+	//打开编辑属性(新增)
+	function toAddField(){
+		$("#editIndex").val('');
+		$("#editPropName").val('');
+		
+		$("#propName").val('');
+		$("#propComment").val('');
+		$("#propType").val('');
+		$("#propLength").val('propType_String');
+		$("#isWrite1").attr("checked",true);
+		$("#isNull1").attr("checked",true);
+		$("#propDefault").val('');
+		
+		$("#dialog-add").css("display","block");
+	}
+	
+	//保存编辑属性
+	function saveField(){
+		var editIndex = $("#editIndex").val(); 	 //editIndex不为空时是修改
+		var editPropName = $("#editPropName").val();
+		
+		var propName = $("#propName").val();				//属性名
+		var propComment = $("#propComment").val();			//注释
+		var propType = $("#propType").val();				//类型
+		var propLength = $("#propLength").val();			//长度
+		var isWrite = $("#isWrite1").attr("checked")?1:0;	//页面录入
+		var isNull = $("#isNull1").attr("checked")?1:0;		//isNull
+		var propDefault = $("#propDefault").val();			//默认值
+		
+		var headstr = propName.substring(0,1);
+		var reg = new RegExp("^[0-9]+$");
+		
+		if(propName==""){
+			$("#propName").tips({
+				side:3,
+	            msg:'输入属性名',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#propName").focus();
+			return false;
+		}else if(!isSame(propName)&&reg.test(headstr)){
+			$("#propName").tips({
+				side:3,
+	            msg:'属性名首字母必须为字母或下划线',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#propName").focus();
+			return false;
+		}else if(isSame(propName)&&
+				(editIndex === ''||(editIndex != ''&&editPropName != propName))){
+			$("#propName").tips({
+				side:3,
+	            msg:'属性名重复',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#propName").focus();
+			return false;
+		}
+		
+		if(propComment==""){
+			$("#propComment").tips({
+				side:3,
+	            msg:'输入注释',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#propComment").focus();
+			return false;
+		}
+		
+		var fields = propName + ',maple,' + propComment + ',maple,' + propType 
+					+ ',maple,' + propLength + ',maple,' + isWrite
+					+ ',maple,' + isNull + ',maple,' + propDefault;
+		
+		if(editIndex == ''){
+			addArrayField(fields);
+		}else{
+			editArrayField(fields,editIndex);
+		}
+		$("#dialog-add").css("display","none");
+	}
+	
+	
+	//保存属性后往数组添加元素
+	function addArrayField(value){
+		arrayField[index] = value;
+		appendField(value);
+	}
+
+	//打开编辑属性(修改)
+	function toEditField(value,editIndex){
+		var fieldarray = value.split(',maple,');
+		$("#editIndex").val(editIndex);
+		$("#editPropName").val(fieldarray[0]);
+		
+		$("#propName").val(fieldarray[0]);
+		$("#propComment").val(fieldarray[1]);
+		$("#propType").val(fieldarray[2]);
+		$("#propLength").val(fieldarray[3]);
+		$(fieldarray[4]==='1'?"#isWrite1":"#isWrite0").attr("checked",true);
+		$(fieldarray[5]==='1'?"#isNull1":"#isNull0").attr("checked",true);
+		$("#propDefault").val(fieldarray[6]);
+	
+		$("#dialog-add").css("display","block");
+	}
+	
+	//修改属性
+	function editArrayField(value,editIndex){
+		arrayField[editIndex] = value;
+		index = 0;
+		$("#fields").html('');
+		for(var i=0;i<arrayField.length;i++){
+			appendField(arrayField[i]);
+		}
+	}
+	
+	//删除数组添加元素并重组列表
+	function removeField(value){
+		index = 0;
+		$("#fields").html('');
+		arrayField.splice(value,1);
+		for(var i=0;i<arrayField.length;i++){
+			appendField(arrayField[i]);
+		}
+	}
+	
+	//关闭编辑属性
+	function toCancel(){
+		$("#dialog-add").css("display","none");
+	}
+	
 	//生成
 	function save(){
 		
@@ -78,215 +214,45 @@
 	}
 	
 	
-	//保存编辑属性
-	function saveD(){
-		
-		var dname = $("#dname").val(); 	 		 //属性名
-		var dtype = $("#dtype").val(); 	 		 //类型
-		var dbz	  = $("#dbz").val();   	 		 //备注
-		var isQian = $("#isQian").val(); 		 //是否前台录入
-		var ddefault = $("#ddefault").val(); 	 //默认值
-		var msgIndex = $("#msgIndex").val(); 	 //msgIndex不为空时是修改
-		
-		if(dname==""){
-			$("#dname").tips({
-				side:3,
-	            msg:'输入属性名',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#dname").focus();
-			return false;
-		}else{
-			dname = dname.toUpperCase();		//转化为大写
-			if(isSame(dname)){
-				var headstr = dname.substring(0,1);
-				var pat = new RegExp("^[0-9]+$");
-				if(pat.test(headstr)){
-					$("#dname").tips({
-						side:3,
-			            msg:'属性名首字母必须为字母或下划线',
-			            bg:'#AE81FF',
-			            time:2
-			        });
-					$("#dname").focus();
-					return false;
-				}
-			}else{
-				
-				if(msgIndex != ''){
-					var hcdname = $("#hcdname").val();
-					if(hcdname != dname){
-						if(!isSame(dname)){
-							$("#dname").tips({
-								side:3,
-					            msg:'属性名重复',
-					            bg:'#AE81FF',
-					            time:2
-					        });
-							$("#dname").focus();
-							return false;
-						}
-					}
-				}else{
-					
-					$("#dname").tips({
-						side:3,
-			            msg:'属性名重复',
-			            bg:'#AE81FF',
-			            time:2
-			        });
-					$("#dname").focus();
-					return false;
-					
-				}
-			}
-		}
-		
-		if(dbz==""){
-			$("#dbz").tips({
-				side:3,
-	            msg:'输入备注',
-	            bg:'#AE81FF',
-	            time:2
-	        });
-			$("#dbz").focus();
-			return false;
-		}
-		
-		dbz = dbz == '' ? '无':dbz;
-		ddefault = ddefault == '' ? '无':ddefault;
-		var fields = dname + ',fh,' + dtype + ',fh,' + dbz + ',fh,' + isQian + ',fh,' + ddefault;
-		
-		if(msgIndex == ''){
-			arrayField(fields);
-		}else{
-			editArrayField(fields,msgIndex);
-		}
-		$("#dialog-add").css("display","none");
-	}
-	//打开编辑属性(新增)
-	function dialog_open(){
-		$("#dname").val('');
-		$("#dbz").val('');
-		$("#ddefault").val('');
-		$("#msgIndex").val('');
-		$("#dtype").val('String');
-		$("#isQian").val('是');
-		$("#form-field-radio1").attr("checked",true);
-		$("#form-field-radio4").attr("checked",true);
-		$("#dialog-add").css("display","block");
-		$("#ddefault").attr("disabled",true);
-	}
-	//打开编辑属性(修改)
-	function editField(value,msgIndex){
-		var efieldarray = value.split(',fh,');
-		$("#dname").val(efieldarray[0]);
-		$("#hcdname").val(efieldarray[0]);
-		$("#dbz").val(efieldarray[2]);
-		$("#ddefault").val(efieldarray[4]);
-		$("#msgIndex").val(msgIndex);
-		if(efieldarray[1] == 'String'){
-			$("#form-field-radio1").attr("checked",true);
-			$("#dtype").val('String');
-		}else if(efieldarray[1] == 'Integer'){
-			$("#form-field-radio2").attr("checked",true);
-			$("#dtype").val('Integer');
-		}else{
-			$("#form-field-radio3").attr("checked",true);
-			$("#dtype").val('Date');
-		}
-		if(efieldarray[3] == '是'){
-			$("#form-field-radio4").attr("checked",true);
-			$("#isQian").val('是');
-		}else{
-			$("#form-field-radio5").attr("checked",true);
-			$("#isQian").val('否');
-		}
-		$("#dialog-add").css("display","block");
-	}
-	//关闭编辑属性
-	function cancel_pl(){
-		$("#dialog-add").css("display","none");
-	}
-	//赋值类型
-	function setType(value){
-		$("#dtype").val(value);
-	}
-	
-	//赋值是否前台录入
-	function isQian(value){
-		if(value == '是'){
-			$("#isQian").val('是');
-			$("#ddefault").val("无");
-			$("#ddefault").attr("disabled",true);
-		}else{
-			$("#isQian").val('否');
-			$("#ddefault").val('');
-			$("#ddefault").attr("disabled",false);
-		}
-	}
+
+
+
 	
 	
-	var arField = new Array();
-	var index = 0;
+
+	
+
 	//追加属性列表
-	function appendC(value){
-		
-		var fieldarray = value.split(',fh,');
-		
+	function appendField(value){	
+		var fieldarray = value.split(',maple,');
 		$("#fields").append(
 			'<tr>'+
-			'<td class="center">'+fieldarray[0]+'<input type="hidden" name="field0'+index+'" value="'+fieldarray[0]+'"></td>'+
-			'<td class="center">'+fieldarray[1]+'<input type="hidden" name="field1'+index+'" value="'+fieldarray[1]+'"></td>'+
-			'<td class="center">'+fieldarray[2]+'<input type="hidden" name="field2'+index+'" value="'+fieldarray[2]+'"></td>'+
-			'<td class="center">'+fieldarray[3]+'<input type="hidden" name="field3'+index+'" value="'+fieldarray[3]+'"></td>'+
-			'<td class="center">'+fieldarray[4]+'<input type="hidden" name="field4'+index+'" value="'+fieldarray[4]+'"></td>'+
+			'<td class="center">'+fieldarray[0]+'<input type="hidden" name="propName" id="propName'+index+'" value="'+fieldarray[0]+'"></td>'+
+			'<td class="center">'+fieldarray[1]+'<input type="hidden" name="propComment" id="propComment'+index+'" value="'+fieldarray[1]+'"></td>'+
+			'<td class="center">'+fieldarray[2]+'<input type="hidden" name="propType" id="propType'+index+'" value="'+fieldarray[2]+'"></td>'+
+			'<td class="center">'+fieldarray[3]+'<input type="hidden" name="propLength" id="propLength'+index+'" value="'+fieldarray[3]+'"></td>'+
+			'<td class="center">'+fieldarray[4]+'<input type="hidden" name="isWrite" id="isWrite'+index+'" value="'+fieldarray[4]+'"></td>'+
+			'<td class="center">'+fieldarray[5]+'<input type="hidden" name="isNull" id="isNull'+index+'" value="'+fieldarray[5]+'"></td>'+
+			'<td class="center">'+fieldarray[6]+'<input type="hidden" name="propDefault" id="propDefault'+index+'" value="'+fieldarray[6]+'"></td>'+
 			'<td class="center">'+
-				'<input type="hidden" name="field'+index+'" value="'+value+'">'+
-				'<a class="btn btn-mini btn-info" title="编辑" onclick="editField(\''+value+'\',\''+index+'\')"><i class="icon-edit"></i></a>&nbsp;'+
+				'<input type="hidden" name="field" id="field'+index+'" value="'+value+'">'+
+				'<a class="btn btn-mini btn-info" title="编辑" onclick="toEditField(\''+value+'\',\''+index+'\')"><i class="icon-edit"></i></a>&nbsp;'+
 				'<a class="btn btn-mini btn-danger" title="删除" onclick="removeField(\''+index+'\')"><i class="icon-trash"></i></a>'+
 			'</td>'+
 			'</tr>'
 		);
 		index++;
-		$("#zindex").val(index);
-	}
-	
-	//保存属性后往数组添加元素
-	function arrayField(value){
-		arField[index] = value;
-		appendC(value);
-	}
-	
-	//修改属性
-	function editArrayField(value,msgIndex){
-		arField[msgIndex] = value;
-		index = 0;
-		$("#fields").html('');
-		for(var i=0;i<arField.length;i++){
-			appendC(arField[i]);
-		}
-	}
-	
-	//删除数组添加元素并重组列表
-	function removeField(value){
-		index = 0;
-		$("#fields").html('');
-		arField.splice(value,1);
-		for(var i=0;i<arField.length;i++){
-			appendC(arField[i]);
-		}
+		$("#fieldCount").val(index);
 	}
 	
 	//判断属性名是否重复
 	function isSame(value){
-		for(var i=0;i<arField.length;i++){
-			var array0 = arField[i].split(',fh,')[0];
+		for(var i=0;i<arrayField.length;i++){
+			var array0 = arrayField[i].split(',maple,')[0];
 			if(array0 == value){
-				return false;
+				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 	
