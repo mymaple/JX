@@ -21,12 +21,15 @@ import com.jx.background.service.BgUserService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
+import com.jx.common.entity.ComDict;
+import com.jx.common.service.ComDictService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.DelAllFile;
 import com.jx.common.util.FileDownload;
 import com.jx.common.util.FileZip;
 import com.jx.common.util.Freemarker;
 import com.jx.common.util.PathUtil;
+import com.jx.common.util.StringUtil;
 import com.jx.common.util.Tools;
 
 /**
@@ -43,6 +46,8 @@ public class BgConfigController extends BaseController {
 	private AppuserService appuserService;
 	@Resource(name = "bgConfigService")
 	private BgConfigService bgConfigService;
+	@Resource(name = "comDictService")
+	private ComDictService comDictService;
 
 
 	
@@ -360,27 +365,49 @@ public class BgConfigController extends BaseController {
 		pd = this.getPageData();
 
 		/* ============================================================================================= */
-		String packageName = pd.getString("packageName"); // 包名 ========1
-		String objectName = pd.getString("objectName"); // 类名 ========2
-		String tabletop = pd.getString("tabletop"); // 表前缀 ========3
-		tabletop = null == tabletop ? "" : tabletop.toUpperCase(); // 表前缀转大写
-		String zindext = pd.getString("zindex"); // 属性总数
-		int zindex = 0;
-		if (null != zindext && !"".equals(zindext)) {
-			zindex = Integer.parseInt(zindext);
+		String conModule = pd.getString("conModule"); // 控制模块名 ========1
+		ComDict comDict = comDictService.findByAllEncode(conModule);
+		String conModuleNL = comDict.getName();
+		String conModuleNU = StringUtil.firstToUpper(conModuleNL);
+		String conModuleEL = comDict.getEncode();
+		String conModuleEU = StringUtil.firstToUpper(conModuleNL);
+		
+		String objectModule = pd.getString("objectModule"); // 控制模块名 ========2
+		comDict = comDictService.findByAllEncode(objectModule);
+		String objectModuleNL = comDict.getName();
+		String objectModuleNU = StringUtil.firstToUpper(objectModuleNL);
+		String objectModuleEL = comDict.getEncode();
+		String objectModuleEU = StringUtil.firstToUpper(objectModuleEL);
+		
+		String objectNameL = StringUtil.firstToLower(pd.getString("objectName")); // 类名 ========3
+		String objectNameU = StringUtil.firstToUpper(objectNameL);
+		
+		String fieldCountStr = pd.getString("fieldCount"); // 属性总数
+		int fieldCount = 0;
+		if (null != fieldCountStr && !"".equals(fieldCountStr)) {
+			fieldCount = Integer.parseInt(fieldCountStr);
 		}
 		List<String[]> fieldList = new ArrayList<String[]>(); // 属性集合 ========4
-		for (int i = 0; i < zindex; i++) {
-			fieldList.add(pd.getString("field" + i).split(",fh,")); // 属性放到集合里面
+		for (int i = 0; i < fieldCount; i++) {
+			fieldList.add(pd.getString("field" + i).split(",maple,")); // 属性放到集合里面
 		}
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
+		
+		root.put("conModuleNL", conModuleNL); // background
+		root.put("conModuleNU", conModuleNU); // Background
+		root.put("conModuleEL", conModuleEL); // bg
+		root.put("conModuleEU", conModuleEU); // Bg
+		root.put("objectModuleNL", objectModuleNL); // background
+		root.put("objectModuleNU", objectModuleNU); // Background
+		root.put("objectModuleEL", objectModuleEL); // bg
+		root.put("objectModuleEU", objectModuleEU); // Bg
+		root.put("objectNameL", objectNameL); // user
+		root.put("objectNameU", objectNameU); // User
+		
+		root.put("fieldCount", fieldCount);
 		root.put("fieldList", fieldList);
-		root.put("packageName", packageName); // 包名
-		root.put("objectName", objectName); // 类名
-		root.put("objectNameLower", objectName.toLowerCase()); // 类名(全小写)
-		root.put("objectNameUpper", objectName.toUpperCase()); // 类名(全大写)
-		root.put("tabletop", tabletop); // 表前缀
+		
 		root.put("nowDate", new Date()); // 当前日期
 
 		DelAllFile.delFolder(PathUtil.getClasspath() + "admin/ftl"); // 生成代码前,先清空之前生成的代码
@@ -390,22 +417,24 @@ public class BgConfigController extends BaseController {
 		String ftlPath = "createCode"; // ftl路径
 
 		/* 生成controller */
-		Freemarker.printFile("controllerTemplate.ftl", root, "controller/" + packageName + "/" + objectName.toLowerCase() + "/" + objectName + "Controller.java", filePath, ftlPath);
+		Freemarker.printFile("controllerTemplate.ftl", root, conModuleNL + "/controller/" + conModuleEU + objectNameU + "Controller.java", filePath, ftlPath);
 
 		/* 生成service */
-		Freemarker.printFile("serviceTemplate.ftl", root, "service/" + packageName + "/" + objectName.toLowerCase() + "/" + objectName + "Service.java", filePath, ftlPath);
+		Freemarker.printFile("serviceTemplate.ftl", root, objectModuleNU + "/service/" + objectModuleEU  + objectNameU + "Service.java", filePath, ftlPath);
 
-		/* 生成mybatis xml */
-		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis_mysql/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
-		Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
+		/* 生成mybatis xml Mysql*/
+		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + objectModuleNU + "/" + objectModuleEU  + objectNameU + "Mapper.xml", filePath, ftlPath);
+		/* 生成mybatis xml Oracle*/
+		//Freemarker.printFile("mapperOracleTemplate.ftl", root, "mybatis_oracle/" + packageName + "/" + objectName + "Mapper.xml", filePath, ftlPath);
 
-		/* 生成SQL脚本 */
-		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
-		Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
+		/* 生成SQL脚本 Mysql*/
+		Freemarker.printFile("mysql_SQL_Template.ftl", root, "mysql数据库脚本/" + objectModuleEL + objectNameU + ".sql", filePath, ftlPath);
+		/* 生成SQL脚本 Oracle*/
+		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
 
 		/* 生成jsp页面 */
-		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + packageName + "/" + objectName.toLowerCase() + "/" + objectName.toLowerCase() + "_list.jsp", filePath, ftlPath);
-		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + packageName + "/" + objectName.toLowerCase() + "/" + objectName.toLowerCase() + "_edit.jsp", filePath, ftlPath);
+		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + conModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "List.jsp", filePath, ftlPath);
+		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + conModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "Edit.jsp", filePath, ftlPath);
 
 		/* 生成说明文档 */
 		Freemarker.printFile("docTemplate.ftl", root, "说明.doc", filePath, ftlPath);

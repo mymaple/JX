@@ -148,6 +148,10 @@ public class ComDictService {
 		return (List<ComDict>) dao.findForList("ComDictMapper.listParamByAllEncode", allEncode);
 	}
 	
+	public ComDict findByAllEncode(String allEncode) throws Exception {
+		return (ComDict) dao.findForList("ComDictMapper.findByAllEncode", allEncode);
+	}
+	
 	/****************************custom * end**********************************/
 
 }

@@ -194,6 +194,17 @@
 		    z2.allEncode = #{allEncode}
 		order by z1.orderBy
 	</select>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findByAllEncode" parameterType="String" resultType="comDict">
+		select 
+			<include refid="dictColumns"/>
+		from 
+			comDict
+		where 
+			allEncode = #{allEncode}
+	</select>
+	
 	<!-- ****************************custom * end********************************** -->
 	
 	

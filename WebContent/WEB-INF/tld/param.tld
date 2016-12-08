@@ -26,7 +26,7 @@
         <attribute>
             <name>name</name>
             <!--指定属性是否是必须的或者可选的,如果设置为false为可选。-->
-            <required>true</required>
+            <required>false</required>
             <!--声明在运行表达式时，标签属性是否有效。-->
             <rtexprvalue>true</rtexprvalue>
         </attribute>

@@ -57,7 +57,7 @@
 		        			<td style="padding-left: 16px;text-align: right;"><font style="color: red;">*</font>属性名：</td>
 		        			<td><input id="propName" type="text" value="" placeholder="首字母必须为字母或下划线" title="属性名" /></td>
 		        			<td style="padding-left: 16px;text-align: right;"><font style="color: red;">*</font>注释：</td>
-		        			<td style="padding-bottom: 6px;"><input id="propComment " type="text" value="" placeholder="例如 name的注释为 '姓名'" title="注释"/></td>
+		        			<td style="padding-bottom: 6px;"><input id="propComment" type="text" value="" placeholder="例如 name的注释为 '姓名'" title="注释"/></td>
 		        		</tr>
 		        		<tr>
 		        			<td style="padding-left: 16px;text-align: right;"><font style="color: red;">*</font>类型：</td>

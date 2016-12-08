@@ -76,7 +76,7 @@ public class ParameterSelectTag extends TagSupport {
 		}
 
 		for (ComDict comDict : comDictList) {
-			if (comDict.getEncode().equals(this.getValue())) {
+			if (comDict.getAllEncode().equals(this.getValue())) {
 				sb.append("<option value=\"" + comDict.getAllEncode() + "\" selected>");
 			} else {
 				sb.append("<option value=\"" + comDict.getAllEncode() + "\">");

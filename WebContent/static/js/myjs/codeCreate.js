@@ -138,27 +138,26 @@
 	//生成
 	function save(){
 		
-		if($("#packageName").val()==""){
-			$("#packageName").tips({
+		if($("#conModule").val()==""){
+			$("#conModule").tips({
 				side:3,
-	            msg:'输入包名',
+	            msg:'输入控制模块',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#packageName").focus();
+			$("#conModule").focus();
 			return false;
-		}else{
-			var pat = new RegExp("^[A-Za-z]+$");
-			if(!pat.test($("#packageName").val())){
-				$("#packageName").tips({
-					side:3,
-		            msg:'只能输入字母',
-		            bg:'#AE81FF',
-		            time:2
-		        });
-				$("#packageName").focus();
-				return false;
-			}
+		}
+		
+		if($("#objectModule").val()==""){
+			$("#objectModule").tips({
+				side:3,
+	            msg:'输入类模块',
+	            bg:'#AE81FF',
+	            time:2
+	        });
+			$("#objectModule").focus();
+			return false;
 		}
 		
 		if($("#objectName").val()==""){
@@ -171,12 +170,11 @@
 			$("#objectName").focus();
 			return false;
 		}else{
-			var headstr = $("#objectName").val().substring(0,1);
-			var pat = new RegExp("^[a-z0-9]+$");
-			if(pat.test(headstr)){
+			var pat = new RegExp("^[A-Za-z]+$");
+			if(!pat.test($("#objectName").val())){
 				$("#objectName").tips({
 					side:3,
-		            msg:'类名首字母必须为大写字母或下划线',
+		            msg:'只能输入字母',
 		            bg:'#AE81FF',
 		            time:2
 		        });
@@ -184,6 +182,7 @@
 				return false;
 			}
 		}
+
 		
 		if($("#fields").html() == ''){
 			$("#table_report").tips({
@@ -235,7 +234,7 @@
 			'<td class="center">'+fieldarray[5]+'<input type="hidden" name="isNull" id="isNull'+index+'" value="'+fieldarray[5]+'"></td>'+
 			'<td class="center">'+fieldarray[6]+'<input type="hidden" name="propDefault" id="propDefault'+index+'" value="'+fieldarray[6]+'"></td>'+
 			'<td class="center">'+
-				'<input type="hidden" name="field" id="field'+index+'" value="'+value+'">'+
+				'<input type="hidden" name="field'+index+'" id="field'+index+'" value="'+value+'">'+
 				'<a class="btn btn-mini btn-info" title="编辑" onclick="toEditField(\''+value+'\',\''+index+'\')"><i class="icon-edit"></i></a>&nbsp;'+
 				'<a class="btn btn-mini btn-danger" title="删除" onclick="removeField(\''+index+'\')"><i class="icon-trash"></i></a>'+
 			'</td>'+
