@@ -1,4 +1,4 @@
-package com.fh.controller.${packageName}.${objectNameLower};
+package com.jx.${conModuleNL}.controller;
 
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -23,28 +23,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fh.controller.base.BaseController;
-import com.fh.entity.Page;
-import com.fh.util.AppUtil;
-import com.fh.util.ObjectExcelView;
-import com.fh.util.Const;
-import com.fh.util.PageData;
-import com.fh.util.Tools;
-import com.fh.util.Jurisdiction;
-import com.fh.service.${packageName}.${objectNameLower}.${objectName}Service;
+import com.jx.background.config.BgPage;
+import com.jx.background.service.BgMenuService;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.PageData;
+import com.jx.common.entity.ComDict;
+import com.jx.common.service.ComDictService;
 
 /** 
- * 类名称：${objectName}Controller
- * 创建人：FH 
+ * 类名称：${conModuleEU}${objectNameU}Controller
+ * 创建人：maple
  * 创建时间：${nowDate?string("yyyy-MM-dd")}
  */
 @Controller
-@RequestMapping(value="/${objectNameLower}")
-public class ${objectName}Controller extends BaseController {
+@RequestMapping(value="/${conModuleNL}/${objectNameL}")
+public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 	
-	String menuUrl = "${objectNameLower}/list.do"; //菜单地址(权限用)
-	@Resource(name="${objectNameLower}Service")
-	private ${objectName}Service ${objectNameLower}Service;
+	@Resource(name="${objectModuleEL}${objectNameU}Service")
+	private ${objectModuleEU}${objectNameU}Service ${objectModuleEL}${objectNameU}Service;
 	
 	/**
 	 * 新增
