@@ -1,10 +1,12 @@
 package com.jx.common.util;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class DateUtil {
 	private final static SimpleDateFormat sdfYear = new SimpleDateFormat("yyyy");
@@ -169,5 +171,305 @@ public class DateUtil {
 		System.out.println(getDays());
 		System.out.println(getAfterDayWeek("3"));
 	}
+	
+	private static final int[] dayArray = { 31, 28, 31, 30, 31, 30, 
+		    31, 31, 30, 31, 30, 31 };
+
+		 
+
+		  public static String[] getCloseYearList(String baseYear, int before, int after, boolean inc)
+		  {
+		    int year = Integer.parseInt(baseYear);
+		    if ((before < 0) || (after < 0)) {
+		      throw new IllegalArgumentException(
+		        "before or after year must be great than zero!");
+		    }
+		    String[] yearList = new String[before + after + 1];
+		    if (inc) {
+		      for (int i = 0; i <= before + after; i++)
+		        yearList[i] = String.valueOf(year - before + i);
+		    }
+		    else {
+		      for (int i = 0; i <= before + after; i++) {
+		        yearList[i] = String.valueOf(year + after - i);
+		      }
+		    }
+		    return yearList;
+		  }
+
+		  public static String[] getCurrentCloseYearList(int before, int after, boolean inc)
+		  {
+		    String year = getCurrentYear();
+		    return getCloseYearList(year, before, after, inc);
+		  }
+
+		  public static Timestamp getSQLCurTimestamp()
+		  {
+		    return Timestamp.valueOf(getFormatedCurDateString("-"));
+		  }
+
+		  public static String getCurrentYear()
+		  {
+		    Calendar calendar = new GregorianCalendar();
+		    String year = String.valueOf(calendar.get(1));
+		    return year;
+		  }
+
+		  public static String getFormatedDateString(long time, String delimeter)
+		  {
+		    Calendar calendar = new GregorianCalendar();
+		    calendar.setTimeInMillis(time);
+		    return getFormatedDateString(calendar, delimeter);
+		  }
+
+		  public static String getFormatedDateString(Calendar calendar, String delimeter)
+		  {
+		    String year = String.valueOf(calendar.get(1));
+		    String month = String.valueOf(calendar.get(2) + 1);
+		    if (month.length() == 1) {
+		      month = "0" + month;
+		    }
+		    String day = String.valueOf(calendar.get(5));
+		    if (day.length() == 1) {
+		      day = "0" + day;
+		    }
+		    String hour = String.valueOf(calendar.get(11));
+		    if (hour.length() == 1) {
+		      hour = "0" + hour;
+		    }
+		    String minute = String.valueOf(calendar.get(12));
+		    if (minute.length() == 1) {
+		      minute = "0" + minute;
+		    }
+		    String second = String.valueOf(calendar.get(13));
+
+		    if (second.length() == 1) {
+		      second = "0" + second;
+		    }
+		    String str = "";
+		    str = year + delimeter + month + delimeter + day + " " + hour + ":" + 
+		      minute + ":" + second;
+		    return str;
+		  }
+
+		  public static String getFormatedCurDateString(String delimeter)
+		  {
+		    Calendar calendar = new GregorianCalendar();
+		    return getFormatedDateString(calendar, delimeter);
+		  }
+
+		  public static String getFormatedDateString(Date date)
+		  {
+		    return new SimpleDateFormat("yyyy-MM-dd").format(date);
+		  }
+
+		  public static int getCurrentHour()
+		  {
+		    Calendar calendar = new GregorianCalendar();
+		    return calendar.get(11);
+		  }
+
+		  public static final Date parseDate(String strPattern, String strDate)
+		    throws ParseException
+		  {
+		    SimpleDateFormat df = new SimpleDateFormat(strPattern);
+		    Date date = null;
+		    date = df.parse(strDate);
+		    return date;
+		  }
+
+		  public static Date parseDate(String strDate)
+		    throws ParseException
+		  {
+		    Date aDate = parseDate("yyyy-MM-dd", strDate);
+		    return aDate;
+		  }
+
+		  public static boolean isLeapYear(int year)
+		  {
+		    if (year % 400 == 0)
+		      return true;
+		    if (year % 4 == 0)
+		    {
+		      return year % 100 != 0;
+		    }
+
+		    return false;
+		  }
+
+		  public static boolean isLeapYear()
+		  {
+		    Calendar cal = Calendar.getInstance();
+		    int year = cal.get(1);
+		    return isLeapYear(year);
+		  }
+
+		  public static synchronized boolean isLeapYear(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    int year = gc.get(1);
+		    return isLeapYear(year);
+		  }
+
+		  public static synchronized Date getFirstDayOfMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.set(5, 1);
+		    return gc.getTime();
+		  }
+
+		  public static int getLastDayOfMonth(int month)
+		  {
+		    if ((month < 1) || (month > 12)) {
+		      return -1;
+		    }
+		    int retn = 0;
+		    if (month == 2) {
+		      if (isLeapYear())
+		        retn = 29;
+		      else
+		        retn = dayArray[(month - 1)];
+		    }
+		    else {
+		      retn = dayArray[(month - 1)];
+		    }
+		    return retn;
+		  }
+
+		  public static Date getLastDayOfMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    switch (gc.get(2)) {
+		    case 0:
+		      gc.set(5, 31);
+		      break;
+		    case 1:
+		      gc.set(5, 28);
+		      break;
+		    case 2:
+		      gc.set(5, 31);
+		      break;
+		    case 3:
+		      gc.set(5, 30);
+		      break;
+		    case 4:
+		      gc.set(5, 31);
+		      break;
+		    case 5:
+		      gc.set(5, 30);
+		      break;
+		    case 6:
+		      gc.set(5, 31);
+		      break;
+		    case 7:
+		      gc.set(5, 31);
+		      break;
+		    case 8:
+		      gc.set(5, 30);
+		      break;
+		    case 9:
+		      gc.set(5, 31);
+		      break;
+		    case 10:
+		      gc.set(5, 30);
+		      break;
+		    case 11:
+		      gc.set(5, 31);
+		    }
+
+		    if ((gc.get(2) == 1) && 
+		      (isLeapYear(gc.get(1)))) {
+		      gc.set(5, 29);
+		    }
+		    return gc.getTime();
+		  }
+
+		  public static Date getNextMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(2, 1);
+		    return gc.getTime();
+		  }
+
+		  public static Date getPreviousMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(2, -1);
+		    return gc.getTime();
+		  }
+
+		  public static Date getFirstDayOfPreviousMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.setTime(getPreviousMonth(gc.getTime()));
+		    gc.setTime(getFirstDayOfMonth(gc.getTime()));
+		    return gc.getTime();
+		  }
+
+		  public static Date getLastDayOfPreviousMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.setTime(getPreviousMonth(gc.getTime()));
+		    gc.setTime(getLastDayOfMonth(gc.getTime()));
+		    return gc.getTime();
+		  }
+
+		  public static Date getFirstDayOfNextMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.setTime(getNextMonth(gc.getTime()));
+		    gc.setTime(getFirstDayOfMonth(gc.getTime()));
+		    return gc.getTime();
+		  }
+
+		  public static Date getLastDayOfNextMonth(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.setTime(getNextMonth(gc.getTime()));
+		    gc.setTime(getLastDayOfMonth(gc.getTime()));
+		    return gc.getTime();
+		  }
+
+		  public static Date getNextDay(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(5, 1);
+		    return gc.getTime();
+		  }
+
+		  public static Date getPreviousDay(Date date)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(5, -1);
+		    return gc.getTime();
+		  }
+
+		  public static Date getNextDays(Date date, int days)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(5, days);
+		    return gc.getTime();
+		  }
+
+		  public static Date getPreviousDays(Date date, int days)
+		  {
+		    GregorianCalendar gc = (GregorianCalendar)Calendar.getInstance();
+		    gc.setTime(date);
+		    gc.add(5, -days);
+		    return gc.getTime();
+		  }
+	
 
 }

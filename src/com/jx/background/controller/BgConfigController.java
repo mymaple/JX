@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -382,14 +383,19 @@ public class BgConfigController extends BaseController {
 		String objectNameL = StringUtil.firstToLower(pd.getString("objectName")); // 类名 ========3
 		String objectNameU = StringUtil.firstToUpper(objectNameL);
 		
+		String tableName = pd.getString("tableName"); // 表中文名 ========4
+		
 		String fieldCountStr = pd.getString("fieldCount"); // 属性总数
 		int fieldCount = 0;
 		if (null != fieldCountStr && !"".equals(fieldCountStr)) {
 			fieldCount = Integer.parseInt(fieldCountStr);
 		}
-		List<String[]> fieldList = new ArrayList<String[]>(); // 属性集合 ========4
+		List<String[]> fieldList = new ArrayList<String[]>(); // 属性集合 ========5
 		for (int i = 0; i < fieldCount; i++) {
-			fieldList.add(pd.getString("field" + i).split(",maple,")); // 属性放到集合里面
+			String[] field = pd.getString("field" + i).split(",maple,");
+			field[0] = StringUtil.firstToLower(field[0]);
+			String[] fieldAdd = {StringUtil.firstToUpper(field[0])};
+			fieldList.add((String[])ArrayUtils.addAll(fieldAdd, field)); // 属性放到集合里面
 		}
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
@@ -404,6 +410,7 @@ public class BgConfigController extends BaseController {
 		root.put("objectModuleEU", objectModuleEU); // Bg
 		root.put("objectNameL", objectNameL); // user
 		root.put("objectNameU", objectNameU); // User
+		root.put("tableName", tableName); // User
 		
 		root.put("fieldCount", fieldCount);
 		root.put("fieldList", fieldList);

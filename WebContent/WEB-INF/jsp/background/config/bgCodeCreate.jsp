@@ -124,8 +124,8 @@
 			<tr>
 				<td style="padding-left: 16px;text-align: right;">类名：</td>
 				<td><input name="objectName" id="objectName" type="text"/></td>
-				<td style="padding-left: 16px;text-align: right;"></td>
-				<td></td>
+				<td style="padding-left: 16px;text-align: right;">表中文名：</td>
+				<td><input name="tableName" id="tableName" type="text"/></td>
 			</tr>
 		</table>
 		
