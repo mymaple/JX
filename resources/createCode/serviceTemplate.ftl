@@ -1,4 +1,4 @@
-package com.fh.service.${packageName}.${objectNameLower};
+package com.jx.${objectModuleNL}.service;
 
 import java.util.List;
 
@@ -6,65 +6,123 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.fh.dao.DaoSupport;
-import com.fh.entity.Page;
-import com.fh.util.PageData;
+import com.jx.${conModuleNL}.config.${conModuleEU}Page;
+import com.jx.common.config.DaoSupport;
+import com.jx.common.config.PageData;
+import com.jx.objectModuleNL.entity.${objectModuleEU}${objectNameU};
 
-
-@Service("${objectNameLower}Service")
-public class ${objectName}Service {
+@Service("${objectModuleEL}${objectNameU}Service")
+public class ${objectModuleEU}${objectNameU}Service {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
-	/*
-	* 新增
-	*/
-	public void save(PageData pd)throws Exception{
-		dao.save("${objectName}Mapper.save", pd);
+	/****************************common * start***********************************/
+	
+	/**
+	 * 新增 
+	 * @param ${objectModuleEL}${objectNameU}
+	 * @return
+	 * @throws Exception
+	 */
+	public int add(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
+		return (int)dao.add("${objectModuleEU}${objectNameU}Mapper.add", ${objectModuleEL}${objectNameU});
 	}
 	
-	/*
-	* 删除
-	*/
-	public void delete(PageData pd)throws Exception{
-		dao.delete("${objectName}Mapper.delete", pd);
+	/**
+	 * 新增
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public int addByPd(PageData pd) throws Exception {
+		return (int)dao.add("${objectModuleEU}${objectNameU}Mapper.addByPd", pd);
 	}
 	
-	/*
-	* 修改
-	*/
-	public void edit(PageData pd)throws Exception{
-		dao.update("${objectName}Mapper.edit", pd);
+	/**
+	 * 修改 
+	 * @param ${objectModuleEL}${objectNameU}
+	 * @throws Exception
+	 */
+	public void edit(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
+		dao.edit("${objectModuleEU}${objectNameU}Mapper.edit", ${objectModuleEL}${objectNameU});
 	}
-	
-	/*
-	*列表
-	*/
-	public List<PageData> list(Page page)throws Exception{
-		return (List<PageData>)dao.findForList("${objectName}Mapper.datalistPage", page);
-	}
-	
-	/*
-	*列表(全部)
-	*/
-	public List<PageData> listAll(PageData pd)throws Exception{
-		return (List<PageData>)dao.findForList("${objectName}Mapper.listAll", pd);
-	}
-	
-	/*
-	* 通过id获取数据
-	*/
-	public PageData findById(PageData pd)throws Exception{
-		return (PageData)dao.findForObject("${objectName}Mapper.findById", pd);
-	}
-	
-	/*
-	* 批量删除
-	*/
-	public void deleteAll(String[] ArrayDATA_IDS)throws Exception{
-		dao.delete("${objectName}Mapper.deleteAll", ArrayDATA_IDS);
-	}
-	
-}
 
+	/**
+	 * 修改 
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void editByPd(PageData pd) throws Exception {
+		dao.edit("${objectModuleEU}${objectNameU}Mapper.editByPd", pd);
+	}
+	
+	/**
+	 * 删除 
+	 * @param id
+	 * @throws Exception
+	 */
+	public void deleteById(int id) throws Exception {
+		dao.delete("${objectModuleEU}${objectNameU}Mapper.deleteById", id);
+	}
+	
+	/**
+	 * 删除 
+	 * @param pd
+	 * @throws Exception
+	 */
+	public void deleteByPd(PageData pd) throws Exception {
+		dao.delete("${objectModuleEU}${objectNameU}Mapper.deleteByPd", pd);
+	}
+
+	/**
+	 * 通过id获取(类)数据
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public ${objectModuleEU}${objectNameU} findById(int id) throws Exception {
+		return (${objectModuleEU}${objectNameU}) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findById", id);
+	}
+	
+	/**
+	 * 通过id获取(PageData)数据 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData findPdById(int id) throws Exception {
+		return (PageData) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findPdById", id);
+	}
+	
+	/**
+	 * 通过pd获取(PageData)数据 
+	 * @param pd
+	 * @return
+	 * @throws Exception
+	 */
+	public PageData findPdByPd(PageData pd) throws Exception {
+		return (PageData) dao.findForObject("${objectModuleEU}${objectNameU}Mapper.findPdByPd", pd);
+	}
+	
+	/**
+	 * 获取(类)List数据
+	 * @return
+	 * @throws Exception
+	 */
+	public List<${objectModuleEU}${objectNameU}> listAll() throws Exception {
+		return (List<${objectModuleEU}${objectNameU}>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAll", null);
+	}
+	
+	/**
+	 * 获取分页(PageData)List数据
+	 * @param ${conModuleEL}Page
+	 * @return
+	 * @throws Exception
+	 */
+	public List<PageData> listAllPd(${conModuleEU}Page ${conModuleEL}Page) throws Exception {
+		return (List<PageData>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllPd", ${conModuleEL}Page);
+	}
+	
+	/****************************common * end***********************************/
+}

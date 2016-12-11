@@ -361,7 +361,7 @@ public class BgConfigController extends BaseController {
 	 * 生成代码
 	 */
 	@RequestMapping(value = "/codeCreate")
-	public void proCode(HttpServletResponse response) throws Exception {
+	public void codeCreate(HttpServletResponse response) throws Exception {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 
@@ -404,10 +404,10 @@ public class BgConfigController extends BaseController {
 		root.put("conModuleNU", conModuleNU); // Background
 		root.put("conModuleEL", conModuleEL); // bg
 		root.put("conModuleEU", conModuleEU); // Bg
-		root.put("objectModuleNL", objectModuleNL); // background
-		root.put("objectModuleNU", objectModuleNU); // Background
-		root.put("objectModuleEL", objectModuleEL); // bg
-		root.put("objectModuleEU", objectModuleEU); // Bg
+		root.put("objectModuleNL", objectModuleNL); // comon
+		root.put("objectModuleNU", objectModuleNU); // Comon
+		root.put("objectModuleEL", objectModuleEL); // com
+		root.put("objectModuleEU", objectModuleEU); // 	Com
 		root.put("objectNameL", objectNameL); // user
 		root.put("objectNameU", objectNameU); // User
 		root.put("tableName", tableName); // User
