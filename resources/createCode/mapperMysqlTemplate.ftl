@@ -95,17 +95,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${objectModuleEU}${objectNameU}Mapper">
 
-	<sql id="${objectNameL}AddColumns">name,encode,orderBy,parentId,level,allEncode</sql>
-	<sql id="${objectNameL}Columns">${objectNameL}Id,name,encode,orderBy,parentId,level,allEncode</sql>
+	<sql id="${objectNameL}AddColumns"><#list fieldList as var>${var[1]}<#if word_has_next>,</#if></#list></sql>
+	<sql id="${objectNameL}Columns">${objectNameL}Id,<#list fieldList as var>${var[1]}<#if word_has_next>,</#if></#list></sql>
 	
-	<resultMap type="com${objectNameL}" id="configResultMap">
+	<resultMap type="${objectModuleEU}${objectNameU}" id="${objectNameU}ResultMap">
 		<id column="${objectNameL}Id" property="${objectNameL}Id"/>
-		<result column="name" property="name"/>
-		<result column="encode" property="encode"/>
-		<result column="orderBy" property="orderBy"/>
-		<result column="parentId" property="parentId"/>
-		<result column="level" property="level"/>
-		<result column="allEncode" property="allEncode"/>
+			<#list fieldList as var>
+		<result column="${var[1]}" property="${var[1]}"/>
+			</#list>
 	</resultMap>
 	
 	<!-- ****************************common * satrt*********************************** -->
@@ -114,12 +111,7 @@
 		insert into ${objectModuleEL}${objectNameU} ( 
 			<include refid="${objectNameL}AddColumns"/>
 		) values (
-			#{name},
-			#{encode},
-			#{orderBy},
-			#{parentId},
-			#{level},
-			#{allEncode}
+			<#list fieldList as var>${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if></#list>
 		)
 	</insert>
 	
@@ -128,12 +120,7 @@
 		insert into ${objectModuleEL}${objectNameU} ( 
 			<include refid="${objectNameL}AddColumns"/>
 		) values (
-			#{name},
-			#{encode},
-			#{orderBy},
-			#{parentId},
-			#{level},
-			#{allEncode}
+			<#list fieldList as var>${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if></#list>
 		)
 	</insert>
 	
