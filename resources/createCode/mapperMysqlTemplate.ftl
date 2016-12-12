@@ -127,10 +127,10 @@
 	<!-- 修改 -->
 	<update id="edit" parameterType="${objectModuleEL}${objectNameU}">
 		update  ${objectModuleEL}${objectNameU}
-			set name    = #{name},
-				orderBy = #{orderBy},
-				encode  = #{encode},
-				allEncode	  = #{allEncode}
+			set 
+				<#list fieldList as var>
+				${var[0]} = ${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if>
+				</#list>
 			where 
 				${objectNameL}Id = #{${objectNameL}Id}
 	</update>
@@ -138,10 +138,10 @@
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
 		update  ${objectModuleEL}${objectNameU}
-			set name    = #{name},
-				orderBy = #{orderBy},
-				encode  = #{encode},
-				allEncode	  = #{allEncode}
+			set 
+				<#list fieldList as var>
+				${var[0]} = ${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if>
+				</#list>
 			where 
 				${objectNameL}Id = #{${objectNameL}Id}
 	</update>
@@ -206,85 +206,12 @@
 			${objectModuleEL}${objectNameU}
 	</select>
 	
-	<!-- ****************************common * end*********************************** -->
+	<!-- ****************************common * end  ********************************** -->
 	
 	<!-- ****************************custom * start********************************** -->
 	
-	<!-- 列表 -->
-	<select id="${objectNameL}listPage" parameterType="bgPage" resultType="pd">
-		select  z1.${objectNameL}Id,
-				z1.name,
-				z1.encode,
-				z1.orderBy,
-				z1.parentId,
-				z1.level,
-				z1.allEncode,
-				z2.name pname
-		from ${objectModuleEL}${objectNameU} z1
-		left join
-			${objectModuleEL}${objectNameU} z2 
-		on  z1.parentId = z2.${objectNameL}Id 
-		where 
-		    z1.parentId = #{pd.parentId}
-		<if test="pd.name != null and pd.name != ''">
-			and z1.name LIKE CONCAT(CONCAT('%', #{pd.name}),'%') 
-		</if>
-		order by z1.orderBy
-	</select>
 	
-	<!-- 查询总数 -->
-	<select id="findCount" parameterType="pd" resultType="pd">
-		select 
-			count(${objectNameL}Id) count
-		from 
-			${objectModuleEL}${objectNameU}
-		where 
-			parentId = #{${objectNameL}Id}
-	</select>
-	
-	<!-- 查询某编码 -->
-	<select id="hasEncodeByPd" parameterType="pd" resultType="pd">
-		select 
-			${objectNameL}Id
-		from 
-			${objectModuleEL}${objectNameU}
-		where 
-			encode = #{encode}
-		<if test="${objectNameL}Id != null and ${objectNameL}Id != ''">
-			and ${objectNameL}Id != #{${objectNameL}Id} 
-		</if>
-	</select>
-	
-	
-	<!-- 获取字典参数列表 -->
-	<select id="listParamByAllEncode" parameterType="String" resultType="${objectModuleEL}${objectNameU}">
-		select  z1.${objectNameL}Id,
-				z1.name,
-				z1.encode,
-				z1.orderBy,
-				z1.parentId,
-				z1.level,
-				z1.allEncode
-		from ${objectModuleEL}${objectNameU} z1
-		left join
-			${objectModuleEL}${objectNameU} z2 
-		on  z1.parentId = z2.${objectNameL}Id 
-		where 
-		    z2.allEncode = #{allEncode}
-		order by z1.orderBy
-	</select>
-	
-	<!-- 通过id获取(类)数据 -->
-	<select id="findByAllEncode" parameterType="String" resultType="${objectModuleEL}${objectNameU}">
-		select 
-			<include refid="${objectNameL}Columns"/>
-		from 
-			${objectModuleEL}${objectNameU}
-		where 
-			allEncode = #{allEncode}
-	</select>
-	
-	<!-- ****************************custom * end********************************** -->
+	<!-- ****************************custom * end  ********************************** -->
 	
 	
 </mapper>
