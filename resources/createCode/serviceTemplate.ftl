@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.jx.${conModuleNL}.config.${conModuleEU}Page;
+import com.jx.${controlModuleNL}.config.${controlModuleEU}Page;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
 import com.jx.objectModuleNL.entity.${objectModuleEU}${objectNameU};
@@ -116,12 +116,12 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 获取分页(PageData)List数据
-	 * @param ${conModuleEL}Page
+	 * @param ${controlModuleEL}Page
 	 * @return
 	 * @throws Exception
 	 */
-	public List<PageData> listAllPd(${conModuleEU}Page ${conModuleEL}Page) throws Exception {
-		return (List<PageData>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllPd", ${conModuleEL}Page);
+	public List<PageData> listAllPd(${controlModuleEU}Page ${controlModuleEL}Page) throws Exception {
+		return (List<PageData>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllPd", ${controlModuleEL}Page);
 	}
 	
 	/****************************common * end***********************************/

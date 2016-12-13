@@ -1,13 +1,13 @@
-package com.jx.${conModuleNL}.controller;
+package com.jx.${controlModuleNL}.controller;
 
 /** 
- * 类名称：${conModuleEU}${objectNameU}Controller
+ * 类名称：${controlModuleEU}${objectNameU}Controller
  * 创建人：maple
  * 创建时间：${nowDate?string("yyyy-MM-dd")}
  */
 @Controller
-@RequestMapping(value="/${conModuleNL}/${objectNameL}")
-public class ${conModuleEU}${objectNameU}Controller extends BaseController {
+@RequestMapping(value="/${controlModuleNL}/${objectNameL}")
+public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 	
 	@Resource(name="${objectModuleEL}${objectNameU}Service")
 	private ${objectModuleEU}${objectNameU}Service ${objectModuleEL}${objectNameU}Service;
@@ -17,20 +17,20 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 	 * 列表
 	 */
 	@RequestMapping(value="/list")
-	public ModelAndView list(${conModuleEU}Page ${conModuleEL}Page){
+	public ModelAndView list(${controlModuleEU}Page ${controlModuleEL}Page){
 		logBefore(logger, "列表${objectModuleEL}${objectNameU}");
 		//if(!Jurisdiction.buttonJurisdiction(menuUrl, "cha")){return null;} //校验权限
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		try{
 			pd = this.getPageData();
-			${conModuleEL}Page.setPd(pd);
-			List<PageData>	varList = ${objectModuleEL}${objectNameU}Service.listAllPd(${conModuleEL}Page);	//列出${objectModuleEL}${objectNameU}列表
+			${controlModuleEL}Page.setPd(pd);
+			List<PageData>	varList = ${objectModuleEL}${objectNameU}Service.listAllPd(${controlModuleEL}Page);	//列出${objectModuleEL}${objectNameU}列表
 			mv.addObject("varList", varList);
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 			
-			mv.setViewName("${conModuleNL}/${objectNameL}/${conModuleEl}${objectNameU}List");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}List");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -50,7 +50,7 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 			mv.addObject("msg", "save");
 			mv.addObject("pd", pd);
 			
-			mv.setViewName("${conModuleNL}/${objectNameL}/${conModuleEl}${objectNameU}Edit");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}Edit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
@@ -72,7 +72,7 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 		
 		mv.addObject("msg","success");
 		
-		mv.setViewName("${conModuleNL}/${conModuleEl}SaveResult");
+		mv.setViewName("${controlModuleNL}/${controlModuleEl}SaveResult");
 		return mv;
 	}
 	
@@ -90,7 +90,7 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 			
-			mv.setViewName("${conModuleNL}/${objectNameL}/${conModuleEl}${objectNameU}Edit");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}Edit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
@@ -109,7 +109,7 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 		pd = this.getPageData();
 		${objectModuleEL}${objectNameU}Service.editByPd(pd);
 		mv.addObject("msg","success");
-		mv.setViewName("${conModuleNL}/${conModuleEl}SaveResult");
+		mv.setViewName("${controlModuleNL}/${controlModuleEl}SaveResult");
 		return mv;
 	}
 	
@@ -135,9 +135,9 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 	/**
 	 * 批量删除
 	 */
-	@RequestMapping(value="/deleteAll")
+	@RequestMapping(value="/batchDelete")
 	@ResponseBody
-	public Object deleteAll() {
+	public Object batchDelete() {
 		logBefore(logger, "批量删除${objectModuleEL}${objectNameU}");
 		if(!Jurisdiction.buttonJurisdiction(menuUrl, "dell")){return null;} //校验权限
 		PageData pd = new PageData();		
@@ -145,10 +145,9 @@ public class ${conModuleEU}${objectNameU}Controller extends BaseController {
 		try {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
-			String ${objectNameL}s = pd.getString("${objectNameL}s");
+			String ${objectModuleEL}${objectNameU}Ids = pd.getString("${objectModuleEL}${objectNameU}Ids");
 			if(null != ${objectNameL}s && !"".equals(${objectNameL}s)){
-				String ${objectNameL}sArr[] = ${objectNameL}s.split(",");
-				${objectModuleEL}${objectNameU}Service.deleteAll(${objectNameL}sArr);
+				${objectModuleEL}${objectNameU}Service.batchDeleteByIds(${objectModuleEL}${objectNameU}Ids);
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");

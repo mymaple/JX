@@ -366,12 +366,12 @@ public class BgConfigController extends BaseController {
 		pd = this.getPageData();
 
 		/* ============================================================================================= */
-		String conModule = pd.getString("conModule"); // 控制模块名 ========1
-		ComDict comDict = comDictService.findByAllEncode(conModule);
-		String conModuleNL = comDict.getName();
-		String conModuleNU = StringUtil.firstToUpper(conModuleNL);
-		String conModuleEL = comDict.getEncode();
-		String conModuleEU = StringUtil.firstToUpper(conModuleNL);
+		String controlModule = pd.getString("controlModule"); // 控制模块名 ========1
+		ComDict comDict = comDictService.findByAllEncode(controlModule);
+		String controlModuleNL = comDict.getName();
+		String controlModuleNU = StringUtil.firstToUpper(controlModuleNL);
+		String controlModuleEL = comDict.getEncode();
+		String controlModuleEU = StringUtil.firstToUpper(controlModuleNL);
 		
 		String objectModule = pd.getString("objectModule"); // 控制模块名 ========2
 		comDict = comDictService.findByAllEncode(objectModule);
@@ -400,10 +400,10 @@ public class BgConfigController extends BaseController {
 
 		Map<String, Object> root = new HashMap<String, Object>(); // 创建数据模型
 		
-		root.put("conModuleNL", conModuleNL); // background
-		root.put("conModuleNU", conModuleNU); // Background
-		root.put("conModuleEL", conModuleEL); // bg
-		root.put("conModuleEU", conModuleEU); // Bg
+		root.put("controlModuleNL", controlModuleNL); // background
+		root.put("controlModuleNU", controlModuleNU); // Background
+		root.put("controlModuleEL", controlModuleEL); // bg
+		root.put("controlModuleEU", controlModuleEU); // Bg
 		root.put("objectModuleNL", objectModuleNL); // comon
 		root.put("objectModuleNU", objectModuleNU); // Comon
 		root.put("objectModuleEL", objectModuleEL); // com
@@ -424,11 +424,14 @@ public class BgConfigController extends BaseController {
 		String ftlPath = "createCode"; // ftl路径
 
 		/* 生成controller */
-		Freemarker.printFile("controllerTemplate.ftl", root, conModuleNL + "/controller/" + conModuleEU + objectNameU + "Controller.java", filePath, ftlPath);
+		Freemarker.printFile("controllerTemplate.ftl", root, controlModuleNL + "/controller/" + controlModuleEU + objectNameU + "Controller.java", filePath, ftlPath);
 
 		/* 生成service */
 		Freemarker.printFile("serviceTemplate.ftl", root, objectModuleNU + "/service/" + objectModuleEU  + objectNameU + "Service.java", filePath, ftlPath);
 
+		/* 生成entity */
+		Freemarker.printFile("entityTemplate.ftl", root, objectModuleNU + "/entity/" + objectModuleEU  + objectNameU + ".java", filePath, ftlPath);
+		
 		/* 生成mybatis xml Mysql*/
 		Freemarker.printFile("mapperMysqlTemplate.ftl", root, "mybatis/" + objectModuleNU + "/" + objectModuleEU  + objectNameU + "Mapper.xml", filePath, ftlPath);
 		/* 生成mybatis xml Oracle*/
@@ -440,11 +443,11 @@ public class BgConfigController extends BaseController {
 		//Freemarker.printFile("oracle_SQL_Template.ftl", root, "oracle数据库脚本/" + tabletop + objectName.toUpperCase() + ".sql", filePath, ftlPath);
 
 		/* 生成jsp页面 */
-		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + conModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "List.jsp", filePath, ftlPath);
-		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + conModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "Edit.jsp", filePath, ftlPath);
+//		Freemarker.printFile("jsp_list_Template.ftl", root, "jsp/" + controlModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "List.jsp", filePath, ftlPath);
+//		Freemarker.printFile("jsp_edit_Template.ftl", root, "jsp/" + controlModuleNL + "/" + objectNameL + "/" + objectModuleEL + objectNameU + "Edit.jsp", filePath, ftlPath);
 
 		/* 生成说明文档 */
-		Freemarker.printFile("docTemplate.ftl", root, "说明.doc", filePath, ftlPath);
+//		Freemarker.printFile("docTemplate.ftl", root, "说明.doc", filePath, ftlPath);
 
 		// this.print("oracle_SQL_Template.ftl", root); 控制台打印
 
