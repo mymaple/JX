@@ -1,5 +1,37 @@
 package com.jx.${controlModuleNL}.controller;
 
+import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
+
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.jx.${controlModuleNL}.config.${controlModuleEU}Page;
+import com.jx.common.config.BaseController;
+import com.jx.common.config.Const;
+import com.jx.common.config.PageData;
+import com.jx.common.util.AppUtil;
+import com.jx.common.util.Jurisdiction;
+import com.jx.common.util.ObjectExcelView;
+import com.jx.${objectModuleNL}.service.${objectModuleEU}${objectNameU}Service;
+
 /** 
  * 类名称：${controlModuleEU}${objectNameU}Controller
  * 创建人：maple
@@ -30,7 +62,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 			mv.addObject("pd", pd);
 			mv.addObject(Const.SESSION_QX,this.getHC());	//按钮权限
 			
-			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}List");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEL}${objectNameU}List");
 		} catch(Exception e){
 			logger.error(e.toString(), e);
 		}
@@ -50,7 +82,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 			mv.addObject("msg", "save");
 			mv.addObject("pd", pd);
 			
-			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}Edit");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEL}${objectNameU}Edit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
@@ -72,7 +104,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 		
 		mv.addObject("msg","success");
 		
-		mv.setViewName("${controlModuleNL}/${controlModuleEl}SaveResult");
+		mv.setViewName("${controlModuleNL}/${controlModuleEL}SaveResult");
 		return mv;
 	}
 	
@@ -90,7 +122,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 			mv.addObject("msg", "edit");
 			mv.addObject("pd", pd);
 			
-			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEl}${objectNameU}Edit");
+			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEL}${objectNameU}Edit");
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
 		}						
@@ -109,7 +141,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 		pd = this.getPageData();
 		${objectModuleEL}${objectNameU}Service.editByPd(pd);
 		mv.addObject("msg","success");
-		mv.setViewName("${controlModuleNL}/${controlModuleEl}SaveResult");
+		mv.setViewName("${controlModuleNL}/${controlModuleEL}SaveResult");
 		return mv;
 	}
 	
@@ -145,9 +177,9 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 		try {
 			pd = this.getPageData();
 			List<PageData> pdList = new ArrayList<PageData>();
-			String ${objectModuleEL}${objectNameU}Ids = pd.getString("${objectModuleEL}${objectNameU}Ids");
-			if(null != ${objectNameL}s && !"".equals(${objectNameL}s)){
-				${objectModuleEL}${objectNameU}Service.batchDeleteByIds(${objectModuleEL}${objectNameU}Ids);
+			String ${objectNameL}Ids = pd.getString("${objectNameL}Ids");
+			if(null != ${objectNameL}Ids && !"".equals(${objectNameL}Ids)){
+				${objectModuleEL}${objectNameU}Service.batchDeleteByIds(${objectNameL}Ids);
 				pd.put("msg", "ok");
 			}else{
 				pd.put("msg", "no");
@@ -176,20 +208,19 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 		try{
 			Map<String,Object> dataMap = new HashMap<String,Object>();
 			List<String> titles = new ArrayList<String>();
+			titles.add("${tableName} 主键id");   //1
 	<#list fieldList as var>
-			titles.add("${var[2]}");	//${var_index+1}
+			titles.add("${var[2]}");	//${var_index}+2
 	</#list>
 			dataMap.put("titles", titles);
-			List<PageData> varOList = ${objectModuleEL}${objectNameU}Service.listAll(pd);
+			List<${objectModuleEU}${objectNameU}> varOList = ${objectModuleEL}${objectNameU}Service.listAllByPd(pd);
 			List<PageData> varList = new ArrayList<PageData>();
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
+				
+				vpd.put("var${1}",varOList.get(i).get${objectNameU}Id();
 	<#list fieldList as var>
-			<#if var[1] == 'Integer'>
-				vpd.put("var${var_index+1}", varOList.get(i).get("${var[0]}").toString());	//${var_index+1}
-			<#else>
-				vpd.put("var${var_index+1}", varOList.get(i).getString("${var[0]}"));	//${var_index+1}
-			</#if>
+				vpd.put("var${var_index+2}", varOList.get(i).get${var[0]}();	//${var_index+2}
 	</#list>
 				varList.add(vpd);
 			}

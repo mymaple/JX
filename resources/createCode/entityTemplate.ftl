@@ -1,11 +1,24 @@
 package com.jx.${objectModuleNL}.entity;
 
+import java.io.Serializable;
+
+import com.jx.common.util.StringUtil;
+
 public class ${objectModuleEU}${objectNameU} implements Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	
+	
+	/**************************custom prop satrt********************************/
+	
+	
+	/**************************custom prop satrt********************************/
+	
+	
 	
 	/**************************table prop satrt*********************************/
 	
@@ -34,7 +47,7 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	 * 
 	 * @param int ${objectNameL}Id
 	 */
-	public void set${objectNameN}Id(int ${objectNameL}Id) {
+	public void set${objectNameU}Id(int ${objectNameL}Id) {
 		this.${objectNameL}Id = ${objectNameL}Id;
 	}
 	
@@ -43,7 +56,7 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	 * 
 	 * @return int ${objectNameL}Id
 	 */
-	public int get${objectNameN}Id() {
+	public int get${objectNameU}Id() {
 		return this.${objectNameL}Id;
 	}
 	
@@ -173,7 +186,7 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	}
 	
 	public void init() {
-		set${objectNameN}Id(0);
+		set${objectNameU}Id(0);
 	
 	<#list fieldList as var>
 		<#if var[3] == 'propType_String'>
@@ -187,7 +200,6 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 		<#elseif var[3] == 'propType_Boolean'>
 		set${var[0]}(false);
 		</#if>
-		
 	</#list>
 	}
 	/**************************table prop  end  *********************************/

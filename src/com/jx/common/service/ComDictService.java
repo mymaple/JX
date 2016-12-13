@@ -149,7 +149,7 @@ public class ComDictService {
 	}
 	
 	public ComDict findByAllEncode(String allEncode) throws Exception {
-		return (ComDict) dao.findForList("ComDictMapper.findByAllEncode", allEncode);
+		return (ComDict) dao.findForObject("ComDictMapper.findByAllEncode", allEncode);
 	}
 	
 	/****************************custom * end**********************************/

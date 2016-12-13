@@ -117,7 +117,7 @@
 		<table style="margin-top: 10px;">
 			<tr>
 				<td style="padding-left: 16px;text-align: right;">控制模块：</td>
-				<td><param:select name="conModule" id="conModule" type="developModule"/></td>
+				<td><param:select name="controlModule" id="controlModule" type="developModule"/></td>
 				<td style="padding-left: 16px;text-align: right;">类模块：</td>
 				<td><param:select name="objectModule" id="objectModule" type="developModule"/></td>
 			</tr>

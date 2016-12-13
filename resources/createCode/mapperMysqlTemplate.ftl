@@ -1,109 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="${objectName}Mapper">
-	
-	
-	<!-- 新增-->
-	<insert id="save" parameterType="pd">
-		insert into ${tabletop}${objectNameUpper}(
-	<#list fieldList as var>
-			${var[0]},	
-	</#list>
-			${objectNameUpper}_ID
-		) values (
-	<#list fieldList as var>
-			${r"#{"}${var[0]}${r"}"},	
-	</#list>
-			${r"#{"}${objectNameUpper}_ID${r"}"}
-		)
-	</insert>
-	
-	
-	<!-- 删除-->
-	<delete id="delete" parameterType="pd">
-		delete from ${tabletop}${objectNameUpper}
-		where 
-			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
-	</delete>
-	
-	
-	<!-- 修改 -->
-	<update id="edit" parameterType="pd">
-		update  ${tabletop}${objectNameUpper}
-			set 
-	<#list fieldList as var>
-		<#if var[3] == "是">
-				${var[0]} = ${r"#{"}${var[0]}${r"}"},
-		</#if>
-	</#list>
-			${objectNameUpper}_ID = ${objectNameUpper}_ID
-			where 
-				${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
-	</update>
-	
-	
-	<!-- 通过ID获取数据 -->
-	<select id="findById" parameterType="pd" resultType="pd">
-		select 
-	<#list fieldList as var>
-			${var[0]},	
-	</#list>
-			${objectNameUpper}_ID
-		from 
-			${tabletop}${objectNameUpper}
-		where 
-			${objectNameUpper}_ID = ${r"#{"}${objectNameUpper}_ID${r"}"}
-	</select>
-	
-	
-	<!-- 列表 -->
-	<select id="datalistPage" parameterType="page" resultType="pd">
-		select
-		<#list fieldList as var>
-				a.${var[0]},	
-		</#list>
-				a.${objectNameUpper}_ID
-		from 
-				${tabletop}${objectNameUpper} a
-	</select>
-	
-	<!-- 列表(全部) -->
-	<select id="listAll" parameterType="pd" resultType="pd">
-		select
-		<#list fieldList as var>
-				a.${var[0]},	
-		</#list>
-				a.${objectNameUpper}_ID
-		from 
-				${tabletop}${objectNameUpper} a
-	</select>
-	
-	<!-- 批量删除 -->
-	<delete id="deleteAll" parameterType="String">
-		delete from ${tabletop}${objectNameUpper}
-		where 
-			${objectNameUpper}_ID in
-		<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-                 ${r"#{item}"}
-		</foreach>
-	</delete>
-	
-</mapper>
-
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="${objectModuleEU}${objectNameU}Mapper">
 
-	<sql id="${objectNameL}AddColumns"><#list fieldList as var>${var[1]}<#if word_has_next>,</#if></#list></sql>
-	<sql id="${objectNameL}Columns">${objectNameL}Id,<#list fieldList as var>${var[1]}<#if word_has_next>,</#if></#list></sql>
+	<sql id="${objectNameL}AddColumns"><#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
+	<sql id="${objectNameL}Columns">${objectNameL}Id,<#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
 	
-	<resultMap type="${objectModuleEU}${objectNameU}" id="${objectNameU}ResultMap">
+	<resultMap type="${objectModuleEL}${objectNameU}" id="${objectNameU}ResultMap">
 		<id column="${objectNameL}Id" property="${objectNameL}Id"/>
 			<#list fieldList as var>
 		<result column="${var[1]}" property="${var[1]}"/>
 			</#list>
 	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
@@ -111,7 +26,7 @@
 		insert into ${objectModuleEL}${objectNameU} ( 
 			<include refid="${objectNameL}AddColumns"/>
 		) values (
-			<#list fieldList as var>${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if></#list>
+			<#list fieldList as var>${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if></#list>
 		)
 	</insert>
 	
@@ -120,7 +35,7 @@
 		insert into ${objectModuleEL}${objectNameU} ( 
 			<include refid="${objectNameL}AddColumns"/>
 		) values (
-			<#list fieldList as var>${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if></#list>
+			<#list fieldList as var>${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if></#list>
 		)
 	</insert>
 	
@@ -129,10 +44,10 @@
 		update  ${objectModuleEL}${objectNameU}
 			set 
 				<#list fieldList as var>
-				${var[0]} = ${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if>
+				${var[1]} = ${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if>
 				</#list>
 			where 
-				${objectNameL}Id = #{${objectNameL}Id}
+				${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</update>
 	
 	<!-- 修改 -->
@@ -140,24 +55,31 @@
 		update  ${objectModuleEL}${objectNameU}
 			set 
 				<#list fieldList as var>
-				${var[0]} = ${r"#{"}${var[0]}${r"}"}<#if word_has_next>,</#if>
+				${var[1]} = ${r"#{"}${var[1]}${r"}"}<#if var_has_next>,</#if>
 				</#list>
 			where 
-				${objectNameL}Id = #{${objectNameL}Id}
+				${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</update>
 	
 	<!-- 删除 -->
 	<delete id="deleteById" parameterType="int">
 		delete from ${objectModuleEL}${objectNameU} 
 		where 
-			${objectNameL}Id = #{${objectNameL}Id}
+			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</delete>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
 		delete from ${objectModuleEL}${objectNameU} 
 		where 
-			${objectNameL}Id = #{${objectNameL}Id}
+			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
@@ -167,7 +89,7 @@
 		from 
 			${objectModuleEL}${objectNameU}
 		where 
-			${objectNameL}Id = #{${objectNameL}Id}
+			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -177,7 +99,7 @@
 		from 
 			${objectModuleEL}${objectNameU}
 		where 
-			${objectNameL}Id = #{${objectNameL}Id}
+			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</select>
 	
 	<!-- 通过pd获取(PageData)数据  -->
@@ -187,11 +109,11 @@
 		from 
 			${objectModuleEL}${objectNameU}
 		where 
-			${objectNameL}Id = #{${objectNameL}Id}
+			${objectNameL}Id = ${r"#{"}${objectNameL}Id${r"}"}
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAll" resultMap="configResultMap">
+	<select id="listAllByPd" parameterType="pd" resultMap="${objectNameU}ResultMap">
 		select 
 			<include refid="${objectNameL}Columns"/>
 		from 
@@ -199,7 +121,7 @@
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
-	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+	<select id="listAllPd" parameterType="${controlModuleEL}Page" resultType="pd">
 		select 
 			<include refid="${objectNameL}Columns"/>
 		from 
@@ -207,11 +129,5 @@
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->
-	
-	<!-- ****************************custom * start********************************** -->
-	
-	
-	<!-- ****************************custom * end  ********************************** -->
-	
 	
 </mapper>

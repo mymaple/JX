@@ -138,14 +138,14 @@
 	//生成
 	function save(){
 		
-		if($("#conModule").val()==""){
-			$("#conModule").tips({
+		if($("#controlModule").val()==""){
+			$("#controlModule").tips({
 				side:3,
 	            msg:'输入控制模块',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#conModule").focus();
+			$("#controlModule").focus();
 			return false;
 		}
 		

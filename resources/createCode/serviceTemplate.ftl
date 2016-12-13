@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jx.${controlModuleNL}.config.${controlModuleEU}Page;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.objectModuleNL.entity.${objectModuleEU}${objectNameU};
+import com.jx.${controlModuleNL}.entity.${objectModuleEU}${objectNameU};
 
 @Service("${objectModuleEL}${objectNameU}Service")
 public class ${objectModuleEU}${objectNameU}Service {
@@ -17,12 +17,18 @@ public class ${objectModuleEU}${objectNameU}Service {
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
 	
+	
+	/****************************custom * start***********************************/
+	
+	
+	/****************************custom * end  ***********************************/
+	
 	/****************************common * start***********************************/
 	
 	/**
 	 * 新增 
-	 * @param ${objectModuleEL}${objectNameU}
-	 * @return
+	 * @param ${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}
+	 * @return 主键 id
 	 * @throws Exception
 	 */
 	public int add(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
@@ -31,8 +37,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 新增
-	 * @param pd
-	 * @return
+	 * @param PageData pd
+	 * @return 主键 id
 	 * @throws Exception
 	 */
 	public int addByPd(PageData pd) throws Exception {
@@ -41,7 +47,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 修改 
-	 * @param ${objectModuleEL}${objectNameU}
+	 * @param ${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}
 	 * @throws Exception
 	 */
 	public void edit(${objectModuleEU}${objectNameU} ${objectModuleEL}${objectNameU}) throws Exception {
@@ -50,7 +56,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 
 	/**
 	 * 修改 
-	 * @param pd
+	 * @param PageData pd
 	 * @throws Exception
 	 */
 	public void editByPd(PageData pd) throws Exception {
@@ -59,7 +65,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 删除 
-	 * @param id
+	 * @param int id
 	 * @throws Exception
 	 */
 	public void deleteById(int id) throws Exception {
@@ -68,7 +74,7 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 删除 
-	 * @param pd
+	 * @param PageData pd
 	 * @throws Exception
 	 */
 	public void deleteByPd(PageData pd) throws Exception {
@@ -77,8 +83,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 
 	/**
 	 * 通过id获取(类)数据
-	 * @param id
-	 * @return
+	 * @param int id
+	 * @return ${objectModuleEU}${objectNameU}
 	 * @throws Exception
 	 */
 	public ${objectModuleEU}${objectNameU} findById(int id) throws Exception {
@@ -87,8 +93,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 通过id获取(PageData)数据 
-	 * @param id
-	 * @return
+	 * @param int id
+	 * @return PageData
 	 * @throws Exception
 	 */
 	public PageData findPdById(int id) throws Exception {
@@ -97,8 +103,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 	
 	/**
 	 * 通过pd获取(PageData)数据 
-	 * @param pd
-	 * @return
+	 * @param PageData pd
+	 * @return PageData
 	 * @throws Exception
 	 */
 	public PageData findPdByPd(PageData pd) throws Exception {
@@ -110,8 +116,8 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<${objectModuleEU}${objectNameU}> listAll() throws Exception {
-		return (List<${objectModuleEU}${objectNameU}>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAll", null);
+	public List<${objectModuleEU}${objectNameU}> listAllByPd(PageData pd) throws Exception {
+		return (List<${objectModuleEU}${objectNameU}>) dao.findForList("${objectModuleEU}${objectNameU}Mapper.listAllByPd", null);
 	}
 	
 	/**
