@@ -177,12 +177,12 @@ function editUser(){
 }
 
 //系统设置
-function editSystem(){
+function toEditConfig(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
 	 diag.Title ="系统设置";
-	 diag.URL = locat+'/background/config/goEditConfig.do';
+	 diag.URL = locat+'/background/config/toEditConfig.do';
 	 diag.Width = 600;
 	 diag.Height = 596;
 	 diag.CancelEvent = function(){ //关闭事件

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ComConfigMapper">
+
+	<sql id="configAddColumns">configType,configName,param1,param2,param3,param4,isOpen,modifyTime</sql>
+	<sql id="configColumns">configId,configType,configName,param1,param2,param3,param4,isOpen,modifyTime</sql>
+	
+	<resultMap type="comConfig" id="configResultMap">
+		<id column="configId" property="configId"/>
+		<result column="configType" property="configType"/>
+		<result column="configName" property="configName"/>
+		<result column="param1" property="param1"/>
+		<result column="param2" property="param2"/>
+		<result column="param3" property="param3"/>
+		<result column="param4" property="param4"/>
+		<result column="isOpen" property="isOpen"/>
+		<result column="modifyTime" property="modifyTime"/>
+	</resultMap>
+	
+	
+	<!-- ****************************custom * start*********************************** -->
+	
+	<!-- 根据type获取配置 -->
+	<select id="findByConfigType" parameterType="String" resultType="comConfig">
+		select  <include refid="configColumns"/> 
+		 from comConfig 
+		 where configType=#{configType}
+	</select>	
+	
+	<!-- ****************************custom * end  *********************************** -->
+	
+	
+	<!-- ****************************common * satrt*********************************** -->
+	<!-- 新增 -->
+	<insert id="add" useGeneratedKeys="true" keyProperty="configId" parameterType="comConfig">
+		insert into comConfig ( 
+			<include refid="configAddColumns"/>
+		) values (
+			#{configType},#{configName},#{param1},#{param2},#{param3},#{param4},#{isOpen},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 新增 -->
+	<insert id="addByPd" useGeneratedKeys="true" keyProperty="configId" parameterType="pd">
+		insert into comConfig ( 
+			<include refid="configAddColumns"/>
+		) values (
+			#{configType},#{configName},#{param1},#{param2},#{param3},#{param4},#{isOpen},#{modifyTime}
+		)
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="edit" parameterType="comConfig">
+		update  comConfig
+			set 
+				configType = #{configType},
+				configName = #{configName},
+				param1 = #{param1},
+				param2 = #{param2},
+				param3 = #{param3},
+				param4 = #{param4},
+				isOpen = #{isOpen},
+				modifyTime = #{modifyTime}
+			where 
+				configId = #{configId}
+	</update>
+	
+	<!-- 修改 -->
+	<update id="editByPd" parameterType="pd">
+		update  comConfig
+			set 
+				configType = #{configType},
+				configName = #{configName},
+				param1 = #{param1},
+				param2 = #{param2},
+				param3 = #{param3},
+				param4 = #{param4},
+				isOpen = #{isOpen},
+				modifyTime = #{modifyTime}
+			where 
+				configId = #{configId}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="int">
+		delete from comConfig 
+		where 
+			configId = #{configId}
+	</delete>
+	
+	<!-- 删除 -->
+	<delete id="deleteByPd" parameterType="pd">
+		delete from comConfig 
+		where 
+			configId = #{configId}
+	</delete>
+	
+	<!-- 批量删除 -->
+	<delete id="batchDeleteByIds" parameterType="String">
+		delete from comTable 
+		where 
+			tableId in (#{ids})
+	</delete>
+	
+	<!-- 通过id获取(类)数据 -->
+	<select id="findById" parameterType="int" resultType="comConfig">
+		select 
+			<include refid="configColumns"/>
+		from 
+			comConfig
+		where 
+			configId = #{configId}
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="findPdById" parameterType="int" resultType="pd">
+		select 
+			<include refid="configColumns"/>
+		from 
+			comConfig
+		where 
+			configId = #{configId}
+	</select>
+	
+	<!-- 通过pd获取(PageData)数据  -->
+	<select id="findPdByPd" parameterType="pd" resultType="pd">
+		select 
+			<include refid="configColumns"/>
+		from 
+			comConfig
+		where 
+			configId = #{configId}
+	</select>
+	
+	<!-- 获取(类)List数据  -->
+	<select id="listAllByPd" parameterType="pd" resultMap="configResultMap">
+		select 
+			<include refid="configColumns"/>
+		from 
+			comConfig
+	</select>
+	
+	<!-- 通过id获取(PageData)数据  -->
+	<select id="listAllPd" parameterType="bgPage" resultType="pd">
+		select 
+			<include refid="configColumns"/>
+		from 
+			comConfig
+	</select>
+	
+	<!-- ****************************common * end  ********************************** -->
+	
+</mapper>

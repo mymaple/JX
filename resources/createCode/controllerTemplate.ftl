@@ -79,7 +79,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 		PageData pd = new PageData();
 		pd = this.getPageData();
 		try {
-			mv.addObject("msg", "save");
+			mv.addObject("msg", "add");
 			mv.addObject("pd", pd);
 			
 			mv.setViewName("${controlModuleNL}/${objectNameL}/${controlModuleEL}${objectNameU}Edit");

@@ -11,7 +11,9 @@
 		$("#propType").val('');
 		$("#propLength").val('propType_String');
 		$("#isWrite1").attr("checked",true);
+		$("#isWrite2").attr("checked",false);
 		$("#isNull1").attr("checked",true);
+		$("#isNull2").attr("checked",false);
 		$("#propDefault").val('');
 		
 		$("#dialog-add").css("display","block");

@@ -16,32 +16,42 @@ Date: 2016-12-14 00:59:59
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for bgconfig
+-- Table structure for comConfig
 -- ----------------------------
-DROP TABLE IF EXISTS `bgconfig`;
-CREATE TABLE `bgconfig` (
-  `configId` varchar(100) NOT NULL,
-  `configType` varchar(255) DEFAULT NULL,
-  `configName` varchar(255) DEFAULT NULL,
-  `param1` varchar(255) DEFAULT NULL,
-  `param2` varchar(255) DEFAULT NULL,
-  `param3` varchar(255) DEFAULT NULL,
-  `param4` varchar(255) DEFAULT NULL,
-  `isOpen` tinyint(1) DEFAULT NULL,
+DROP TABLE IF EXISTS `comConfig`;
+CREATE TABLE `comConfig` (
+ 	`configId` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统配置id' ,
+	`configType` varchar(20)
+		 DEFAULT NULL  COMMENT '配置类型' ,	
+	`configName` varchar(50)
+		 DEFAULT NULL  COMMENT '配置名称' ,	
+	`param1` varchar(100)
+		 DEFAULT NULL  COMMENT '接入网址' ,	
+	`param2` int(10)
+		 DEFAULT NULL  COMMENT '端口号/数字' ,	
+	`param3` varchar(100)
+		 DEFAULT NULL  COMMENT '账号/X' ,	
+	`param4` varchar(100)
+		 DEFAULT NULL  COMMENT '密码/Y' ,	
+	`isOpen` varchar(10)
+		 DEFAULT NULL  COMMENT '是否启动' ,	
+	`modifyTime` date
+		 DEFAULT NULL  COMMENT '修改时间' ,	
+  
   PRIMARY KEY (`configId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '系统配置' ;
 
 -- ----------------------------
--- Records of bgconfig
+-- Records of comConfig
 -- ----------------------------
-INSERT INTO `bgconfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX1', '11', 'admin', '', '1');
-INSERT INTO `bgconfig` VALUES ('2', 'configBgEmailServer', '邮箱服务器配置', 'smt1p.qq.com', '21', 'it1@126.com', '1231', '1');
-INSERT INTO `bgconfig` VALUES ('3', 'configBgMessage', '短信账户配置', 'http://www.dx1ton.com/', '', 'username1', 'ppp1', '1');
-INSERT INTO `bgconfig` VALUES ('4', 'configBgWordWaterMark', '文字水印配置', 'JX1', '21', '11', '12', '1');
-INSERT INTO `bgconfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配置', 'watermark.png', '', '14', '13', '0');
-INSERT INTO `bgconfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', '/weixin/index ', '', 'token1', '', '1');
-INSERT INTO `bgconfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.2', '6021', '', '', '1');
-INSERT INTO `bgconfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.3', '6022', '', '', '1');
+INSERT INTO `comConfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX1', '11', 'admin', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('2', 'configBgEmailServer', '邮箱服务器配置', 'smt1p.qq.com', '21', 'it1@126.com', '1231', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('3', 'configBgMessage', '短信账户配置', 'http://www.dx1ton.com/', null, 'username1', 'ppp1', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('4', 'configBgWordWaterMark', '文字水印配置', 'JX1', '21', '11', '12', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配置', 'watermark.png', NULL, '14', '13', '0', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', '/weixin/index ', NULL, 'token1', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.2', '6021', '', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `comConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.3', '6022', '', '', '1', '2015-06-03 22:09:13');
 
 -- ----------------------------
 -- Table structure for bgmenu

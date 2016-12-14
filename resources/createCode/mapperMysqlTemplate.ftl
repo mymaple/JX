@@ -6,7 +6,7 @@
 	<sql id="${objectNameL}AddColumns"><#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
 	<sql id="${objectNameL}Columns">${objectNameL}Id,<#list fieldList as var>${var[1]}<#if var_has_next>,</#if></#list></sql>
 	
-	<resultMap type="${objectModuleEL}${objectNameU}" id="${objectNameU}ResultMap">
+	<resultMap type="${objectModuleEL}${objectNameU}" id="$${objectNameL}ResultMap">
 		<id column="${objectNameL}Id" property="${objectNameL}Id"/>
 			<#list fieldList as var>
 		<result column="${var[1]}" property="${var[1]}"/>
@@ -113,7 +113,7 @@
 	</select>
 	
 	<!-- 获取(类)List数据  -->
-	<select id="listAllByPd" parameterType="pd" resultMap="${objectNameU}ResultMap">
+	<select id="listAllByPd" parameterType="pd" resultMap="$${objectNameL}ResultMap">
 		select 
 			<include refid="${objectNameL}Columns"/>
 		from 

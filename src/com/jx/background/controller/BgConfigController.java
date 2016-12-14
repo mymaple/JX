@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.jx.background.entity.BgConfig;
 import com.jx.background.service.AppuserService;
-import com.jx.background.service.BgConfigService;
 import com.jx.background.service.BgUserService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
+import com.jx.common.entity.ComConfig;
 import com.jx.common.entity.ComDict;
+import com.jx.common.service.ComConfigService;
 import com.jx.common.service.ComDictService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.DelAllFile;
@@ -45,8 +45,8 @@ public class BgConfigController extends BaseController {
 	private BgUserService bgUserService;
 	@Resource(name = "appuserService")
 	private AppuserService appuserService;
-	@Resource(name = "bgConfigService")
-	private BgConfigService bgConfigService;
+	@Resource(name = "comConfigService")
+	private ComConfigService comConfigService;
 	@Resource(name = "comDictService")
 	private ComDictService comDictService;
 
@@ -56,16 +56,16 @@ public class BgConfigController extends BaseController {
 	/**
 	 * 去系统设置页面
 	 */
-	@RequestMapping(value = "/goEditConfig")
-	public ModelAndView goEditConfig() throws Exception {
+	@RequestMapping(value = "/toEditConfig")
+	public ModelAndView toEditConfig() throws Exception {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<BgConfig> bgConfigList = bgConfigService.listBgConfig();
+		List<ComConfig> bgConfigList = comConfigService.listAllByPd(pd);
 		
 		for(int i=0;i<bgConfigList.size();i++){
-			BgConfig bgConfig = bgConfigList.get(i);
-			pd.put(bgConfig.getConfigType(), bgConfig);
+			ComConfig comConfig = bgConfigList.get(i);
+			pd.put(comConfig.getConfigType(), comConfig);
 		}
 
 		mv.setViewName("background/config/bgConfigEdit");
@@ -74,22 +74,8 @@ public class BgConfigController extends BaseController {
 		return mv;
 	}
 	
-
 	/**
-	 * 去编辑邮箱页面
-	 */
-	@RequestMapping(value = "/editEmail")
-	public ModelAndView editEmail() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		mv.setViewName("system/head/edit_email");
-		mv.addObject("pd", pd);
-		return mv;
-	}
-	
-	/**
-	 * 保存系统设置1
+	 * 保存系统设置
 	 */
 	@RequestMapping(value = "/editConfig")
 	public ModelAndView editConfig() throws Exception {
@@ -104,22 +90,39 @@ public class BgConfigController extends BaseController {
 		String[] param4s = (String[])this.getRequest().getParameterValues("param4");
 		String[] isOpens = (String[])this.getRequest().getParameterValues("isOpen");
 		
+		Date nowTime = new Date();
+		
 		for(int i = 0; i < configIds.length; i++){
-			BgConfig bgConfig = new BgConfig();
-			bgConfig.setConfigId(configIds[i]);
-			bgConfig.setConfigType(configTypes[i]);
-			bgConfig.setConfigName(configNames[i]);
-			bgConfig.setParam1(param1s[i]);
-			bgConfig.setParam2(param2s[i]);
-			bgConfig.setParam3(param3s[i]);
-			bgConfig.setParam4(param4s[i]);
-			bgConfig.setIsOpen(isOpens[i]);
-			bgConfigService.editConfig(bgConfig);
+			ComConfig comConfig = new ComConfig();
+			comConfig.setConfigId(Integer.parseInt(configIds[i]));
+			comConfig.setConfigType(configTypes[i]);
+			comConfig.setConfigName(configNames[i]);
+			comConfig.setParam1(param1s[i]);
+			comConfig.setParam2(Integer.parseInt(param2s[i]));
+			comConfig.setParam3(param3s[i]);
+			comConfig.setParam4(param4s[i]);
+			comConfig.setIsOpen(isOpens[i]);
+			comConfig.setModifyTime(nowTime);
+			comConfigService.edit(comConfig);
 		}
 		mv.addObject("msg", "OK");
 		mv.setViewName("background/bgSaveResult");
 		return mv;
 	}
+	
+	/**
+	 * 去编辑邮箱页面
+	 */
+	@RequestMapping(value = "/editEmail")
+	public ModelAndView editEmail() throws Exception {
+		ModelAndView mv = this.getModelAndView();
+		PageData pd = new PageData();
+		pd = this.getPageData();
+		mv.setViewName("system/head/edit_email");
+		mv.addObject("pd", pd);
+		return mv;
+	}
+	
 
 	/**
 	 * 去发送短信页面
@@ -312,40 +315,6 @@ public class BgConfigController extends BaseController {
 		return AppUtil.returnObject(pd, map);
 	}
 
-
-
-
-
-	/**
-	 * 保存系统设置2
-	 */
-	@RequestMapping(value = "/saveSys2")
-	public ModelAndView saveSys2() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		Tools.writeFile(Const.FWATERM, pd.getString("isCheck1") + ",fh," + pd.getString("fcontent") + ",fh," + pd.getString("fontSize") + ",fh," + pd.getString("fontX") + ",fh," + pd.getString("fontY")); // 文字水印配置
-		Tools.writeFile(Const.IWATERM, pd.getString("isCheck2") + ",fh," + pd.getString("imgUrl") + ",fh," + pd.getString("imgX") + ",fh," + pd.getString("imgY")); // 图片水印配置
-		Watermark.fushValue();
-		mv.addObject("msg", "OK");
-		mv.setViewName("save_result");
-		return mv;
-	}
-
-	/**
-	 * 保存系统设置3
-	 */
-	@RequestMapping(value = "/saveSys3")
-	public ModelAndView saveSys3() throws Exception {
-		ModelAndView mv = this.getModelAndView();
-		PageData pd = new PageData();
-		pd = this.getPageData();
-		Tools.writeFile(Const.WEIXIN, pd.getString("Token")); // 写入微信配置
-		Tools.writeFile(Const.WEBSOCKET, pd.getString("WIMIP") + ",fh," + pd.getString("WIMPORT") + ",fh," + pd.getString("OLIP") + ",fh," + pd.getString("OLPORT")); // websocket配置
-		mv.addObject("msg", "OK");
-		mv.setViewName("save_result");
-		return mv;
-	}
 
 	/**
 	 * 去代码生成器页面

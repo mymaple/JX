@@ -33,7 +33,7 @@
 	//保存
 	function save(){
 	<#list fieldList as var>
-		<#if var[3] == "是">
+		<#if var[5] == "1">
 		if($("#${var[1]}").val()==""){
 			$("#${var[1]}").tips({
 				side:3,
@@ -54,29 +54,24 @@
 </script>
 	</head>
 <body>
-	<form action="${objectNameLower}/${r"${msg }"}.do" name="Form" id="Form" method="post">
-		<input type="hidden" name="${objectNameUpper}_ID" id="${objectNameUpper}_ID" value="${r"${pd."}${objectNameUpper}_ID${r"}"}"/>
+	<form action="${controlModuleNL}/${objectNameL}/${r"${msg }"}.do" name="Form" id="Form" method="post">
+		<input type="hidden" name="${objectNameL}Id" id="${objectNameL}Id" value="${r"${pd."}${objectNameL}Id${r"}"}"/>
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 <#list fieldList as var>
-	<#if var[5] == "是">
+	<#if var[5] == "1">
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
 		<#if var[3] == 'propType_String'>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input type="text" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
-			</tr>
-		
-		<#elseif var[1] == 'propType_Date'>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input class="span10 date-picker" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${var[2] }"/></td>
-			</tr>
-		<#elseif var[1] == 'Integer'>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input type="number" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
-			</tr>
+				<td><input type="text" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" maxlength="${var[4] }" placeholder="这里输入${var[2] }" title="${var[2] }" style="width:98%;"/></td>
+		<#elseif var[3] == 'propType_Int'>
+				<td><input type="number" name="${var[1] }" id="${var[1] }" value="${r"${pd."}${var[1] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }" style="width:98%;"/></td>
+		<#elseif var[3] == 'propType_Date'>
+		<td><input class="span10 date-picker" name="${var[1] }" id="${var[1] }" value="${r"${pd."}${var[0] }${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${var[2] }" style="width:98%;"/></td>
+		<#elseif var[3] == 'propType_Double'>
+				<td><input type="number" name="${var[1] }" id="${var[1] }" value="${r"${pd."}${var[1] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }" style="width:98%;"/></td>
 		</#if>
+			</tr>
 	</#if>
 </#list>
 			<tr>

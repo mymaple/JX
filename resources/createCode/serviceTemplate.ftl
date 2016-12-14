@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.jx.${controlModuleNL}.config.${controlModuleEU}Page;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.${controlModuleNL}.entity.${objectModuleEU}${objectNameU};
+import com.jx.${objectModuleNL}.entity.${objectModuleEU}${objectNameU};
 
 @Service("${objectModuleEL}${objectNameU}Service")
 public class ${objectModuleEU}${objectNameU}Service {
@@ -79,6 +79,15 @@ public class ${objectModuleEU}${objectNameU}Service {
 	 */
 	public void deleteByPd(PageData pd) throws Exception {
 		dao.delete("${objectModuleEU}${objectNameU}Mapper.deleteByPd", pd);
+	}
+	
+	/**
+	 * 批量删除 
+	 * @param PageData pd
+	 * @throws Exception
+	 */
+	public void batchDeleteByIds(String ids) throws Exception {
+		dao.delete("${objectModuleEU}${objectNameU}Mapper.batchDeleteByIds", ids);
 	}
 
 	/**

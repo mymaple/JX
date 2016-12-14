@@ -10,11 +10,12 @@ import com.jx.background.entity.BgConfig;
 import com.jx.background.service.BgConfigService;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
+import com.jx.common.service.ComConfigService;
 
 public class BgPage {
 
-	@Resource(name = "bgConfigService")
-	private BgConfigService bgConfigService;
+	@Resource(name = "comConfigService")
+	private ComConfigService comConfigService;
 	
 	
 	private int showCount; // 每页显示记录数

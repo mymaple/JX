@@ -35,8 +35,6 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	private Date ${var[1]};
 		<#elseif var[3] == 'propType_Double'>
 	private double ${var[1]};
-		<#elseif var[3] == 'propType_Boolean'>
-	private boolean ${var[1]};	
 		</#if>
 		
 	</#list>
@@ -159,24 +157,6 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	public String get${var[0]}Str(){
 		return DecimalUtil.doubleToStr(get${var[0]});
 	}	
-		<#elseif var[3] == 'propType_Boolean'>
-	/**
-	 * 设置 ${var[2]}
-	 * 
-	 * @param boolean ${var[1]}
-	 */
-	public void set${var[0]}(boolean ${var[1]}) {
-		this.${var[1]} = ${var[1]};
-	}
-	
-	/**
-	 * 获取 ${var[2]}
-	 * 
-	 * @return boolean ${var[1]}
-	 */
-	public boolean get${var[0]}() {
-		return this.${var[1]};
-	}
 		</#if>
 	
 	</#list>
@@ -197,8 +177,6 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 		set${var[0]}Str("1900-01-01");
 		<#elseif var[3] == 'propType_Double'>
 		set${var[0]}(0.00);
-		<#elseif var[3] == 'propType_Boolean'>
-		set${var[0]}(false);
 		</#if>
 	</#list>
 	}

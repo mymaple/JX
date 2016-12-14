@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ ${controlModuleEL}Page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
@@ -16,14 +16,14 @@
 <div class="container-fluid" id="main-container">
 
 
-<div id="page-content" class="clearfix">
+<div id="${controlModuleEL}Page-content" class="clearfix">
 						
   <div class="row-fluid">
 
 	<div class="row-fluid">
 	
 			<!-- 检索  -->
-			<form action="${objectNameLower}/list.do" method="post" name="Form" id="Form">
+			<form action="${controlModuleNL}/${objectNameL}/list.do" method="post" name="Form" id="Form">
 			<table>
 				<tr>
 					<td>
@@ -75,11 +75,11 @@
 						<c:forEach items="${r"${varList}"}" var="var" varStatus="vs">
 							<tr>
 								<td class='center' style="width: 30px;">
-									<label><input type='checkbox' name='ids' value="${r"${var."}${objectNameUpper}_ID${r"}"}" /><span class="lbl"></span></label>
+									<label><input type='checkbox' name='ids' value="${r"${var."}${objectNameL}Id${r"}"}" /><span class="lbl"></span></label>
 								</td>
 								<td class='center' style="width: 30px;">${r"${vs.index+1}"}</td>
 								<#list fieldList as var>
-										<td>${r"${var."}${var[0]}${r"}"}</td>
+										<td>${r"${var."}${var[1]}${r"}"}</td>
 								</#list>
 								<td style="width: 30px;" class="center">
 									<div class='hidden-phone visible-desktop btn-group'>
@@ -91,10 +91,10 @@
 										<button class="btn btn-mini btn-info" data-toggle="dropdown"><i class="icon-cog icon-only"></i></button>
 										<ul class="dropdown-menu dropdown-icon-only dropdown-light pull-right dropdown-caret dropdown-close">
 											<c:if test="${r"${QX.edit == 1 }"}">
-											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
+											<li><a style="cursor:pointer;" title="编辑" onclick="edit('${r"${var."}${objectNameL}Id${r"}"}');" class="tooltip-success" data-rel="tooltip" title="" data-placement="left"><span class="green"><i class="icon-edit"></i></span></a></li>
 											</c:if>
 											<c:if test="${r"${QX.del == 1 }"}">
-											<li><a style="cursor:pointer;" title="删除" onclick="del('${r"${var."}${objectNameUpper}_ID${r"}"}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
+											<li><a style="cursor:pointer;" title="删除" onclick="del('${r"${var."}${objectNameL}Id${r"}"}');" class="tooltip-error" data-rel="tooltip" title="" data-placement="left"><span class="red"><i class="icon-trash"></i></span> </a></li>
 											</c:if>
 										</ul>
 										</div>
@@ -121,18 +121,18 @@
 				</tbody>
 			</table>
 			
-		<div class="page-header position-relative">
+		<div class="${controlModuleEL}Page-header position-relative">
 		<table style="width:100%;">
 			<tr>
 				<td style="vertical-align:top;">
 					<c:if test="${r"${QX.add == 1 }"}">
-					<a class="btn btn-small btn-success" onclick="add();">新增</a>
+					<a class="btn btn-small btn-success" onclick="toAdd();">新增</a>
 					</c:if>
 					<c:if test="${r"${QX.del == 1 }"}">
 					<a class="btn btn-small btn-danger" onclick="makeAll('确定要删除选中的数据吗?');" title="批量删除" ><i class='icon-trash'></i></a>
 					</c:if>
 				</td>
-				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${page.pageStr}"}</div></td>
+				<td style="vertical-align:top;"><div class="pagination" style="float: right;padding-top: 0px;margin-top: 0px;">${r"${${controlModuleEL}Page.pageStr}"}</div></td>
 			</tr>
 		</table>
 		</div>
@@ -145,7 +145,7 @@
 	<!-- PAGE CONTENT ENDS HERE -->
   </div><!--/row-->
 	
-</div><!--/#page-content-->
+</div><!--/#${controlModuleEL}Page-content-->
 </div><!--/.fluid-container#main-container-->
 		
 		<!-- 返回顶部  -->
@@ -175,21 +175,21 @@
 		}
 		
 		//新增
-		function add(){
+		function toAdd(){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="新增";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goAdd.do';
+			 diag.URL = '<%=basePath%>${controlModuleNL}/${objectNameL}/toAdd.do';
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 if('${r"${page.currentPage}"}' == '0'){
+					 if('${r"${${controlModuleEL}Page.currentPage}"}' == '0'){
 						 top.jzts();
 						 setTimeout("self.location=self.location",100);
 					 }else{
-						 nextPage(${r"${page.currentPage}"});
+						 nextPage(${r"${${controlModuleEL}Page.currentPage}"});
 					 }
 				}
 				diag.close();
@@ -198,30 +198,30 @@
 		}
 		
 		//删除
-		function del(Id){
+		function del(id){
 			bootbox.confirm("确定要删除吗?", function(result) {
 				if(result) {
 					top.jzts();
-					var url = "<%=basePath%>${objectNameLower}/delete.do?${objectNameUpper}_ID="+Id+"&tm="+new Date().getTime();
+					var url = "<%=basePath%>${controlModuleNL}/${objectNameL}/delete.do?${objectNameL}Id="+id+"&tm="+new Date().getTime();
 					$.get(url,function(data){
-						nextPage(${r"${page.currentPage}"});
+						nextPage(${r"${${controlModuleEL}Page.currentPage}"});
 					});
 				}
 			});
 		}
 		
 		//修改
-		function edit(Id){
+		function toEdit(id){
 			 top.jzts();
 			 var diag = new top.Dialog();
 			 diag.Drag=true;
 			 diag.Title ="编辑";
-			 diag.URL = '<%=basePath%>${objectNameLower}/goEdit.do?${objectNameUpper}_ID='+Id;
+			 diag.URL = '<%=basePath%>${controlModuleNL}/${objectNameL}/toEdit.do?${objectNameL}Id='+id;
 			 diag.Width = 450;
 			 diag.Height = 355;
 			 diag.CancelEvent = function(){ //关闭事件
 				 if(diag.innerFrame.contentWindow.document.getElementById('zhongxin').style.display == 'none'){
-					 nextPage(${r"${page.currentPage}"});
+					 nextPage(${r"${${controlModuleEL}Page.currentPage}"});
 				}
 				diag.close();
 			 };
@@ -292,14 +292,14 @@
 							top.jzts();
 							$.ajax({
 								type: "POST",
-								url: '<%=basePath%>${objectNameLower}/deleteAll.do?tm='+new Date().getTime(),
-						    	data: {DATA_IDS:str},
+								url: '<%=basePath%>${controlModuleNL}/${objectNameL}/batchDelete.do?tm='+new Date().getTime(),
+						    	data: {${objectNameL}Ids:str},
 								dataType:'json',
 								//beforeSend: validateData,
 								cache: false,
 								success: function(data){
 									 $.each(data.list, function(i, list){
-											nextPage(${r"${page.currentPage}"});
+											nextPage(${r"${${controlModuleEL}Page.currentPage}"});
 									 });
 								}
 							});
@@ -311,7 +311,7 @@
 		
 		//导出excel
 		function toExcel(){
-			window.location.href='<%=basePath%>${objectNameLower}/excel.do';
+			window.location.href='<%=basePath%>${controlModuleNL}/${objectNameL}s/excel.do';
 		}
 		</script>
 		

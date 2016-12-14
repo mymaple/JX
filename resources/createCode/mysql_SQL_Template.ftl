@@ -6,14 +6,14 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `${objectModuleEL}${objectNameU}`;
 CREATE TABLE `${objectModuleEL}${objectNameU}` (
- 	`${objectNameL}Id` int(11) NOT NULL AUTO_INCREMENT,
+ 	`${objectNameL}Id` int(11) NOT NULL AUTO_INCREMENT COMMENT '${tableName}id',
  	<#list fieldList as var>
 		<#if var[3] == 'propType_String'>
 	`${var[1]}` varchar(${var[4]})
 		<#elseif var[3] == 'propType_Int'>
 	`${var[1]}` int(${var[4]})
 		<#elseif var[3] == 'propType_Date'>
-	`${var[1]}` date
+	`${var[1]}` datetime
 		<#elseif var[3] == 'propType_Double'>
 	`${var[1]}` double(${var[4]},2)
 		</#if>
@@ -21,4 +21,4 @@ CREATE TABLE `${objectModuleEL}${objectNameU}` (
 	</#list>
   
   PRIMARY KEY (`${objectNameL}Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '${tableName}';
