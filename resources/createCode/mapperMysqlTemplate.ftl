@@ -79,7 +79,7 @@
 	<delete id="batchDeleteByIds" parameterType="String">
 		delete from comTable 
 		where 
-			tableId in (#{ids})
+			tableId in (${r"#{"}ids${r"}"})
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->

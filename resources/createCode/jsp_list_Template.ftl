@@ -9,7 +9,7 @@
 <html lang="en">
 	<head>
 	<base href="<%=basePath%>"><!-- jsp文件头和头部 -->
-	<%@ include file="../../system/admin/top.jsp"%> 
+	<%@ include file="../main/bgIndexTop.jsp"%> 
 	</head>
 <body>
 		

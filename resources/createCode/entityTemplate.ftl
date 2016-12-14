@@ -32,7 +32,7 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 		<#elseif var[3] == 'propType_Int'>
 	private int ${var[1]};
 		<#elseif var[3] == 'propType_Date'>
-	private java.util.Date ${var[1]};
+	private Date ${var[1]};
 		<#elseif var[3] == 'propType_Double'>
 	private double ${var[1]};
 		<#elseif var[3] == 'propType_Boolean'>

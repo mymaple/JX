@@ -74,6 +74,10 @@
 			return false;
 		}
 		
+		if(propDefault==""){
+			propDefault = "(kong)";
+		}
+		
 		var fields = propName + ',maple,' + propComment + ',maple,' + propType 
 					+ ',maple,' + propLength + ',maple,' + isWrite
 					+ ',maple,' + isNull + ',maple,' + propDefault;

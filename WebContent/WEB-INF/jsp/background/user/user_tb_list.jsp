@@ -11,7 +11,7 @@
 	<base href="<%=basePath%>">
 
 	<!-- jsp文件头和头部 -->
-	<%@ include file="../admin/top.jsp"%> 
+	<%@ include file="../main/bgIndexTop.jsp"%> 
 	
 	</head> 
 

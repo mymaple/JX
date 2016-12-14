@@ -34,14 +34,14 @@
 	function save(){
 	<#list fieldList as var>
 		<#if var[3] == "是">
-		if($("#${var[0] }").val()==""){
-			$("#${var[0] }").tips({
+		if($("#${var[1]}").val()==""){
+			$("#${var[1]}").tips({
 				side:3,
 	            msg:'请输入${var[2] }',
 	            bg:'#AE81FF',
 	            time:2
 	        });
-			$("#${var[0] }").focus();
+			$("#${var[1]}").focus();
 			return false;
 		}
 		</#if>
@@ -59,21 +59,22 @@
 		<div id="zhongxin">
 		<table id="table_report" class="table table-striped table-bordered table-hover">
 <#list fieldList as var>
-	<#if var[3] == "是">
-		<#if var[1] == 'Date'>
+	<#if var[5] == "是">
+		<#if var[3] == 'propType_String'>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input class="span10 date-picker" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${var[2] }"/></td>
+				<td><input type="text" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
+			</tr>
+		
+		<#elseif var[1] == 'propType_Date'>
+			<tr>
+				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
+				<td><input class="span10 date-picker" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" type="text" data-date-format="yyyy-mm-dd" readonly="readonly" placeholder="${var[2] }" title="${var[2] }"/></td>
 			</tr>
 		<#elseif var[1] == 'Integer'>
 			<tr>
 				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input type="number" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
-			</tr>
-		<#else>
-			<tr>
-				<td style="width:70px;text-align: right;padding-top: 13px;">${var[2] }:</td>
-				<td><input type="text" name="${var[0] }" id="${var[0] }" value="${r"${pd."}${var[0] }${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
+				<td><input type="number" name="${var[1]}" id="${var[1]}" value="${r"${pd."}${var[1]}${r"}"}" maxlength="32" placeholder="这里输入${var[2] }" title="${var[2] }"/></td>
 			</tr>
 		</#if>
 	</#if>
