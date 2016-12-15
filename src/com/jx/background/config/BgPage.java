@@ -8,14 +8,14 @@ import org.apache.shiro.subject.Subject;
 
 import com.jx.background.entity.BgConfig;
 import com.jx.background.service.BgConfigService;
+import com.jx.background.service.BgConfigService;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
-import com.jx.common.service.ComConfigService;
 
 public class BgPage {
 
-	@Resource(name = "comConfigService")
-	private ComConfigService comConfigService;
+	@Resource(name = "bgConfigService")
+	private BgConfigService bgConfigService;
 	
 	
 	private int showCount; // 每页显示记录数
@@ -34,10 +34,10 @@ public class BgPage {
 			Session session = currentUser.getSession();
 			BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
 			if (bgConfigSystem == null) {
-				bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+				bgConfigSystem = bgConfigService.findByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 				session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
 			}
-			this.showCount = Integer.parseInt(bgConfigSystem.getParam2());
+			this.showCount = bgConfigSystem.getParam2();
 		} catch (Exception e) {
 			this.showCount = 15;
 		}

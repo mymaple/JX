@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ComConfigMapper">
+<mapper namespace="BgConfigMapper">
 
 	<sql id="configAddColumns">configType,configName,param1,param2,param3,param4,isOpen,modifyTime</sql>
 	<sql id="configColumns">configId,configType,configName,param1,param2,param3,param4,isOpen,modifyTime</sql>
 	
-	<resultMap type="comConfig" id="configResultMap">
+	<resultMap type="bgConfig" id="configResultMap">
 		<id column="configId" property="configId"/>
 		<result column="configType" property="configType"/>
 		<result column="configName" property="configName"/>
@@ -22,9 +22,9 @@
 	<!-- ****************************custom * start*********************************** -->
 	
 	<!-- 根据type获取配置 -->
-	<select id="findByConfigType" parameterType="String" resultType="comConfig">
+	<select id="findByConfigType" parameterType="String" resultType="bgConfig">
 		select  <include refid="configColumns"/> 
-		 from comConfig 
+		 from bgConfig 
 		 where configType=#{configType}
 	</select>	
 	
@@ -33,8 +33,8 @@
 	
 	<!-- ****************************common * satrt*********************************** -->
 	<!-- 新增 -->
-	<insert id="add" useGeneratedKeys="true" keyProperty="configId" parameterType="comConfig">
-		insert into comConfig ( 
+	<insert id="add" useGeneratedKeys="true" keyProperty="configId" parameterType="bgConfig">
+		insert into bgConfig ( 
 			<include refid="configAddColumns"/>
 		) values (
 			#{configType},#{configName},#{param1},#{param2},#{param3},#{param4},#{isOpen},#{modifyTime}
@@ -43,7 +43,7 @@
 	
 	<!-- 新增 -->
 	<insert id="addByPd" useGeneratedKeys="true" keyProperty="configId" parameterType="pd">
-		insert into comConfig ( 
+		insert into bgConfig ( 
 			<include refid="configAddColumns"/>
 		) values (
 			#{configType},#{configName},#{param1},#{param2},#{param3},#{param4},#{isOpen},#{modifyTime}
@@ -51,8 +51,8 @@
 	</insert>
 	
 	<!-- 修改 -->
-	<update id="edit" parameterType="comConfig">
-		update  comConfig
+	<update id="edit" parameterType="bgConfig">
+		update  bgConfig
 			set 
 				configType = #{configType},
 				configName = #{configName},
@@ -68,7 +68,7 @@
 	
 	<!-- 修改 -->
 	<update id="editByPd" parameterType="pd">
-		update  comConfig
+		update  bgConfig
 			set 
 				configType = #{configType},
 				configName = #{configName},
@@ -84,14 +84,14 @@
 	
 	<!-- 删除 -->
 	<delete id="deleteById" parameterType="int">
-		delete from comConfig 
+		delete from bgConfig 
 		where 
 			configId = #{configId}
 	</delete>
 	
 	<!-- 删除 -->
 	<delete id="deleteByPd" parameterType="pd">
-		delete from comConfig 
+		delete from bgConfig 
 		where 
 			configId = #{configId}
 	</delete>
@@ -104,11 +104,11 @@
 	</delete>
 	
 	<!-- 通过id获取(类)数据 -->
-	<select id="findById" parameterType="int" resultType="comConfig">
+	<select id="findById" parameterType="int" resultType="bgConfig">
 		select 
 			<include refid="configColumns"/>
 		from 
-			comConfig
+			bgConfig
 		where 
 			configId = #{configId}
 	</select>
@@ -118,7 +118,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			comConfig
+			bgConfig
 		where 
 			configId = #{configId}
 	</select>
@@ -128,7 +128,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			comConfig
+			bgConfig
 		where 
 			configId = #{configId}
 	</select>
@@ -138,7 +138,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			comConfig
+			bgConfig
 	</select>
 	
 	<!-- 通过id获取(PageData)数据  -->
@@ -146,7 +146,7 @@
 		select 
 			<include refid="configColumns"/>
 		from 
-			comConfig
+			bgConfig
 	</select>
 	
 	<!-- ****************************common * end  ********************************** -->

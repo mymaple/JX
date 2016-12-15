@@ -1,12 +1,13 @@
-package com.jx.common.entity;
+package com.jx.background.entity;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.Date;
 
 import com.jx.common.util.DateUtil;
 import com.jx.common.util.StringUtil;
 
-public class ComConfig implements Serializable {
+public class BgConfig implements Serializable {
 	
 	/**
 	 * 
@@ -215,23 +216,23 @@ public class ComConfig implements Serializable {
 		return this.modifyTime;
 	}	
 		
-	public void setModifyTimeStr(String modifyTimeStr) throws DataAccessException{
+	public void setModifyTimeStr(String modifyTimeStr) throws Exception{
 		modifyTimeStr = StringUtil.trim(modifyTimeStr);
 		if(!modifyTimeStr.equals("")){
-			try{
+			try {
 				setModifyTime(DateUtil.parseDate(modifyTimeStr));
-			}catch(java.text.ParseException e){
-				throw new com.cvicse.exception.DataAccessException(e);
+			} catch (ParseException e) {
+				throw new Exception(e);
 			}
 		}
 	}
 
-	public String getMeetingTimeStr(){
+	public String getModifyTimeStr(){
 		return DateUtil.getFormatedDateString(getModifyTime());
 	}	
 	
 	
-	public ComConfig(){
+	public BgConfig(){
 		init();
 	}
 	
@@ -245,7 +246,11 @@ public class ComConfig implements Serializable {
 		setParam3("");
 		setParam4("");
 		setIsOpen("");
-		setModifyTimeStr("1900-01-01");
+		try {
+			setModifyTimeStr("1900-01-01");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	/**************************table prop  end  *********************************/
 }

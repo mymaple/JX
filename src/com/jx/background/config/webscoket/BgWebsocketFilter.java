@@ -50,10 +50,10 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		WebSocketImpl.DEBUG = false;
 		BgInstantChatServer s;
 		try {
-			String port =  (bgConfigService.
-					findConfigByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getParam2();
-			if(port != null && !"".equals(port)){
-				s = new BgInstantChatServer(Integer.parseInt(port));
+			int port =  (bgConfigService.
+					findByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ)).getParam2();
+			if(port > 0){
+				s = new BgInstantChatServer(port);
 				s.start();
 			}
 			// System.out.println( "websocket服务器启动,端口" + s.getPort() );
@@ -69,10 +69,10 @@ public class BgWebsocketFilter extends BaseController implements Filter {
 		WebSocketImpl.DEBUG = false;
 		BgOnlineManageServer s;
 		try {
-			String port =  (bgConfigService.
-					findConfigByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getParam2();
-			if(port != null && !"".equals(port)){
-				s = new BgOnlineManageServer(Integer.parseInt(port));
+			int port =  (bgConfigService.
+					findByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ)).getParam2();
+			if(port > 0){
+				s = new BgOnlineManageServer(port);
 				s.start();
 			}
 			// System.out.println( "websocket服务器启动,端口" + s.getPort() );

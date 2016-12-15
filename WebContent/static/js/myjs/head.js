@@ -162,7 +162,7 @@ function changeSkin(b){
 }
 
 //修改个人资料
-function editUser(){
+function toEditUser(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;
@@ -192,7 +192,7 @@ function toEditConfig(){
 }
 
 //代码生成
-function productCode(){
+function toCreateCode(){
 	 jzts();
 	 var diag = new top.Dialog();
 	 diag.Drag=true;

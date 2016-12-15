@@ -96,7 +96,7 @@ public class BgMainController extends BaseController {
 		Session session = currentUser.getSession();
 		BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
 		if (bgConfigSystem == null) {
-			bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+			bgConfigSystem = bgConfigService.findByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 			session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
 		}
 		
@@ -140,7 +140,7 @@ public class BgMainController extends BaseController {
 		
 		BgConfig bgConfigSystem = null;
 		try {
-			bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+			bgConfigSystem = bgConfigService.findByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -312,13 +312,13 @@ public class BgMainController extends BaseController {
 				// 读取websocket配置
 				BgConfig bgConfigOnlineManage = (BgConfig) session.getAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
 				if (bgConfigOnlineManage == null) {
-					bgConfigOnlineManage = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
+					bgConfigOnlineManage = bgConfigService.findByConfigType(Const.CONFIG_BG_ONLINEMANAGE_OBJ);
 					session.setAttribute(Const.CONFIG_BG_ONLINEMANAGE_OBJ,bgConfigOnlineManage);
 				}
 				
 				BgConfig bgConfigInstantChat = (BgConfig) session.getAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ);
 				if (bgConfigInstantChat == null) {
-					bgConfigInstantChat = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ);
+					bgConfigInstantChat = bgConfigService.findByConfigType(Const.CONFIG_BG_INSTANTCHAT_OBJ);
 					session.setAttribute(Const.CONFIG_BG_INSTANTCHAT_OBJ,bgConfigInstantChat);
 				}
 				
@@ -336,7 +336,7 @@ public class BgMainController extends BaseController {
 			
 			BgConfig bgConfigSystem = (BgConfig) session.getAttribute(Const.CONFIG_BG_SYSTEM_OBJ);
 			if (bgConfigSystem == null) {
-				bgConfigSystem = bgConfigService.findConfigByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
+				bgConfigSystem = bgConfigService.findByConfigType(Const.CONFIG_BG_SYSTEM_OBJ);
 				session.setAttribute(Const.CONFIG_BG_SYSTEM_OBJ,bgConfigSystem);
 			}
 			pd.put("systemName", bgConfigSystem.getParam1()); // 读取系统名称

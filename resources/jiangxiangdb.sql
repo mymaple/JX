@@ -16,12 +16,12 @@ Date: 2016-12-14 00:59:59
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for comConfig
+-- Table structure for bgConfig
 -- ----------------------------
-DROP TABLE IF EXISTS `comConfig`;
-CREATE TABLE `comConfig` (
+DROP TABLE IF EXISTS `bgConfig`;
+CREATE TABLE `bgConfig` (
  	`configId` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统配置id' ,
-	`configType` varchar(20)
+	`configType` varchar(50)
 		 DEFAULT NULL  COMMENT '配置类型' ,	
 	`configName` varchar(50)
 		 DEFAULT NULL  COMMENT '配置名称' ,	
@@ -42,16 +42,16 @@ CREATE TABLE `comConfig` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT = '系统配置' ;
 
 -- ----------------------------
--- Records of comConfig
+-- Records of bgConfig
 -- ----------------------------
-INSERT INTO `comConfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX1', '11', 'admin', '', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('2', 'configBgEmailServer', '邮箱服务器配置', 'smt1p.qq.com', '21', 'it1@126.com', '1231', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('3', 'configBgMessage', '短信账户配置', 'http://www.dx1ton.com/', null, 'username1', 'ppp1', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('4', 'configBgWordWaterMark', '文字水印配置', 'JX1', '21', '11', '12', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配置', 'watermark.png', NULL, '14', '13', '0', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', '/weixin/index ', NULL, 'token1', '', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.2', '6021', '', '', '1', '2015-06-03 22:09:13');
-INSERT INTO `comConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.3', '6022', '', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('1', 'configBgSystem', '系统配置', 'JX1', '11', 'admin', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('2', 'configBgEmailServer', '邮箱服务器配置', 'smt1p.qq.com', '21', 'it1@126.com', '1231', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('3', 'configBgMessage', '短信账户配置', 'http://www.dx1ton.com/', null, 'username1', 'ppp1', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('4', 'configBgWordWaterMark', '文字水印配置', 'JX1', '21', '11', '12', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('5', 'configBgImageWaterMark', '图片水印配置', 'watermark.png', NULL, '14', '13', '0', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('6', 'configBgWeiXin', ' 微信接口配置', '/weixin/index ', NULL, 'token1', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('7', 'configBgInstantChat', '即时聊天服务器配置', '127.0.0.2', '6021', '', '', '1', '2015-06-03 22:09:13');
+INSERT INTO `bgConfig` VALUES ('8', 'configBgOnlineManage', '在线管理服务器配置', '127.0.0.3', '6022', '', '', '1', '2015-06-03 22:09:13');
 
 -- ----------------------------
 -- Table structure for bgmenu
@@ -125,38 +125,47 @@ INSERT INTO `bgrole` VALUES ('b0c77c29dfa140dc9b14a29c056f824f', '高级会员',
 INSERT INTO `bgrole` VALUES ('e74f713314154c35bd7fc98897859fe3', '黄金客户', '18', '6', '1', '1', '1', '1', 'e74f713314154c35bd7fc98897859fe3');
 INSERT INTO `bgrole` VALUES ('f944a9df72634249bbcb8cb73b0c9b86', '初级会员', '498', '7', '1', '1', '1', '1', 'f944a9df72634249bbcb8cb73b0c9b86');
 
--- ----------------------------
--- Table structure for bguser
--- ----------------------------
-DROP TABLE IF EXISTS `bguser`;
-CREATE TABLE `bguser` (
-  `userId` varchar(100) NOT NULL,
-  `userName` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `permissions` varchar(255) DEFAULT NULL,
-  `roleId` varchar(100) DEFAULT NULL,
-  `lastLogin` varchar(255) DEFAULT NULL,
-  `loginIp` varchar(100) DEFAULT NULL,
-  `status` varchar(32) DEFAULT NULL,
-  `bz` varchar(255) DEFAULT NULL,
-  `skin` varchar(100) DEFAULT NULL,
-  `email` varchar(32) DEFAULT NULL,
-  `userNumber` varchar(100) DEFAULT NULL,
-  `phone` varchar(32) DEFAULT NULL,
-  PRIMARY KEY (`userId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Records of bguser
+-- Table structure for bgUser
 -- ----------------------------
-INSERT INTO `bguser` VALUES ('089d664844f8441499955b3701696fc0', 'fushide', '67bc304642856b709dfeb907b92cc7e10e0b02f2', '富师德', '', '2', '', '', '0', '18629359', 'default', 'asdadf@qq.com', '1231', '18766666666');
-INSERT INTO `bguser` VALUES ('0b3f2ab1896b47c097a81d322697446a', 'zhangsan', 'de41b7fb99201d8334c23c014db35ecd92df81bc', '张三', '', '2', '2015-06-03 22:09:13', '127.0.0.1', '0', '小张', 'default', 'wwwwq@qq.com', '1101', '18788888888');
-INSERT INTO `bguser` VALUES ('0e2da7c372e147a0b67afdf4cdd444a3', 'dfsdf', 'c49639f0b2c5dda506b777a1e518990e9a88a221', 'wqeqw', '', 'e74f713314154c35bd7fc98897859fe3', '', '', '0', 'ff', 'default', 'q324@qq.com', 'dsfsdddd', '18767676767');
-INSERT INTO `bguser` VALUES ('1', 'admin', 'de41b7fb99201d8334c23c014db35ecd92df81bc', '系统管理员', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2016-12-13 22:23:40', '0:0:0:0:0:0:0:1', '0', '最高统治者', 'default', 'admin@main.com', '001', '18788888888');
-INSERT INTO `bguser` VALUES ('8009132b158748a5a84510f91a291119', 'asdasd', '26be4dd18f543d7002b4d8aa525f90a33c0faefb', 'sdsdf', '', '7dfd8d1f7b6245d283217b7e63eec9b2', '', '', '0', '', 'default', '12312312@qq.com', '2312', '18765810587');
-INSERT INTO `bguser` VALUES ('b825f152368549069be79e1d34184afa', 'san', '47c4a8dc64ac2f0bb46bbd8813b037c9718f9349', '三', '', '2', '2016-11-30 23:50:41', '192.168.0.100', '0', 'sdfsdgf', 'default', 'sdfsdf@qq.com', 'sdsaw22', '18765656565');
-INSERT INTO `bguser` VALUES ('be025a79502e433e820fac37ddb1cfc2', 'zhangsan570256', '42f7554cb9c00e11ef16543a2c86ade815b79faa', '张三', '', '2', '', '', '0', '小张', 'default', 'zhangsan@www.com', '21101', '2147483647');
+DROP TABLE IF EXISTS `bgUser`;
+CREATE TABLE `bgUser` (
+ 	`userId` int(11) NOT NULL AUTO_INCREMENT COMMENT '系统用户表id',
+	`userName` varchar(255)
+		 DEFAULT NULL  COMMENT '用户名' ,	
+	`password` varchar(255)
+		 DEFAULT NULL  COMMENT '密码' ,	
+	`name` varchar(255)
+		 DEFAULT NULL  COMMENT '名字' ,	
+	`rights` varchar(255)
+		 DEFAULT NULL  COMMENT '拥有的权限' ,	
+	`roleId` int(11)
+		 DEFAULT NULL  COMMENT '角色id' ,	
+	`lastLoginTime` datetime
+		 DEFAULT NULL  COMMENT '上次登录时间' ,	
+	`lastLoginIp` varchar(50)
+		 DEFAULT NULL  COMMENT '上次登录IP' ,	
+	`status` varchar(50)
+		 DEFAULT NULL  COMMENT '状态' ,	
+	`remarks` varchar(255)
+		 DEFAULT NULL  COMMENT '备注' ,	
+	`skin` varchar(50)
+		 DEFAULT NULL  COMMENT '皮肤' ,	
+	`email` varchar(255)
+		 DEFAULT NULL  COMMENT '电子邮箱' ,	
+	`userNumber` varchar(100)
+		 DEFAULT NULL  COMMENT '用户编号' ,	
+	`phone` varchar(20)
+		 DEFAULT NULL  COMMENT '电话号码' ,	
+  `modifyTime` datetime
+		 DEFAULT NULL  COMMENT '修改时间' ,
+  PRIMARY KEY (`userId`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT = '系统用户表';
+
+INSERT INTO `bguser` VALUES ('1', 'admin', 'de41b7fb99201d8334c23c014db35ecd92df81bc', '系统管理员', '1133671055321055258374707980945218933803269864762743594642571294', '1', '2016-12-13 22:23:40', '0:0:0:0:0:0:0:1', '0', '最高统治者', 'default', 'admin@main.com', '001', '18788888888','2016-12-13 22:23:40');
 
 -- ----------------------------
 -- Table structure for comdict

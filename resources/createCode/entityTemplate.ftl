@@ -114,18 +114,18 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 		return this.${var[1]};
 	}	
 		
-	public void set${var[0]}Str(String ${var[1]}Str) throws DataAccessException{
+	public void set${var[0]}Str(String ${var[1]}Str) throws Exception{
 		${var[1]}Str = StringUtil.trim(${var[1]}Str);
 		if(!${var[1]}Str.equals("")){
 			try{
 				set${var[0]}(DateUtil.parseDate(${var[1]}Str));
 			}catch(java.text.ParseException e){
-				throw new com.cvicse.exception.DataAccessException(e);
+				throw new Exception(e);
 			}
 		}
 	}
 
-	public String getMeetingTimeStr(){
+	public String get${var[0]}Str(){
 		return DateUtil.getFormatedDateString(get${var[0]}());
 	}	
 		<#elseif var[3] == 'propType_Double'>
@@ -174,7 +174,11 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 		<#elseif var[3] == 'propType_Int'>
 		set${var[0]}(0);
 		<#elseif var[3] == 'propType_Date'>
-		set${var[0]}Str("1900-01-01");
+		try {
+			set${var[0]}Str("1900-01-01");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		<#elseif var[3] == 'propType_Double'>
 		set${var[0]}(0.00);
 		</#if>

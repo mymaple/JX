@@ -15,14 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.jx.background.entity.BgConfig;
 import com.jx.background.service.AppuserService;
 import com.jx.background.service.BgUserService;
+import com.jx.background.service.BgConfigService;
 import com.jx.common.config.BaseController;
 import com.jx.common.config.Const;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComConfig;
 import com.jx.common.entity.ComDict;
-import com.jx.common.service.ComConfigService;
 import com.jx.common.service.ComDictService;
 import com.jx.common.util.AppUtil;
 import com.jx.common.util.DelAllFile;
@@ -45,8 +45,8 @@ public class BgConfigController extends BaseController {
 	private BgUserService bgUserService;
 	@Resource(name = "appuserService")
 	private AppuserService appuserService;
-	@Resource(name = "comConfigService")
-	private ComConfigService comConfigService;
+	@Resource(name = "bgConfigService")
+	private BgConfigService bgConfigService;
 	@Resource(name = "comDictService")
 	private ComDictService comDictService;
 
@@ -61,11 +61,11 @@ public class BgConfigController extends BaseController {
 		ModelAndView mv = this.getModelAndView();
 		PageData pd = new PageData();
 		pd = this.getPageData();
-		List<ComConfig> bgConfigList = comConfigService.listAllByPd(pd);
+		List<BgConfig> bgConfigList = bgConfigService.listAllByPd(pd);
 		
 		for(int i=0;i<bgConfigList.size();i++){
-			ComConfig comConfig = bgConfigList.get(i);
-			pd.put(comConfig.getConfigType(), comConfig);
+			BgConfig bgConfig = bgConfigList.get(i);
+			pd.put(bgConfig.getConfigType(), bgConfig);
 		}
 
 		mv.setViewName("background/config/bgConfigEdit");
@@ -93,17 +93,17 @@ public class BgConfigController extends BaseController {
 		Date nowTime = new Date();
 		
 		for(int i = 0; i < configIds.length; i++){
-			ComConfig comConfig = new ComConfig();
-			comConfig.setConfigId(Integer.parseInt(configIds[i]));
-			comConfig.setConfigType(configTypes[i]);
-			comConfig.setConfigName(configNames[i]);
-			comConfig.setParam1(param1s[i]);
-			comConfig.setParam2(Integer.parseInt(param2s[i]));
-			comConfig.setParam3(param3s[i]);
-			comConfig.setParam4(param4s[i]);
-			comConfig.setIsOpen(isOpens[i]);
-			comConfig.setModifyTime(nowTime);
-			comConfigService.edit(comConfig);
+			BgConfig bgConfig = new BgConfig();
+			bgConfig.setConfigId(Integer.parseInt(configIds[i]));
+			bgConfig.setConfigType(configTypes[i]);
+			bgConfig.setConfigName(configNames[i]);
+			bgConfig.setParam1(param1s[i]);
+			bgConfig.setParam2(Integer.parseInt(param2s[i]));
+			bgConfig.setParam3(param3s[i]);
+			bgConfig.setParam4(param4s[i]);
+			bgConfig.setIsOpen(isOpens[i]);
+			bgConfig.setModifyTime(nowTime);
+			bgConfigService.edit(bgConfig);
 		}
 		mv.addObject("msg", "OK");
 		mv.setViewName("background/bgSaveResult");

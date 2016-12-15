@@ -220,7 +220,7 @@ public class ${controlModuleEU}${objectNameU}Controller extends BaseController {
 				
 				vpd.put("var${1}",varOList.get(i).get${objectNameU}Id();
 	<#list fieldList as var>
-				vpd.put("var${var_index+2}", varOList.get(i).get${var[0]}();	//${var_index+2}
+				vpd.put("var${var_index+2}", varOList.get(i).get${var[0]}());	//${var_index+2}
 	</#list>
 				varList.add(vpd);
 			}

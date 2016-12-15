@@ -1,4 +1,4 @@
-package com.jx.common.service;
+package com.jx.background.service;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.jx.background.config.BgPage;
+import com.jx.background.entity.BgConfig;
 import com.jx.common.config.DaoSupport;
 import com.jx.common.config.PageData;
-import com.jx.common.entity.ComConfig;
 
-@Service("comConfigService")
-public class ComConfigService {
+@Service("bgConfigService")
+public class BgConfigService {
 
 	@Resource(name = "daoSupport")
 	private DaoSupport dao;
@@ -22,11 +22,11 @@ public class ComConfigService {
 	
 	/**
 	 * 根据configType 获取配置
-	 * @return ComConfig
+	 * @return BgConfig
 	 * @throws Exception
 	 */
-	public ComConfig findByConfigType(String configType) throws Exception {
-		return (ComConfig) dao.findForObject("ComConfigMapper.findByConfigType", configType);
+	public BgConfig findByConfigType(String configType) throws Exception {
+		return (BgConfig) dao.findForObject("BgConfigMapper.findByConfigType", configType);
 	}
 	
 	/****************************custom * end  ***********************************/
@@ -35,12 +35,12 @@ public class ComConfigService {
 	
 	/**
 	 * 新增 
-	 * @param ComConfig comConfig
+	 * @param BgConfig bgConfig
 	 * @return 主键 id
 	 * @throws Exception
 	 */
-	public int add(ComConfig comConfig) throws Exception {
-		return (int)dao.add("ComConfigMapper.add", comConfig);
+	public int add(BgConfig bgConfig) throws Exception {
+		return (int)dao.add("BgConfigMapper.add", bgConfig);
 	}
 	
 	/**
@@ -50,16 +50,16 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public int addByPd(PageData pd) throws Exception {
-		return (int)dao.add("ComConfigMapper.addByPd", pd);
+		return (int)dao.add("BgConfigMapper.addByPd", pd);
 	}
 	
 	/**
 	 * 修改 
-	 * @param ComConfig comConfig
+	 * @param BgConfig bgConfig
 	 * @throws Exception
 	 */
-	public void edit(ComConfig comConfig) throws Exception {
-		dao.edit("ComConfigMapper.edit", comConfig);
+	public void edit(BgConfig bgConfig) throws Exception {
+		dao.edit("BgConfigMapper.edit", bgConfig);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public void editByPd(PageData pd) throws Exception {
-		dao.edit("ComConfigMapper.editByPd", pd);
+		dao.edit("BgConfigMapper.editByPd", pd);
 	}
 	
 	/**
@@ -77,7 +77,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public void deleteById(int id) throws Exception {
-		dao.delete("ComConfigMapper.deleteById", id);
+		dao.delete("BgConfigMapper.deleteById", id);
 	}
 	
 	/**
@@ -86,7 +86,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public void deleteByPd(PageData pd) throws Exception {
-		dao.delete("ComConfigMapper.deleteByPd", pd);
+		dao.delete("BgConfigMapper.deleteByPd", pd);
 	}
 	
 	/**
@@ -95,17 +95,17 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public void batchDeleteByIds(String ids) throws Exception {
-		dao.delete("ComConfigMapper.batchDeleteByIds", ids);
+		dao.delete("BgConfigMapper.batchDeleteByIds", ids);
 	}
 
 	/**
 	 * 通过id获取(类)数据
 	 * @param int id
-	 * @return ComConfig
+	 * @return BgConfig
 	 * @throws Exception
 	 */
-	public ComConfig findById(int id) throws Exception {
-		return (ComConfig) dao.findForObject("ComConfigMapper.findById", id);
+	public BgConfig findById(int id) throws Exception {
+		return (BgConfig) dao.findForObject("BgConfigMapper.findById", id);
 	}
 	
 	/**
@@ -115,7 +115,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public PageData findPdById(int id) throws Exception {
-		return (PageData) dao.findForObject("ComConfigMapper.findPdById", id);
+		return (PageData) dao.findForObject("BgConfigMapper.findPdById", id);
 	}
 	
 	/**
@@ -125,7 +125,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public PageData findPdByPd(PageData pd) throws Exception {
-		return (PageData) dao.findForObject("ComConfigMapper.findPdByPd", pd);
+		return (PageData) dao.findForObject("BgConfigMapper.findPdByPd", pd);
 	}
 	
 	/**
@@ -133,8 +133,8 @@ public class ComConfigService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<ComConfig> listAllByPd(PageData pd) throws Exception {
-		return (List<ComConfig>) dao.findForList("ComConfigMapper.listAllByPd", null);
+	public List<BgConfig> listAllByPd(PageData pd) throws Exception {
+		return (List<BgConfig>) dao.findForList("BgConfigMapper.listAllByPd", null);
 	}
 	
 	/**
@@ -144,7 +144,7 @@ public class ComConfigService {
 	 * @throws Exception
 	 */
 	public List<PageData> listAllPd(BgPage bgPage) throws Exception {
-		return (List<PageData>) dao.findForList("ComConfigMapper.listAllPd", bgPage);
+		return (List<PageData>) dao.findForList("BgConfigMapper.listAllPd", bgPage);
 	}
 	
 	/****************************common * end***********************************/
