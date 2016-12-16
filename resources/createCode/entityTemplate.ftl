@@ -1,7 +1,9 @@
 package com.jx.${objectModuleNL}.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import com.jx.common.util.DateUtil;
 import com.jx.common.util.StringUtil;
 
 public class ${objectModuleEU}${objectNameU} implements Serializable {
@@ -16,7 +18,7 @@ public class ${objectModuleEU}${objectNameU} implements Serializable {
 	/**************************custom prop satrt********************************/
 	
 	
-	/**************************custom prop satrt********************************/
+	/**************************custom prop end**********************************/
 	
 	
 	

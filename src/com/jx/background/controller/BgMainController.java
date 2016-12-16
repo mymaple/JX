@@ -3,6 +3,7 @@ package com.jx.background.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -185,10 +186,10 @@ public class BgMainController extends BaseController {
 					String passwd = new SimpleHash("SHA-1", userName, password).toString(); // 密码加密
 					pd.put("password", passwd);
 					BgUser bgUser = new BgUser();
-					bgUser = bgUserService.checkUserByNameAndPwd(pd);
+					bgUser = bgUserService.checkUserLogin(pd);
 					if (bgUser != null) {
 						
-						bgUser = this.changeLoginIpInfo(bgUser);
+						bgUser = this.changeLoginInfo(bgUser);
 						
 						session.setAttribute(Const.SESSION_BG_USER_OBJ, bgUser);
 						session.removeAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR);
@@ -249,17 +250,9 @@ public class BgMainController extends BaseController {
 				List<BgMenu> bgAllMenuInRankList = new ArrayList<BgMenu>();
 
 				if (null == session.getAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST)) {
-					bgAllMenuInRankList = bgMenuService.listAllMenuInRank();
+					bgAllMenuInRankList = bgMenuService.listAllMenuInRank(0);
 					if (Tools.notEmpty(rolePermissions)) {
-						for (BgMenu bgMenu : bgAllMenuInRankList) {
-							bgMenu.setHasMenu(RightsHelper.testRights(rolePermissions, bgMenu.getMenuId()));
-							if (bgMenu.isHasMenu()) {
-								List<BgMenu> subBgMenuList = bgMenu.getSubBgMenuList();
-								for (BgMenu subBgMenu : subBgMenuList) {
-									subBgMenu.setHasMenu(RightsHelper.testRights(rolePermissions, subBgMenu.getMenuId()));
-								}
-							}
-						}
+						this.subBgMenuListTestRights(bgAllMenuInRankList,rolePermissions);
 					}
 					session.setAttribute(Const.SESSION_BG_ALLMENU_INRANK_LIST, bgAllMenuInRankList); // 菜单权限放入session中
 				} else {
@@ -268,7 +261,6 @@ public class BgMainController extends BaseController {
 
 				// 切换菜单=====
 				List<BgMenu> bgMenuInCurrentList = new ArrayList<BgMenu>();
-				// if(null == session.getAttribute(Const.SESSION_BG_MENULIST) || ("yes".equals(pd.getString("changeMenu")))){
 				if (null == session.getAttribute(Const.SESSION_BG_MENU_INCURRTEN_LIST) || ("yes".equals(changeMenu))) {
 					List<BgMenu> bgMenuInCurrentList1 = new ArrayList<BgMenu>();
 					List<BgMenu> bgMenuInCurrentList2 = new ArrayList<BgMenu>();
@@ -375,7 +367,7 @@ public class BgMainController extends BaseController {
 		Map<String, String> map = new HashMap<String, String>();
 		try {
 			String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString();
-			String roleId = bgUserService.findByUserName(pd).getRoleId();
+			int roleId = bgUserService.findByUserName(pd).getRoleId();
 
 			pd.put(Const.SESSION_BG_USERNAME_STR, userName);
 			pd.put("roleId", roleId);
@@ -420,7 +412,7 @@ public class BgMainController extends BaseController {
 	}
 	
 	
-	public BgUser changeLoginIpInfo(BgUser bgUser) throws Exception {
+	public BgUser changeLoginInfo(BgUser bgUser) throws Exception {
 		HttpServletRequest request = this.getRequest();
 		String loginIp = "";
 		if (request.getHeader("x-forwarded-for") == null) {
@@ -428,12 +420,26 @@ public class BgMainController extends BaseController {
 		} else {
 			loginIp = request.getHeader("x-forwarded-for");
 		}
-		String lastLogin = DateUtil.getTime().toString();
-		bgUser.setLastLogin(lastLogin);
-		bgUser.setLoginIp(loginIp);
-		bgUserService.changeLoginIpInfo(bgUser);
+		bgUser.setLastLoginTime(new Date());
+		bgUser.setLastLoginIp(loginIp);
+		bgUserService.changeLoginInfo(bgUser);
 		return bgUser;
 	}
 	
+	/**根据角色权限获取本权限的菜单列表(递归处理)
+	 * @param menuList：传入的总菜单
+	 * @param roleRights：加密的权限字符串
+	 * @return
+	 */
+	public List<BgMenu> subBgMenuListTestRights(List<BgMenu> subBgMenuList,String roleRights){
+		
+		for (BgMenu bgMenu : subBgMenuList) {
+			bgMenu.setHasSubMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
+			if (bgMenu.isHasSubMenu()) {
+				this.subBgMenuListTestRights(bgMenu.getSubBgMenuList(), roleRights);//是：继续排查其子菜
+			}
+		}
+		return subBgMenuList;
+	}
 
 }

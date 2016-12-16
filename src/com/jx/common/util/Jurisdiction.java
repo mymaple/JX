@@ -43,7 +43,7 @@ public class Jurisdiction {
 						map.remove("del");
 						map.remove("edit");
 						map.remove("cha");
-						String menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
+						int menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
 						String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString(); // 获取当前登录者loginname
 						Boolean isAdmin = "admin".equals(userName);
 						map.put("add", (RightsHelper.testRights(map.get("adds"), menuId)) || isAdmin ? "1" : "0");

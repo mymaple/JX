@@ -70,13 +70,13 @@
 		        		<tr>
 		        			<td style="padding-left: 16px;text-align: right;"><font style="color: red;">*</font>页面录入：</td>
 		        			<td style="padding-bottom: 6px;">
-		        				<label style="float:left;padding-left: 20px;"><input id="isWrite1" type="radio" value="icon-edit" checked="checked"><span class="lbl">是</span></label>
-								<label style="float:left;padding-left: 20px;"><input id="isWrite0" type="radio" value="icon-edit"><span class="lbl">否</span></label>
+		        				<label style="float:left;padding-left: 20px;"><input id="isWrite1" name="isWrite" type="radio" value="icon-edit" checked="checked"><span class="lbl">是</span></label>
+								<label style="float:left;padding-left: 20px;"><input id="isWrite0" name="isWrite" type="radio" value="icon-edit"><span class="lbl">否</span></label>
 							</td>
 							<td style="padding-left: 16px;text-align: right;"><font style="color: red;">*</font>isNull：</td>
 		        			<td style="padding-bottom: 6px;">
-		        				<label style="float:left;padding-left: 20px;"><input id="isNull1" type="radio" value="1" checked="checked"><span class="lbl">是</span></label>
-								<label style="float:left;padding-left: 20px;"><input id="isNull0" type="radio" value="0"><span class="lbl">否</span></label>
+		        				<label style="float:left;padding-left: 20px;"><input id="isNull1" name="isNull" type="radio" value="1" checked="checked"><span class="lbl">是</span></label>
+								<label style="float:left;padding-left: 20px;"><input id="isNull0" name="isNull" type="radio" value="0"><span class="lbl">否</span></label>
 							</td>
 		        		</tr>
 		        		<tr>

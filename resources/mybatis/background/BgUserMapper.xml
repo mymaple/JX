@@ -7,8 +7,8 @@
 	<sql id="userColumns">userId,userName,password,name,rights,roleId,lastLoginTime,lastLoginIp,status,remarks,skin,email,userNumber,phone,modifyTime</sql>
 	<sql id="userRoleColumns">
 		u.userId,u.userName,u.password,u.name,u.rights as userRights
-		,u.lastLogin,u.loginIp,u.status,u.bz,u.skin,u.email,u.userNumber,u.phone,u.modifyTime
-		,r.roleId,r.roleName,r.rights as roleRights
+		,u.lastLoginTime,u.lastLoginIp,u.status,u.remarks,u.skin,u.email,u.userNumber,u.phone,u.modifyTime
+		,r.roleId,r.roleName,r.permissions as rolePermissions
 		</sql>
 		
 	<resultMap type="bgUser" id="$userResultMap">
@@ -36,10 +36,10 @@
 		<result column="name" property="name"/>
 		<result column="rights" property="rights"/>
 		<result column="roleId" property="roleId"/>
-		<result column="lastLogin" property="lastLogin"/>
-		<result column="loginIp" property="loginIp"/>
+		<result column="lastLoginTime" property="lastLoginTime"/>
+		<result column="lastLoginIp" property="lastLoginIp"/>
 		<result column="status" property="status"/>
-		<result column="bz" property="bz"/>
+		<result column="remarks" property="remarks"/>
 		<result column="skin" property="skin"/>
 		<result column="email" property="email"/>
 		<result column="userNumber" property="userNumber"/>
@@ -48,7 +48,7 @@
 		<association property="bgRole" column="roleId" javaType="BgRole">
 			<id column="roleId" property="roleId"/>
 			<result column="roleName" property="roleName"/>
-			<result column="roleRights" property="rights"/>
+			<result column="rolePermissions" property="permissions"/>
 		</association>
 	</resultMap>
 	
@@ -65,8 +65,8 @@
 	<update id="changeLoginInfo" parameterType="bgUser">
 		update bgUser 
 			set 
-				lastLogin = #{lastLogin},
-				loginIp = #{loginIp}
+				lastLoginTime = #{lastLoginTime},
+				lastLoginIp = #{lastLoginIp}
 			where 
 				userName = #{userName}
 	</update>
@@ -121,7 +121,7 @@
 	</select>
 	
 	<!-- 判断用户名和密码 -->
-	<select id="checkUserByNameAndPwd" parameterType="pd" resultType="bgUser" useCache="false">
+	<select id="checkUserLogin" parameterType="pd" resultType="bgUser">
 	<!-- insert update delete (flushCache="true/false") -->
 		select * from bgUser 
 		where 1=1
@@ -140,7 +140,7 @@
 	</select>
 	
 	<!-- 通过userId获取数据 -->
-	<select id="getUserRoleById" parameterType="String" resultMap="userRoleResultMap" useCache="false">
+	<select id="getUserRoleById" parameterType="int" resultMap="userRoleResultMap">
 		select  
 			<include refid="userRoleColumns"/> 
 		from bgUser u 
