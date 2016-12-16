@@ -3,26 +3,41 @@ $(function(){if('tool'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =
 
 $(top.hangge());
 
+$(top.hangge());
+
+
 function openMap(){
-   var result = showModalDialog(locat+"/tool/mapXY.do","","dialogWidth=650px;dialogHeight=500px;");
-   if(result==null || ""==result){
-	      		return;
-   }else{
-    var result=result.split("-");
-		document.getElementById("ZUOBIAO_X").value=result[0];		
-		document.getElementById("ZUOBIAO_Y").value=result[1];
-	   }
+	 top.jzts();
+	 var diag = new top.Dialog();
+	 diag.Drag=true;
+	 diag.Title ="地图";
+	 diag.URL =locat+"/tool/mapXY.do";
+	 diag.Width = 650;
+	 diag.Height = 500;
+	 diag.CancelEvent = function(){ //关闭事件
+		 document.getElementById("ZUOBIAO_X").value = diag.innerFrame.contentWindow.document.getElementById('ZUOBIAO_X').value;
+		 document.getElementById("ZUOBIAO_Y").value = diag.innerFrame.contentWindow.document.getElementById('ZUOBIAO_Y').value;
+		diag.close();
+	 };
+	 diag.show();
 }
+
 function openMap2(){
-	   var result = showModalDialog(locat+"/tool/mapXY.do","","dialogWidth=650px;dialogHeight=500px;");
-	   if(result==null || ""==result){
- 	      		return;
-	   }else{
-	    var result=result.split("-");
- 		document.getElementById("ZUOBIAO_X2").value=result[0];		
-  		document.getElementById("ZUOBIAO_Y2").value=result[1];
-  	   }
-	}
+	 top.jzts();
+	 var diag = new top.Dialog();
+	 diag.Drag=true;
+	 diag.Title ="地图";
+	 diag.URL =locat+"/tool/mapXY.do";
+	 diag.Width = 650;
+	 diag.Height = 500;
+	 diag.CancelEvent = function(){ //关闭事件
+		 document.getElementById("ZUOBIAO_X2").value = diag.innerFrame.contentWindow.document.getElementById('ZUOBIAO_X').value;
+		 document.getElementById("ZUOBIAO_Y2").value = diag.innerFrame.contentWindow.document.getElementById('ZUOBIAO_Y').value;
+		diag.close();
+	 };
+	 diag.show();
+}
+
 //去后计算
 function getDistance(){
 	if($("#ZUOBIAO_Y").val()==""){

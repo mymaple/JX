@@ -7,7 +7,7 @@ var input;
 var isQj = true;
 var toUser="";
 function toUserMsg(toU){
-	if((!isQj && toUser == toU) || toU == userName){
+	if((!isQj && toUser == toU) || toU == user){
 		win.setTitle(title + "&nbsp;&nbsp;(已连接)   【现在全局对话】");
 		isQj = true;
 		toUser = "";
@@ -17,6 +17,8 @@ function toUserMsg(toU){
 		toUser = toU;
 	}
 }
+
+//启动聊天窗口并连接聊天服务器
  function creatw() {
 	 		if(isCreatw){
 	 			alert("已经启动");
@@ -70,7 +72,7 @@ function toUserMsg(toU){
 					websocket.onopen = function() {
 						//连接成功
 						win.setTitle(title + '&nbsp;&nbsp;(已连接)   【现在全局对话】');
-						websocket.send('[InstantChatJoin]'+userName);
+						websocket.send('FHadminqq313596790'+user);
 					}
 					websocket.onerror = function() {
 						//连接失败
@@ -140,7 +142,7 @@ function toUserMsg(toU){
 								})
 					});
 			
-			title = '欢迎您：' + userName;
+			title = '欢迎您：' + user;
 			//展示窗口
 			win = Ext.create('Ext.window.Window', {
 						title : title + '&nbsp;&nbsp;(未连接)',
@@ -163,19 +165,19 @@ function toUserMsg(toU){
 			win.show();
 			
 			win.on("close",function(){
-				websocket.send('[InstantChatLeave]');
+				websocket.send('LeaveFHadminqq313596790');
 				isCreatw = false;
 			 });
 
 			//发送消息
 			function send() {
 				var content = input.getValue();
-				if(toUser != ""){content = "[InstantChatContent]"+toUser+"[InstantChatContent]" + content;}
+				if(toUser != ""){content = "fhadmin886"+toUser+"fhfhadmin888" + content;}
 				var message = {};
 				if (websocket != null) {
 					if (input.getValue()) {
 						Ext.apply(message, {
-									from : userName,
+									from : user,
 									content : content,
 									timestamp : new Date().getTime(),
 									type : 'message'
@@ -213,7 +215,7 @@ Ext.define('MessageContainer', {
 	},
 
 	tpl : [
-			'<div class="l-im-message-warn">​欢迎使用 即时通讯系统。</div>',
+			'<div class="l-im-message-warn">​欢迎使用FH Admin 即时通讯系统。</div>',
 			'<tpl for=".">',
 			'<div class="l-im-message">',
 			'<div class="l-im-message-header l-im-message-header-{source}">{from}  {timestamp}</div>',
@@ -240,7 +242,7 @@ Ext.define('MessageContainer', {
 		var me = this;
 		message['timestamp'] = Ext.Date.format(new Date(message['timestamp']),
 				'H:i:s');
-		if(message.from == userName){
+		if(message.from == user){
 			message.source = 'self';
 		}else{
 			message.source = 'remote';

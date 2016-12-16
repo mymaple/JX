@@ -96,7 +96,7 @@
 	</select>
 
 	<!-- 根据parentId 获取所有直接子菜单 -->
-	<select id="listSubMenuByParentId" parameterType="String" resultMap="menuResultMap">
+	<select id="listSubBgMenuByParentId" parameterType="String" resultMap="menuResultMap">
 		select  * from bgMenu
 		where parentId = #{parentId} order by menuOrder 
 	</select>

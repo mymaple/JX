@@ -61,28 +61,6 @@ public class BgMainController extends BaseController {
 	
 	
 	/**
-	 * 获取验证码
-	 * @return
-	 */
-	@RequestMapping(value = "/getVerificationCode")
-	public void getVerificationCode(HttpServletResponse response) {
-		ByteArrayOutputStream output = new ByteArrayOutputStream();
-		String verificationCode = DrawImageUtil.drawImg(output);
-
-		Subject currentUser = SecurityUtils.getSubject();
-		Session session = currentUser.getSession();
-		session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
-
-		try {
-			ServletOutputStream out = response.getOutputStream();
-			output.writeTo(out);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	/**
 	 * 访问登录页
 	 * @return
 	 */
@@ -434,12 +412,34 @@ public class BgMainController extends BaseController {
 	public List<BgMenu> subBgMenuListTestRights(List<BgMenu> subBgMenuList,String roleRights){
 		
 		for (BgMenu bgMenu : subBgMenuList) {
-			bgMenu.setHasSubMenu(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
-			if (bgMenu.isHasSubMenu()) {
+			bgMenu.setHasRight(RightsHelper.testRights(roleRights, bgMenu.getMenuId()));
+			if (bgMenu.isHasRight()) {
 				this.subBgMenuListTestRights(bgMenu.getSubBgMenuList(), roleRights);//是：继续排查其子菜
 			}
 		}
 		return subBgMenuList;
+	}
+	
+	
+	/**
+	 * 获取验证码
+	 * @return
+	 */
+	@RequestMapping(value = "/getVerificationCode")
+	public void getVerificationCode(HttpServletResponse response) {
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		String verificationCode = DrawImageUtil.drawImg(output);
+
+		Subject currentUser = SecurityUtils.getSubject();
+		Session session = currentUser.getSession();
+		session.setAttribute(Const.SESSION_BG_VERIFICATIONCODE_STR, verificationCode);
+
+		try {
+			ServletOutputStream out = response.getOutputStream();
+			output.writeTo(out);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

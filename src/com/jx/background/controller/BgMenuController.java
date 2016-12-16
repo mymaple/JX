@@ -229,7 +229,7 @@ public class BgMenuController extends BaseController {
 			for(int i=0;i<varOList.size();i++){
 				PageData vpd = new PageData();
 				
-				vpd.put("var1",varOList.get(i).getMenuId();
+				vpd.put("var1",varOList.get(i).getMenuId());
 				vpd.put("var2", varOList.get(i).getMenuName());	//2
 				vpd.put("var3", varOList.get(i).getMenuUrl());	//3
 				vpd.put("var4", varOList.get(i).getParentId());	//4

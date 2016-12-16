@@ -34,7 +34,7 @@ function sendEm(){
 	if($("#CONTENT").val()==""){
 		
 		$("#nr").tips({
-			side:1,
+			side:3,
             msg:'请输入内容',
             bg:'#AE81FF',
             time:3
@@ -82,10 +82,19 @@ function sendEm(){
 					 
 				 }
 				 setTimeout("showdiv()",8000);
+				 timer(7);
 			 });
 		}
 	});
 	
+}
+
+//倒计时
+function timer(intDiff){
+	window.setInterval(function(){
+	$('#second_shows').html('<s></s>'+intDiff+'秒');
+	intDiff--;
+	}, 1000);
 }
 
 function showdiv(){
@@ -98,7 +107,7 @@ function setType(value){
 }
 
 function isAll(){
-	if($("#allusers").attr("checked") == 'checked'){
+	if(document.getElementsByName('form-field-checkbox')[0].checked){
 		$("#isAll").val('yes');
 		$("#EMAIL").attr("disabled",true);
 	}else{

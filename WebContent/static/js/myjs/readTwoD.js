@@ -12,7 +12,7 @@ String.prototype.trim=function(){
 $(document).ready(function(){
 	var str='';
 	$("#uploadify1").uploadify({
-		'buttonImg'	: 	locat+"/static/img/twoDimensonCode.png",
+		'buttonImg'	: 	locat+"/static/images/twoDimensonCode.png",
 		'uploader'	:	locat+"/plugins/uploadify/uploadify.swf",
 		'script'    :	locat+"/plugins/uploadify/uploadFile.jsp;jsessionid="+jsessionid,
 		'cancelImg' :	locat+"/plugins/uploadify/cancel.png",
@@ -76,7 +76,7 @@ function readContent(str){
 				            bg:'#75C117',
 				            time:3
 				     });
-					 $("#readContent").text(data.readContent);
+					 $("#readContent").val(data.readContent);
 				 }
 			 }else{
 				 $("#readContent").tips({

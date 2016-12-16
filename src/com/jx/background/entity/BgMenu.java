@@ -27,8 +27,8 @@ public class BgMenu implements Serializable {
 	/** 子菜单列表 */
 	private List<BgMenu> subBgMenuList;
 	
-	/** 是否有子菜单 */
-	private boolean hasSubMenu = false;
+	/** 是否有次菜单权限 */
+	private boolean hasRight = false;
 	
 	
 	/**
@@ -55,7 +55,7 @@ public class BgMenu implements Serializable {
 	 * @return BgMenu parentBgMenu
 	 */
 	public BgMenu getParentBgMenu() {
-		return parentBgMenu;
+		return this.parentBgMenu;
 	}
 	
 	/**
@@ -73,7 +73,7 @@ public class BgMenu implements Serializable {
 	 * @return List<BgMenu> subBgMenuList
 	 */
 	public List<BgMenu> getSubBgMenuList() {
-		return subBgMenuList;
+		return this.subBgMenuList;
 	}
 	
 	/**
@@ -86,23 +86,23 @@ public class BgMenu implements Serializable {
 	}
 	
 	/**
-	 * 获取 是否有子菜单 
+	 * 获取 是否有此菜单 
 	 * 1是,0否
 	 * 
-	 * @return boolean hasSubMenu
+	 * @return boolean hasRight
 	 */
-	public boolean isHasSubMenu() {
-		return hasSubMenu;
+	public boolean isHasRight() {
+		return this.hasRight;
 	}
 	
 	/**
-	 * 设置 是否有子菜单 
+	 * 设置 是否有此菜单 
 	 * 1是,0否
 	 * 
-	 * @param boolean hasSubMenu
+	 * @param boolean hasRight
 	 */
-	public void setHasSubMenu(boolean hasSubMenu) {
-		this.hasSubMenu = hasSubMenu;
+	public void setHasRight(boolean hasRight) {
+		this.hasRight = hasRight;
 	}
 	
 	/**************************custom prop end**********************************/
@@ -110,6 +110,8 @@ public class BgMenu implements Serializable {
 	
 	/**************************table prop satrt*********************************/
 	
+	
+
 	/** 菜单表 主键id */
 	private int menuId;
 	

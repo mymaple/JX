@@ -1,7 +1,6 @@
 var locat = (window.location+'').split('/'); 
 $(function(){if('tool'== locat[3]){locat =  locat[0]+'//'+locat[2];}else{locat =  locat[0]+'//'+locat[2]+'/'+locat[3];};});
 
-
 $(top.hangge());
 
 //重置
@@ -65,7 +64,6 @@ function sendSever(){
 			     });
 				 return;
 			 }
-			 
 			 $("#json-field").val(data.result);
 			 $("#json-field").tips({
 					side:2,
@@ -74,7 +72,6 @@ function sendSever(){
 		            time:10
 		     });
 			 $("#stime").text(data.rTime);
-			 
 		}
 	});
 }

@@ -1,4 +1,4 @@
-
+//创建人：FH fh313596790qq(青苔)
 jQuery(function()
 {
     $ = jQuery ;
@@ -68,7 +68,6 @@ jQuery(function()
     //animate scroll function calll
     $("#mobile_menu a").anchorAnimate();
     //main menu auto select and animate scroll
-    $("#templatemo_main_menu ul").singlePageNav({offset: jQuery('#templatemo_main_menu').outerHeight()});
     //define main menu position
     if($(document).scrollTop() > ($(window).height()-105)){
         $("#templatemo_main_menu").css({"position":"fixed","top":"0"});

@@ -53,7 +53,6 @@ function sendSms(){
 			            bg:'#68B500',
 			            time:4
 				      });
-					 setTimeout("close()",6000);
 				 }else{
 					 $("#msg").tips({
 							side:3,
@@ -61,13 +60,23 @@ function sendSms(){
 				            bg:'#FF0000',
 				            time:6
 					 });
-					 setTimeout("close()",6000);
+					
 				 }
+				 setTimeout("close()",6000);
+				 timer(5);
 			 });
 		}
 	});
 	
 }
+
+//倒计时
+function timer(intDiff){
+	window.setInterval(function(){
+	$('#second_show').html('<s></s>'+intDiff+'秒');
+	intDiff--;
+	}, 1000);
+} 
 
 function setType(value){
 	$("#TYPE").val(value);
@@ -76,7 +85,7 @@ function close(){
 	top.Dialog.close();
 }
 function isAll(){
-	if($("#allusers").attr("checked") == 'checked'){
+	if(document.getElementsByName('form-field-checkbox')[0].checked){
 		$("#isAll").val('yes');
 		$("#PHONE").attr("disabled",true);
 	}else{

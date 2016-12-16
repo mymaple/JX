@@ -1,22 +1,27 @@
-﻿	<meta charset="utf-8" />
-	<title>${pd.systemName}</title>
-	<meta name="description" content="overview & stats" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<!-- basic styles -->
-	<link href="static/css/bootstrap.min.css" rel="stylesheet" />
-	<link href="static/css/bootstrap-responsive.min.css" rel="stylesheet" />
-	<link rel="stylesheet" href="static/css/font-awesome.min.css" />
-	<!-- page specific plugin styles -->
-	<!-- 下拉框-->
-	<link rel="stylesheet" href="static/css/chosen.css" />
-	<!-- ace styles -->
-	<link rel="stylesheet" href="static/css/ace.min.css" />
-	<link rel="stylesheet" href="static/css/ace-responsive.min.css" />
-	<link rel="stylesheet" href="static/css/ace-skins.min.css" />
-	<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
-	<link rel="stylesheet" href="static/css/datepicker.css" /><!-- 日期框 -->
-	<!--引入弹窗组件start-->
-	<script type="text/javascript" src="plugins/attention/zDialog/zDrag.js"></script>
-	<script type="text/javascript" src="plugins/attention/zDialog/zDialog.js"></script>
-	<!--引入弹窗组件end-->
-	<script type="text/javascript" src="static/js/jquery.tips.js"></script>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>${pd.systemName}</title>
+		<meta name="description" content="" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+		<!-- bootstrap & fontawesome -->
+		<link rel="stylesheet" href="static/ace/css/bootstrap.css" />
+		<link rel="stylesheet" href="static/ace/css/font-awesome.css" />
+		<!-- page specific plugin styles -->
+		<!-- text fonts -->
+		<link rel="stylesheet" href="static/ace/css/ace-fonts.css" />
+		<!-- ace styles -->
+		<link rel="stylesheet" href="static/ace/css/ace.css" class="ace-main-stylesheet" id="main-ace-style" />
+		<!--[if lte IE 9]>
+			<link rel="stylesheet" href="static/ace/css/ace-part2.css" class="ace-main-stylesheet" />
+		<![endif]-->
+		<!--[if lte IE 9]>
+		  <link rel="stylesheet" href="static/ace/css/ace-ie.css" />
+		<![endif]-->
+		<!-- inline styles related to this page -->
+		<!-- ace settings handler -->
+		<script src="static/ace/js/ace-extra.js"></script>
+		<!-- HTML5shiv and Respond.js for IE8 to support HTML5 elements and media queries -->
+		<!--[if lte IE 8]>
+		<script src="static/ace/js/html5shiv.js"></script>
+		<script src="static/ace/js/respond.js"></script>
+		<![endif]-->

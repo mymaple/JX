@@ -3038,7 +3038,7 @@ var domUtils = dom.domUtils = {
                     break;
                 case 'style':
                     node.style.cssText = '';
-                    !browser.ie && node.removeAttributeNode(node.getAttributeNode('style'))
+                    !browser.ie && node.removeAttribute(node.getAttribute('style'));
             }
             node.removeAttribute(ci);
         }

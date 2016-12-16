@@ -7,21 +7,16 @@
 %>
 <!DOCTYPE html>
 <html lang="en">
-
 	<head>
 	<base href="<%=basePath%>">
-	
 	<script type="text/javascript" src="static/js/jquery-1.7.2.js"></script>
 	<script type="text/javascript" src="plugins/tab/js/framework.js"></script>
 	<link href="plugins/tab/css/import_basic.css" rel="stylesheet" type="text/css"/>
-	<!--默认相对于根目录路径为../，可添加prePath属性自定义相对路径，如prePath="<%=request.getContextPath()%>"-->
-	<link  rel="stylesheet" type="text/css" id="skin" prePath="plugins/tab/" />
+	<link  rel="stylesheet" type="text/css" id="skin" prePath="plugins/tab/" /><!--默认相对于根目录路径为../，可添加prePath属性自定义相对路径，如prePath="<%=request.getContextPath()%>"-->
 	<script type="text/javascript" charset="utf-8" src="plugins/tab/js/tab.js"></script>
 	</head>
-	
-	
 <body>
-<div id="tab_menu" style="height:30px;"></div>
+<div id="tab_menu"></div>
 <div style="width:100%;">
 	<div id="page" style="width:100%;height:100%;"></div>
 </div>		
@@ -55,7 +50,7 @@ $( function() {
 	tab.add( {
 		id :'tab1_index1',
 		title :"主页",
-		url :"<%=basePath%>background/main/default.do",
+		url :"<%=basePath%>login_default.do",
 		isClosed :false
 	});
 	/**tab.add( {
@@ -71,7 +66,7 @@ $( function() {
 		var hmainT = document.getElementById("page");
 		var bheightT = document.documentElement.clientHeight;
 		hmainT .style.width = '100%';
-		hmainT .style.height = (bheightT  - 51) + 'px';
+		hmainT .style.height = (bheightT  - 41) + 'px';
 	}
 	cmainFrameT();
 	window.onresize=function(){  

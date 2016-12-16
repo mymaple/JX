@@ -47,25 +47,24 @@
 					file = new File(savePath + fileNmae);
 				}else{
 					do {
-						if(null != fileNmae && !"".equals(fileNmae)){
-							file = new File(savePath + fileNmae);
-						}else{
-							name = new java.text.SimpleDateFormat("yyyyMMddhhmmss").format(new Date());	//获取当前日期
-							name = name + (int)(Math.random()*90000+10000);
-							file = new File(savePath + name + extName);
-						}
+						name = new java.text.SimpleDateFormat("yyyyMMddhhmmss").format(new Date());	//获取当前日期
+						name = name + (int)(Math.random()*90000+10000);
+						file = new File(savePath + name + extName);
 					} while (file.exists());
 				}
-	
-				File saveFile = new File(savePath + name + extName);
+				//File saveFile = new File(savePath + name + extName);
 				try {
-					item.write(saveFile);
+					item.write(file);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-		response.getWriter().print((name.trim() + extName.trim()).trim());
+		if(null != fileNmae && !"".equals(fileNmae)){
+			response.getWriter().print(fileNmae);
+		}else{
+			response.getWriter().print((name.trim() + extName.trim()).trim());
+		}
 	}
 %>
 <%

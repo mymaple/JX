@@ -35,7 +35,7 @@ public class Jurisdiction {
 		for (int i = 0; i < menuList.size(); i++) {
 			for (int j = 0; j < menuList.get(i).getSubBgMenuList().size(); j++) {
 				if (menuList.get(i).getSubBgMenuList().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
-					if (!menuList.get(i).getSubBgMenuList().get(j).isHasMenu()) { // 判断有无此菜单权限
+					if (!menuList.get(i).getSubBgMenuList().get(j).isHasRight()) { // 判断有无此菜单权限
 						return false;
 					} else { // 按钮判断
 						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX_STR);// 按钮权限
@@ -79,11 +79,11 @@ public class Jurisdiction {
 		for (int i = 0; i < menuList.size(); i++) {
 			for (int j = 0; j < menuList.get(i).getSubBgMenuList().size(); j++) {
 				if (menuList.get(i).getSubBgMenuList().get(j).getMenuUrl().split(".do")[0].equals(menuUrl.split(".do")[0])) {
-					if (!menuList.get(i).getSubBgMenuList().get(j).isHasMenu()) { // 判断有无此菜单权限
+					if (!menuList.get(i).getSubBgMenuList().get(j).isHasRight()) { // 判断有无此菜单权限
 						return false;
 					} else { // 按钮判断
 						Map<String, String> map = (Map<String, String>) session.getAttribute(Const.SESSION_BG_QX_STR);// 按钮权限
-						String menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
+						int menuId = menuList.get(i).getSubBgMenuList().get(j).getMenuId();
 						String userName = session.getAttribute(Const.SESSION_BG_USERNAME_STR).toString(); // 获取当前登录者loginname
 						Boolean isAdmin = "admin".equals(userName);
 						if ("add".equals(type)) {
